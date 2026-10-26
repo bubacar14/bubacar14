@@ -43,8 +43,11 @@ Il faut Node.js 18 ou plus récent et une clé API Anthropic (console.anthropic.
 
 ```bash
 npm install
-ANTHROPIC_API_KEY=ta_cle npm start
+cp .env.example .env   # puis mets ta clé dans .env
+npm run dev
 ```
+
+Tu peux aussi passer la clé directement : `ANTHROPIC_API_KEY=ta_cle npm start`.
 
 Puis ouvrir http://localhost:3000.
 
