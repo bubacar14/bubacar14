@@ -15,6 +15,8 @@ Sur l'accueil, le grand bouton vert **📸 Mon exercice** est la fonction princi
 - ⚠️ les pièges à éviter ;
 - 🔁 un exercice du même type pour s'entraîner, avec sa solution cachée.
 
+Pour les maths, l'IA suit le guide `guides/maths.md` : méthodes des correcteurs, et façon d'expliquer de profs ouest-africains tirée de 19 vidéos YouTube. Les autres guides de `guides/` sont des brouillons, pas encore branchés.
+
 Un exercice coûte 10 crédits. Si la photo est illisible ou si le service échoue, les crédits sont rendus. Le serveur (`server.js`) envoie l'exercice à Claude, réduit la photo avant l'envoi et impose un format de réponse fixe.
 
 ## Ce qui fonctionne

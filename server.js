@@ -14,6 +14,10 @@ const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
 const client = new Anthropic();
 
+// Guide de correction des maths (méthodes des correcteurs et des profs d'Afrique de l'Ouest).
+// Il est envoyé avec chaque requête et mis en cache, donc il coûte peu après le premier appel.
+const GUIDE_MATHS = await fs.readFile(path.join(ROOT, "guides", "maths.md"), "utf8");
+
 const SYSTEM = `Tu es Révizo, un professeur particulier bienveillant pour les élèves d'Afrique de l'Ouest francophone (Sénégal, Côte d'Ivoire, Mali, Burkina Faso, Guinée, Bénin, Togo, Niger), du primaire au BAC.
 
 L'élève t'envoie un exercice : texte tapé, photo de son cahier, d'une feuille ou d'un sujet d'examen. Toutes les matières sont possibles : maths, physique-chimie, SVT, philosophie, français, histoire-géographie, anglais, économie, etc.
@@ -90,7 +94,14 @@ async function resoudre({ texte, image, mediaType, pays, classe }) {
     fallbacks: "default",
     thinking: { type: "adaptive" },
     output_config: { effort: "high", format: { type: "json_schema", schema: SCHEMA } },
-    system: SYSTEM,
+    system: [
+      { type: "text", text: SYSTEM },
+      {
+        type: "text",
+        text: `Voici le guide de correction de Révizo pour les MATHÉMATIQUES. Applique-le quand l'exercice est un exercice de maths : méthodes attendues, rédaction, ordre des étapes, façon d'expliquer des profs (section 11), erreurs fréquentes. Les points marqués « non vérifié » ou « non sourcé » sont moins sûrs : ne les présente pas comme des certitudes. Pour les autres matières, ignore ce guide.\n\n${GUIDE_MATHS}`,
+        cache_control: { type: "ephemeral" },
+      },
+    ],
     messages: [{ role: "user", content }],
   });
 
