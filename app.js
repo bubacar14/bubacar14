@@ -224,6 +224,10 @@ function renderHome() {
 // ---------- Mon exercice (fonction phare) ----------
 
 const CLASSES = ["Primaire", "6e – 5e", "4e – 3e", "Seconde", "Première", "Terminale"];
+const MATIERES_EXO = [
+  ["", "Je ne sais pas"], ["maths", "Maths"], ["pc", "PC"], ["svt", "SVT"], ["philo", "Philo"],
+  ["francais", "Français"], ["hg", "Histoire-Géo"], ["anglais", "Anglais"], ["eco", "Économie"],
+];
 
 // Réduit la photo avant l'envoi : moins de données mobiles, envoi plus rapide.
 function compressImage(file) {
@@ -259,8 +263,14 @@ function renderExercice() {
 
     <textarea id="exoText" rows="5" maxlength="8000" placeholder="Ou écris ton exercice ici (ex. Résoudre 2x² − 3x − 2 = 0)"></textarea>
 
-    <div class="studios" style="margin-top:12px">
+    <div class="muted" style="margin-top:14px;font-size:13px">Ta classe</div>
+    <div class="studios" style="margin-top:6px">
       ${CLASSES.map((c) => `<button class="studio ${state.classe === c ? "active" : ""}" data-classe="${c}">${c}</button>`).join("")}
+    </div>
+
+    <div class="muted" style="margin-top:10px;font-size:13px">La matière</div>
+    <div class="studios" style="margin-top:6px">
+      ${MATIERES_EXO.map(([k, nom]) => `<button class="studio ${(state.matiere || "") === k ? "active" : ""}" data-matiere="${k}">${nom}</button>`).join("")}
     </div>
 
     <button class="btn" id="exoSend">Explique-moi · ${EXO_COST} ⚡</button>
@@ -283,6 +293,11 @@ function renderExercice() {
     save();
     view.querySelectorAll("[data-classe]").forEach((x) => x.classList.toggle("active", x === b));
   }));
+  view.querySelectorAll("[data-matiere]").forEach((b) => b.addEventListener("click", () => {
+    state.matiere = b.dataset.matiere;
+    save();
+    view.querySelectorAll("[data-matiere]").forEach((x) => x.classList.toggle("active", x === b));
+  }));
   $("#exoSend").addEventListener("click", () => sendExercice(photo, $("#exoText").value.trim()));
 }
 
@@ -304,7 +319,7 @@ async function sendExercice(photo, texte) {
   save();
   updateTopbar();
 
-  const body = { texte, pays: country().nom, classe: state.classe || "" };
+  const body = { texte, pays: country().nom, classe: state.classe || "", matiere: state.matiere || "" };
   if (photo) {
     body.image = photo.split(",")[1];
     body.mediaType = "image/jpeg";

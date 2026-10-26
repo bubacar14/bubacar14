@@ -14,9 +14,25 @@ const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
 const client = new Anthropic();
 
-// Guide de correction des maths (méthodes des correcteurs et des profs d'Afrique de l'Ouest).
-// Il est envoyé avec chaque requête et mis en cache, donc il coûte peu après le premier appel.
-const GUIDE_MATHS = await fs.readFile(path.join(ROOT, "guides", "maths.md"), "utf8");
+// Guides de correction par matière (dossier guides/). Seul le guide de la matière
+// de l'exercice est envoyé, avec les règles communes et les fiches pays.
+const MATIERES = {
+  maths: "Mathématiques",
+  pc: "Physique-Chimie",
+  svt: "SVT",
+  philo: "Philosophie",
+  francais: "Français",
+  hg: "Histoire-Géographie",
+  anglais: "Anglais",
+  eco: "Économie / comptabilité",
+};
+const GUIDES = Object.fromEntries(
+  await Promise.all(
+    Object.keys(MATIERES).map(async (k) => [k, await fs.readFile(path.join(ROOT, "guides", `${k}.md`), "utf8")]),
+  ),
+);
+const REGLES = await fs.readFile(path.join(ROOT, "guides", "regles-et-pays.md"), "utf8");
+const AVERTISSEMENT = "Les points marqués « non vérifié » ou « non sourcé » sont moins sûrs : ne les présente jamais comme des certitudes.";
 
 const SYSTEM = `Tu es Révizo, un professeur particulier bienveillant pour les élèves d'Afrique de l'Ouest francophone (Sénégal, Côte d'Ivoire, Mali, Burkina Faso, Guinée, Bénin, Togo, Niger), du primaire au BAC.
 
@@ -76,7 +92,7 @@ const SCHEMA = {
   additionalProperties: false,
 };
 
-async function resoudre({ texte, image, mediaType, pays, classe }) {
+function userContent({ texte, image, mediaType, pays, classe }) {
   const content = [];
   if (image) {
     content.push({ type: "image", source: { type: "base64", media_type: mediaType, data: image } });
@@ -86,6 +102,67 @@ async function resoudre({ texte, image, mediaType, pays, classe }) {
     type: "text",
     text: `${contexte}\n\n${texte ? `Exercice :\n${texte}` : "L'exercice est sur la photo."}`.trim(),
   });
+  return content;
+}
+
+function readJson(response) {
+  if (response.stop_reason === "refusal") return { erreur: "Cette demande ne peut pas être traitée. Envoie un exercice scolaire." };
+  if (response.stop_reason === "max_tokens") return { erreur: "L'exercice est trop long. Envoie-le en plusieurs parties." };
+  const textBlock = response.content.find((b) => b.type === "text");
+  try {
+    return JSON.parse(textBlock?.text ?? "");
+  } catch {
+    return { erreur: "La correction n'a pas pu être lue. Réessaie." };
+  }
+}
+
+// Reconnaît la matière quand l'élève ne l'a pas choisie.
+async function detecterMatiere(content) {
+  const response = await client.beta.messages.create({
+    model: MODEL,
+    max_tokens: 2000,
+    betas: ["server-side-fallback-2026-07-01"],
+    fallbacks: "default",
+    output_config: {
+      effort: "low",
+      format: {
+        type: "json_schema",
+        schema: {
+          type: "object",
+          properties: { matiere: { type: "string", enum: [...Object.keys(MATIERES), "autre"] } },
+          required: ["matiere"],
+          additionalProperties: false,
+        },
+      },
+    },
+    system: `Indique la matière scolaire de cet exercice : ${Object.entries(MATIERES).map(([k, v]) => `${k} = ${v}`).join(", ")}, autre = toute autre matière ou pas un exercice.`,
+    messages: [{ role: "user", content }],
+  });
+  const data = readJson(response);
+  return MATIERES[data.matiere] ? data.matiere : null;
+}
+
+async function resoudre({ texte, image, mediaType, pays, classe, matiere }) {
+  const content = userContent({ texte, image, mediaType, pays, classe });
+  const cle = MATIERES[matiere] ? matiere : await detecterMatiere(content);
+
+  // L'ordre compte pour le cache : consignes et règles communes d'abord (identiques pour
+  // tous les exercices), puis le guide de la matière.
+  const system = [
+    { type: "text", text: SYSTEM },
+    {
+      type: "text",
+      text: `Règles communes de Révizo et fiches pays. ${AVERTISSEMENT}\n\n${REGLES}`,
+      cache_control: { type: "ephemeral" },
+    },
+  ];
+  if (cle) {
+    system.push({
+      type: "text",
+      text: `Guide de correction de Révizo pour la matière ${MATIERES[cle]}. Applique-le : méthodes attendues, rédaction, ordre des étapes, façon d'expliquer, erreurs fréquentes. ${AVERTISSEMENT}\n\n${GUIDES[cle]}`,
+      cache_control: { type: "ephemeral" },
+    });
+  }
 
   const response = await client.beta.messages.create({
     model: MODEL,
@@ -94,29 +171,10 @@ async function resoudre({ texte, image, mediaType, pays, classe }) {
     fallbacks: "default",
     thinking: { type: "adaptive" },
     output_config: { effort: "high", format: { type: "json_schema", schema: SCHEMA } },
-    system: [
-      { type: "text", text: SYSTEM },
-      {
-        type: "text",
-        text: `Voici le guide de correction de Révizo pour les MATHÉMATIQUES. Applique-le quand l'exercice est un exercice de maths : méthodes attendues, rédaction, ordre des étapes, façon d'expliquer des profs (section 11), erreurs fréquentes. Les points marqués « non vérifié » ou « non sourcé » sont moins sûrs : ne les présente pas comme des certitudes. Pour les autres matières, ignore ce guide.\n\n${GUIDE_MATHS}`,
-        cache_control: { type: "ephemeral" },
-      },
-    ],
+    system,
     messages: [{ role: "user", content }],
   });
-
-  if (response.stop_reason === "refusal") {
-    return { erreur: "Cette demande ne peut pas être traitée. Envoie un exercice scolaire." };
-  }
-  if (response.stop_reason === "max_tokens") {
-    return { erreur: "L'exercice est trop long. Envoie-le en plusieurs parties." };
-  }
-  const textBlock = response.content.find((b) => b.type === "text");
-  try {
-    return JSON.parse(textBlock?.text ?? "");
-  } catch {
-    return { erreur: "La correction n'a pas pu être lue. Réessaie." };
-  }
+  return readJson(response);
 }
 
 function readBody(req) {
@@ -161,6 +219,7 @@ async function handleResoudre(req, res) {
       mediaType: body.mediaType,
       pays: typeof body.pays === "string" ? body.pays.slice(0, 40) : "",
       classe: typeof body.classe === "string" ? body.classe.slice(0, 40) : "",
+      matiere: typeof body.matiere === "string" ? body.matiere : "",
     });
     sendJson(res, result.erreur ? 422 : 200, result);
   } catch (error) {

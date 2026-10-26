@@ -15,7 +15,7 @@ Sur l'accueil, le grand bouton vert **📸 Mon exercice** est la fonction princi
 - ⚠️ les pièges à éviter ;
 - 🔁 un exercice du même type pour s'entraîner, avec sa solution cachée.
 
-Pour les maths, l'IA suit le guide `guides/maths.md` : méthodes des correcteurs, et façon d'expliquer de profs ouest-africains tirée de 19 vidéos YouTube. Les autres guides de `guides/` sont des brouillons, pas encore branchés.
+L'IA suit le guide de correction de la matière de l'exercice (dossier `guides/`), plus les règles communes et les fiches pays. L'élève peut choisir la matière ; sinon, un premier appel court la détecte. Le guide de maths est enrichi par l'analyse de 19 vidéos YouTube de profs. ⚠️ Les autres guides sont encore des brouillons non vérifiés (voir `recherche/README.md`) : à faire relire par des profs.
 
 Un exercice coûte 10 crédits. Si la photo est illisible ou si le service échoue, les crédits sont rendus. Le serveur (`server.js`) envoie l'exercice à Claude, réduit la photo avant l'envoi et impose un format de réponse fixe.
 
