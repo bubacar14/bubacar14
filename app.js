@@ -23,6 +23,7 @@ const PACKS = [
 const DAILY_FREE = 10;
 const QUIZ_COST = 5;
 const QUIZ_LEN = 5;
+const EXO_COST = 10;
 const BOX_DAYS = [0, 1, 3, 7, 15]; // répétition espacée : délai avant de revoir une question
 
 const STUDIOS = [
@@ -183,10 +184,16 @@ function renderHome() {
   const c = country();
   const due = dueCards().length;
   view.innerHTML = `
+    <button class="exo-hero" id="exoHero">
+      <span class="exo-badge">⭐ Le plus utilisé</span>
+      <span class="exo-title">📸 Mon exercice</span>
+      <span class="exo-sub">Photographie ou écris n'importe quel exercice. Révizo t'explique comment le faire, étape par étape.</span>
+      <span class="exo-cta">Envoyer mon exercice · ${EXO_COST} ⚡</span>
+    </button>
+
     <div class="hero">
       <div class="streak">🔥 ${state.streak} jour${state.streak > 1 ? "s" : ""} d'affilée</div>
-      <h1>Réviser le BAC et le ${c.brevet}, en jouant.</h1>
-      <div class="muted" style="color:#e8e8ff">${due ? `${due} question${due > 1 ? "s" : ""} à revoir aujourd'hui` : "Lance ton quiz du jour"}</div>
+      <div style="font-weight:700;margin-top:4px">${due ? `${due} question${due > 1 ? "s" : ""} à revoir aujourd'hui` : `Révise le BAC et le ${c.brevet} en jouant`}</div>
     </div>
 
     <h2>Studios</h2>
@@ -194,7 +201,7 @@ function renderHome() {
       ${STUDIOS.map((s) => `<button class="studio ${state.studio === s.id ? "active" : ""}" data-studio="${s.id}">${s.id === "brevet" ? c.brevet : s.nom}</button>`).join("")}
     </div>
 
-    <h2>Presets</h2>
+    <h2>Réviser en jouant</h2>
     <div class="grid">
       ${PRESETS.map((p) => `
         <button class="tile ${p.live ? "" : "soon"}" style="background:${p.bg}" data-preset="${p.id}">
@@ -211,6 +218,156 @@ function renderHome() {
     renderHome();
   }));
   view.querySelectorAll("[data-preset]").forEach((b) => b.addEventListener("click", () => startPreset(b.dataset.preset)));
+  $("#exoHero").addEventListener("click", renderExercice);
+}
+
+// ---------- Mon exercice (fonction phare) ----------
+
+const CLASSES = ["Primaire", "6e – 5e", "4e – 3e", "Seconde", "Première", "Terminale"];
+
+// Réduit la photo avant l'envoi : moins de données mobiles, envoi plus rapide.
+function compressImage(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const max = 1600;
+      const scale = Math.min(1, max / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas");
+      cv.width = Math.round(img.width * scale);
+      cv.height = Math.round(img.height * scale);
+      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      URL.revokeObjectURL(img.src);
+      resolve(cv.toDataURL("image/jpeg", 0.8));
+    };
+    img.onerror = reject;
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+function renderExercice() {
+  setActiveTab("");
+  let photo = null; // data URL
+  view.innerHTML = `
+    <h1>📸 Mon exercice</h1>
+    <p class="muted">Maths, PC, SVT, philo, français, histoire-géo, anglais… Envoie une photo nette de l'énoncé ou écris-le.</p>
+
+    <label class="photo-drop" id="photoDrop">
+      <input type="file" accept="image/*" capture="environment" id="photoInput" hidden>
+      <span id="photoLabel">📷 Prendre une photo de l'exercice</span>
+      <img id="photoPreview" alt="" hidden>
+    </label>
+
+    <textarea id="exoText" rows="5" maxlength="8000" placeholder="Ou écris ton exercice ici (ex. Résoudre 2x² − 3x − 2 = 0)"></textarea>
+
+    <div class="studios" style="margin-top:12px">
+      ${CLASSES.map((c) => `<button class="studio ${state.classe === c ? "active" : ""}" data-classe="${c}">${c}</button>`).join("")}
+    </div>
+
+    <button class="btn" id="exoSend">Explique-moi · ${EXO_COST} ⚡</button>
+    <div id="exoResult"></div>`;
+
+  $("#photoInput").addEventListener("change", async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try {
+      photo = await compressImage(file);
+      $("#photoPreview").src = photo;
+      $("#photoPreview").hidden = false;
+      $("#photoLabel").textContent = "📷 Changer de photo";
+    } catch {
+      toast("Impossible de lire cette photo");
+    }
+  });
+  view.querySelectorAll("[data-classe]").forEach((b) => b.addEventListener("click", () => {
+    state.classe = b.dataset.classe;
+    save();
+    view.querySelectorAll("[data-classe]").forEach((x) => x.classList.toggle("active", x === b));
+  }));
+  $("#exoSend").addEventListener("click", () => sendExercice(photo, $("#exoText").value.trim()));
+}
+
+async function sendExercice(photo, texte) {
+  if (!photo && !texte) {
+    toast("Ajoute une photo ou écris ton exercice");
+    return;
+  }
+  if (state.credits < EXO_COST) {
+    openRecharge();
+    return;
+  }
+  const btn = $("#exoSend");
+  btn.disabled = true;
+  btn.textContent = "Révizo réfléchit… ⏳";
+  $("#exoResult").innerHTML = "";
+
+  state.credits -= EXO_COST;
+  save();
+  updateTopbar();
+
+  const body = { texte, pays: country().nom, classe: state.classe || "" };
+  if (photo) {
+    body.image = photo.split(",")[1];
+    body.mediaType = "image/jpeg";
+  }
+
+  let data;
+  try {
+    const res = await fetch("api/resoudre", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    data = await res.json();
+  } catch {
+    data = { erreur: navigator.onLine ? "Le service ne répond pas. Réessaie." : "Pas de connexion internet." };
+  }
+
+  // Pas de correction utilisable : on rend les crédits.
+  if (data.erreur || data.lisible === false) {
+    state.credits += EXO_COST;
+    save();
+    updateTopbar();
+  }
+  btn.disabled = false;
+  btn.textContent = `Explique-moi · ${EXO_COST} ⚡`;
+  $("#exoResult").innerHTML = renderCorrection(data);
+  $("#exoResult").scrollIntoView({ behavior: "smooth" });
+}
+
+function renderCorrection(d) {
+  if (d.erreur) return `<div class="explain">⚠️ ${esc(d.erreur)}</div>`;
+  if (d.lisible === false) return `<div class="explain">📷 ${esc(d.probleme)}<div class="muted" style="margin-top:6px">Tes crédits ont été rendus.</div></div>`;
+  const multiline = (t) => esc(t).replace(/\n/g, "<br>");
+  return `
+    <div class="card">
+      <div class="card-tag">${esc(d.matiere)} · ${esc(d.niveau)}</div>
+      <h3>🎯 Ce qu'on te demande</h3>
+      <p>${multiline(d.enonce)}</p>
+    </div>
+    <div class="card method">
+      <h3>🧠 La méthode à retenir</h3>
+      <ol>${d.methode.map((m) => `<li>${multiline(m)}</li>`).join("")}</ol>
+    </div>
+    <div class="card">
+      <h3>✍️ On le fait ensemble</h3>
+      ${d.etapes.map((e, i) => `
+        <div class="step">
+          <div class="step-title"><span class="step-num">${i + 1}</span>${esc(e.titre)}</div>
+          <p>${multiline(e.explication)}</p>
+          ${e.calcul ? `<pre class="calc">${esc(e.calcul)}</pre>` : ""}
+        </div>`).join("")}
+    </div>
+    <div class="card answer">
+      <h3>✅ Réponse</h3>
+      <p>${multiline(d.reponse)}</p>
+    </div>
+    ${d.pieges.length ? `
+    <div class="card">
+      <h3>⚠️ Pièges à éviter</h3>
+      <ul>${d.pieges.map((p) => `<li>${multiline(p)}</li>`).join("")}</ul>
+    </div>` : ""}
+    <div class="card">
+      <h3>🔁 À toi de jouer</h3>
+      <p>${multiline(d.entrainement.enonce)}</p>
+      <details><summary>Voir la solution</summary><p>${multiline(d.entrainement.solution)}</p></details>
+    </div>
+    <p class="muted" style="font-size:12px;text-align:center">Révizo peut se tromper. Vérifie avec ton professeur en cas de doute.</p>`;
 }
 
 // ---------- Quiz ----------
