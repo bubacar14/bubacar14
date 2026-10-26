@@ -1,0 +1,14 @@
+{
+  "name": "Révizo — Réviser le BAC en jouant",
+  "short_name": "Révizo",
+  "description": "Révise le BAC, le BFEM, le BEPC et le DEF en jouant. Pour toute l'Afrique de l'Ouest.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0b0f",
+  "theme_color": "#0b0b0f",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

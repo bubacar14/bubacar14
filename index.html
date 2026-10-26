@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0f">
+  <meta name="description" content="Révise le BAC, le BFEM, le BEPC et le DEF en jouant. Pour toute l'Afrique de l'Ouest.">
+  <title>Révizo</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-go="home" aria-label="Accueil">Révizo</button>
+    <div class="topbar-right">
+      <button class="country-chip" id="countryChip" aria-label="Changer de pays"></button>
+      <button class="credits" id="creditsBtn" aria-label="Recharger mes crédits">
+        <span class="bolt">⚡</span><span id="creditsVal">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="view"></main>
+
+  <nav class="tabbar">
+    <button data-go="home" class="tab">🏠<span>Accueil</span></button>
+    <button data-go="leaderboard" class="tab">🏆<span>Classement</span></button>
+    <button data-go="profile" class="tab">👤<span>Profil</span></button>
+  </nav>
+
+  <dialog id="modal"></dialog>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
