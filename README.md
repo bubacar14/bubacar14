@@ -4,13 +4,20 @@ Prototype d'une plateforme de révision « façon Higgsfield » pour les élève
 
 C'est une appli web installable (PWA) : on l'ouvre depuis un lien, on l'ajoute à l'écran d'accueil, et elle marche aussi sans connexion.
 
+## Sanko, la mascotte
+
+Sanko est un oiseau jaune soleil avec une huppe en goutte d'encre bleue (`sanko.js`). Il vient de **Sankofa**, l'oiseau des symboles adinkra qui se retourne pour reprendre l'œuf laissé derrière lui. Le proverbe akan dit : « Il n'est jamais interdit de revenir chercher ce que tu as oublié. » C'est le principe de la révision des erreurs : Sanko « ramène » à l'élève ce qu'il a oublié.
+
+Sanko a six humeurs : content, joie, réfléchit, encourage, dort et fier. Il accueille l'élève, pose la question de départ, donne les coups de pouce, réagit à chaque réponse et célèbre la fin de séance. C'est aussi l'icône de l'appli.
+
 ## Design
 
 L'appli suit la charte graphique Révizo :
 - deux thèmes : « Cahier » (clair) et « Ardoise » (sombre) ;
 - bleu Bic, jaune soleil et rouge du prof ;
 - polices Bricolage Grotesque, Atkinson Hyperlegible, JetBrains Mono et Caveat ;
-- icônes au trait, sans emoji.
+- icônes au trait, sans emoji ;
+- boutons en relief qui s'enfoncent, panneau de réponse qui glisse d'en bas, sons et vibrations (désactivables dans le profil), confettis et objectif du jour.
 
 Les choix d'écrans s'appuient sur l'étude des applis concurrentes, dans `recherche/design-synthese.md` :
 - l'énoncé lu est confirmé avant la correction ;

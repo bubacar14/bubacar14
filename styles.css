@@ -18,6 +18,11 @@
   --marge: #e5484d;
   --crayon: #9aa1b8;
   --focus: #2340a8;
+  --bic-fonce: #162a75;
+  --ligne-fonce: #c3c9e0;
+  --juste-fonce: #075463;
+  --rouge-fonce: #9b0c24;
+  --soleil-fonce: #b98300;
   --ombre-carte: 0 1px 0 rgba(20, 26, 51, 0.06), 0 6px 20px rgba(20, 26, 51, 0.06);
 
   --font-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
@@ -34,7 +39,7 @@
     --papier: #16211d; --papier-2: #1e2b26; --ligne: #33453d; --encre: #eef2ea; --encre-2: #a9b7ad;
     --bic: #8fa8ff; --on-bic: #0f1640; --bic-doux: #22305e; --soleil: #f5c33b; --surligneur: rgba(245, 195, 59, 0.3);
     --rouge: #ff8a92; --rouge-doux: #4a1820; --juste: #5cc8d8; --juste-doux: #123a40; --marge: #ff6b70;
-    --crayon: #5f7268; --focus: #f5c33b; --ombre-carte: 0 1px 0 rgba(0, 0, 0, 0.35);
+    --crayon: #5f7268; --focus: #f5c33b; --bic-fonce: #5b73cf; --ligne-fonce: #24332d; --juste-fonce: #3a9fae; --rouge-fonce: #d0606b; --soleil-fonce: #b98d1f; --ombre-carte: 0 1px 0 rgba(0, 0, 0, 0.35);
     color-scheme: dark;
   }
 }
@@ -42,7 +47,7 @@
   --papier: #16211d; --papier-2: #1e2b26; --ligne: #33453d; --encre: #eef2ea; --encre-2: #a9b7ad;
   --bic: #8fa8ff; --on-bic: #0f1640; --bic-doux: #22305e; --soleil: #f5c33b; --surligneur: rgba(245, 195, 59, 0.3);
   --rouge: #ff8a92; --rouge-doux: #4a1820; --juste: #5cc8d8; --juste-doux: #123a40; --marge: #ff6b70;
-  --crayon: #5f7268; --focus: #f5c33b; --ombre-carte: 0 1px 0 rgba(0, 0, 0, 0.35);
+  --crayon: #5f7268; --focus: #f5c33b; --bic-fonce: #5b73cf; --ligne-fonce: #24332d; --juste-fonce: #3a9fae; --rouge-fonce: #d0606b; --soleil-fonce: #b98d1f; --ombre-carte: 0 1px 0 rgba(0, 0, 0, 0.35);
   color-scheme: dark;
 }
 
@@ -312,4 +317,126 @@ textarea, input[type="text"] {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .calendrier span.aujourdhui .ico { stroke-dashoffset: 0; }
+}
+
+/* ---------- Refonte « Sanko » : une interface qu'on a envie de toucher ---------- */
+
+/* Boutons en relief : ils s'enfoncent quand on appuie. */
+.btn, .choix, .tuile, .offre, .operateur, .puce {
+  transition: transform 80ms ease-out, box-shadow 80ms ease-out;
+}
+.btn { border-radius: 16px; border-width: 2px; box-shadow: 0 4px 0 var(--ligne-fonce); min-height: 52px; }
+.btn-principal { box-shadow: 0 4px 0 var(--bic-fonce); }
+.btn-soleil { background: var(--soleil); border-color: var(--soleil); color: var(--on-soleil); box-shadow: 0 4px 0 var(--soleil-fonce); }
+.btn-juste { background: var(--juste); border-color: var(--juste); color: var(--papier-2); box-shadow: 0 4px 0 var(--juste-fonce); }
+.btn-rouge { background: var(--rouge); border-color: var(--rouge); color: var(--papier-2); box-shadow: 0 4px 0 var(--rouge-fonce); }
+.btn-discret { box-shadow: none; min-height: 44px; }
+.btn:active:not(:disabled), .choix:active:not(:disabled), .tuile:active, .offre:active, .operateur:active, .puce:active { transform: translateY(4px); box-shadow: 0 0 0 transparent; }
+.choix { border-width: 2px; border-radius: 16px; box-shadow: 0 4px 0 var(--ligne-fonce); }
+.choix.juste { box-shadow: 0 4px 0 var(--juste); }
+.choix.erreur { box-shadow: 0 4px 0 var(--rouge); }
+.offre, .operateur { border-width: 2px; box-shadow: 0 4px 0 var(--ligne-fonce); }
+.offre[aria-pressed="true"], .operateur[aria-pressed="true"] { box-shadow: 0 4px 0 var(--bic); }
+.puce { border-width: 2px; box-shadow: 0 3px 0 var(--ligne-fonce); }
+.puce[aria-pressed="true"] { box-shadow: 0 3px 0 var(--bic); }
+
+/* Sanko et ses bulles */
+.sanko { display: block; flex: none; overflow: visible; }
+.sanko .sanko-yeux { transform-origin: 60px 60px; animation: cligne 5s infinite; }
+@keyframes cligne { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+.sanko-saute { animation: saute 600ms cubic-bezier(.3, 1.6, .5, 1) 1; transform-origin: 50% 100%; }
+@keyframes saute { 0% { transform: translateY(0) scale(1); } 30% { transform: translateY(-14px) scale(1.04, .96); } 60% { transform: translateY(0) scale(.98, 1.02); } 100% { transform: none; } }
+.sanko-flotte { animation: flotte 2.4s ease-in-out infinite; }
+@keyframes flotte { 50% { transform: translateY(-5px); } }
+.sanko-dit { display: flex; align-items: flex-end; gap: var(--espace-2); }
+.bulle {
+  position: relative; flex: 1; min-width: 0; margin-bottom: 18px;
+  padding: var(--espace-3) var(--espace-4); border-radius: 18px;
+  background: var(--papier-2); border: 2px solid var(--ligne); color: var(--encre);
+  font-weight: 700;
+}
+.bulle::before { content: ""; position: absolute; left: -10px; bottom: 14px; width: 16px; height: 16px; background: var(--papier-2); border-left: 2px solid var(--ligne); border-bottom: 2px solid var(--ligne); transform: rotate(45deg); border-bottom-left-radius: 4px; }
+.bulle .petit { font-weight: 400; }
+
+/* Accueil */
+.accueil-haut { display: flex; flex-direction: column; gap: var(--espace-3); }
+.objectif { display: flex; align-items: center; gap: var(--espace-3); padding: var(--espace-3) var(--espace-4); border-radius: var(--rayon-l); border: 2px solid var(--ligne); background: var(--papier-2); }
+.objectif-anneau { flex: none; width: 52px; height: 52px; }
+.objectif-anneau circle { fill: none; stroke-width: 6; }
+.objectif-anneau .fond { stroke: var(--ligne); }
+.objectif-anneau .plein { stroke: var(--soleil); stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke-dashoffset 500ms ease-out; }
+.objectif ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.objectif li { display: flex; align-items: center; gap: var(--espace-1); color: var(--encre-2); }
+.objectif li.fait { color: var(--encre); font-weight: 700; }
+.objectif li .ico { width: 18px; height: 18px; color: var(--crayon); }
+.objectif li.fait .ico { color: var(--juste); }
+.tuiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--espace-3); }
+.tuile {
+  display: flex; flex-direction: column; align-items: flex-start; gap: var(--espace-1); text-align: left;
+  min-height: 132px; padding: var(--espace-4); border-radius: var(--rayon-l);
+  border: 2px solid var(--ligne); background: var(--papier-2); color: var(--encre);
+  box-shadow: 0 4px 0 var(--ligne-fonce);
+}
+.tuile-ico { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; margin-bottom: var(--espace-1); }
+.tuile-ico .ico { width: 26px; height: 26px; }
+.tuile-ico.bic { background: var(--bic-doux); color: var(--bic); }
+.tuile-ico.juste { background: var(--juste-doux); color: var(--juste); }
+.tuile-ico.rouge { background: var(--rouge-doux); color: var(--rouge); }
+.tuile-ico.soleil { background: var(--soleil); color: var(--on-soleil); }
+.tuile .titre { font-size: 18px; line-height: 22px; }
+.tuile .compteur { margin-left: auto; }
+.badge-nombre { display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 12px; background: var(--rouge); color: var(--papier-2); font-size: 13px; font-weight: 700; }
+
+/* Bloc Mon exercice plus affirmé */
+.bloc-exo .btn-principal { font-size: 18px; min-height: 56px; padding: 0 var(--espace-5); }
+
+/* Mode « leçon » : on cache la navigation, comme pendant un quiz */
+body.immersif .onglets { display: none; }
+body.immersif { padding-bottom: 0; }
+
+/* Panneau de réponse qui glisse d'en bas */
+.feuille {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 15;
+  display: flex; flex-direction: column; gap: var(--espace-3);
+  padding: var(--espace-4) max(var(--espace-4), env(safe-area-inset-right)) calc(var(--espace-4) + env(safe-area-inset-bottom)) max(var(--espace-4), env(safe-area-inset-left));
+  border-top: 2px solid; animation: monte 220ms cubic-bezier(.2, .9, .3, 1.1);
+}
+.feuille > * { max-width: 640px; width: 100%; margin: 0 auto; }
+.feuille-juste { background: var(--juste-doux); border-color: var(--juste); }
+.feuille-erreur { background: var(--rouge-doux); border-color: var(--rouge); }
+.feuille-titre { display: flex; align-items: center; gap: var(--espace-3); }
+.feuille-titre h2 { font-size: 24px; line-height: 28px; }
+.feuille-juste h2 { color: var(--juste); }
+.feuille-erreur h2 { color: var(--rouge); }
+.feuille p { color: var(--encre); }
+.espace-feuille { height: 240px; }
+@keyframes monte { from { transform: translateY(100%); } to { transform: none; } }
+
+/* Barre de progression de leçon */
+.barre-lecon { display: flex; align-items: center; gap: var(--espace-3); }
+.barre-lecon .jauge { flex: 1; height: 16px; border-radius: 8px; background: var(--ligne); overflow: hidden; }
+.barre-lecon .jauge span { display: block; height: 100%; border-radius: 8px; background: var(--juste); transition: width 300ms ease-out; box-shadow: inset 0 -4px 0 rgba(0, 0, 0, .12); }
+.serie-combo { font-family: var(--font-annotation); font-size: 22px; color: var(--soleil-fonce); font-weight: 600; }
+
+/* Écran de fin : la célébration */
+.celebration { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--espace-3); padding-top: var(--espace-4); }
+.celebration .display-xl { color: var(--soleil-fonce); }
+.chiffres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--espace-2); width: 100%; }
+.chiffre { border-radius: var(--rayon-m); border: 2px solid; overflow: hidden; text-align: center; }
+.chiffre span { display: block; padding: 4px; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--papier-2); }
+.chiffre b { display: block; padding: var(--espace-2); font-family: var(--font-display); font-size: 24px; line-height: 28px; background: var(--papier-2); }
+.chiffre.soleil { border-color: var(--soleil); } .chiffre.soleil span { background: var(--soleil); color: var(--on-soleil); }
+.chiffre.juste { border-color: var(--juste); } .chiffre.juste span { background: var(--juste); }
+.chiffre.bic { border-color: var(--bic); } .chiffre.bic span { background: var(--bic); color: var(--on-bic); }
+.confettis { position: fixed; inset: 0; pointer-events: none; z-index: 30; overflow: hidden; }
+.confettis i { position: absolute; top: -20px; width: 10px; height: 14px; border-radius: 2px; animation: tombe 1.6s ease-in forwards; }
+@keyframes tombe { to { transform: translateY(110vh) rotate(540deg); } }
+
+/* Histoire de Sanko */
+.histoire { display: flex; gap: var(--espace-3); align-items: flex-start; }
+.histoire blockquote { margin: 0; font-family: var(--font-annotation); font-size: 22px; line-height: 26px; color: var(--bic); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sanko .sanko-yeux, .sanko-flotte, .sanko-saute, .feuille, .confettis i { animation: none !important; }
+  .confettis { display: none; }
 }

@@ -326,7 +326,7 @@ const MIME = {
   ".svg": "image/svg+xml",
   ".webmanifest": "application/manifest+json",
 };
-const PUBLIC = new Set(["index.html", "app.js", "questions.js", "styles.css", "sw.js", "manifest.webmanifest", "icon.svg"]);
+const PUBLIC = new Set(["index.html", "app.js", "sanko.js", "questions.js", "styles.css", "sw.js", "manifest.webmanifest", "icon.svg"]);
 
 async function handleStatic(req, res) {
   const name = decodeURIComponent(new URL(req.url, "http://x").pathname).replace(/^\/+/, "") || "index.html";

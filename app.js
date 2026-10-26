@@ -85,6 +85,7 @@ function loadState() {
     credits: CREDIT_OFFERT_PAR_JOUR, lastRefill: today(), exosFaits: 0,
     streak: 0, lastActive: null, gels: 0, jours: [],
     cards: {}, exos: [], answered: 0, good: 0, studio: "",
+    sons: true, objectif: { date: today(), exo: false, revision: false },
   };
   try {
     const s = JSON.parse(localStorage.getItem(STORE_KEY));
@@ -123,6 +124,56 @@ function marquerActif() {
   state.jours = [...(state.jours || []).filter((j) => daysBetween(j, t) < 7), t];
   save();
   return true;
+}
+
+// Objectif du jour : un exercice compris et une révision ou un quiz.
+function objectif() {
+  if (!state.objectif || state.objectif.date !== today()) state.objectif = { date: today(), exo: false, revision: false };
+  return state.objectif;
+}
+function cocherObjectif(cle) {
+  const o = objectif();
+  const avant = o.exo && o.revision;
+  o[cle] = true;
+  save();
+  return !avant && o.exo && o.revision; // vrai si l'objectif vient d'être atteint
+}
+
+// Sons courts générés sur place (aucun fichier à télécharger) et vibration sur Android.
+let audio = null;
+function son(type) {
+  if (!state.sons) return;
+  try {
+    audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+    const notes = { juste: [660, 880], erreur: [220, 185], fin: [523, 659, 784, 1047], tap: [440] }[type] || [440];
+    notes.forEach((f, i) => {
+      const o = audio.createOscillator(), g = audio.createGain();
+      const t = audio.currentTime + i * 0.09;
+      o.type = type === "erreur" ? "triangle" : "sine";
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.18, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+      o.connect(g).connect(audio.destination);
+      o.start(t);
+      o.stop(t + 0.2);
+    });
+  } catch (e) { /* audio indisponible */ }
+  if (navigator.vibrate) navigator.vibrate(type === "erreur" ? [40, 60, 40] : type === "fin" ? [30, 40, 30, 40, 60] : 25);
+}
+
+function sankoDit(humeur, html, taille = 88, extra = "") {
+  return `<div class="sanko-dit">${sanko(humeur, taille, extra)}<div class="bulle">${html}</div></div>`;
+}
+
+function confettis() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const couleurs = ["#f5b301", "#2340a8", "#0b6f80", "#e5484d", "#8fa8ff"];
+  const box = document.createElement("div");
+  box.className = "confettis";
+  box.innerHTML = Array.from({ length: 40 }, (_, i) => `<i style="left:${(i * 37) % 100}%;background:${couleurs[i % couleurs.length]};animation-delay:${(i % 10) * 0.06}s"></i>`).join("");
+  document.body.appendChild(box);
+  setTimeout(() => box.remove(), 2400);
 }
 
 // ---------- Utilitaires ----------
@@ -188,7 +239,9 @@ function setOnglet(name) {
   });
 }
 
-function afficher(html, onglet = "") {
+function afficher(html, onglet = "", immersif = false) {
+  document.querySelector(".feuille")?.remove();
+  document.body.classList.toggle("immersif", immersif);
   view.innerHTML = html;
   setOnglet(onglet);
   window.scrollTo(0, 0);
@@ -206,14 +259,44 @@ function exosDus() {
   return state.exos.filter((e) => e.due && e.due <= t);
 }
 
+function messageSanko(dues) {
+  const nom = state.pseudo ? `, ${esc(state.pseudo)}` : "";
+  if (state.exosFaits === 0) return ["content", `Salut${nom} ! Moi c'est Sanko. Prends ton exercice en photo : je t'explique comment le faire, étape par étape.`];
+  if (dues) return ["reflechit", `J'ai ramené ${pluriel(dues, "chose")} que tu avais oubliée${dues > 1 ? "s" : ""}. On les revoit ? Ça prend 2 minutes.`];
+  if (state.streak >= 2) return ["joie", `${state.streak} jours d'affilée${nom} ! On continue ?`];
+  return ["content", `On attaque quel exercice aujourd'hui${nom} ?`];
+}
+
+function anneauObjectif(o) {
+  const fait = (o.exo ? 1 : 0) + (o.revision ? 1 : 0);
+  const c = 2 * Math.PI * 20;
+  return `<svg class="objectif-anneau" viewBox="0 0 52 52" aria-hidden="true"><circle class="fond" cx="26" cy="26" r="20"/><circle class="plein" cx="26" cy="26" r="20" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - fait / 2)}"/></svg>`;
+}
+
 function renderHome() {
   const dues = cartesDues().length + exosDus().length;
   const premier = state.exosFaits === 0;
+  const o = objectif();
+  const [humeur, message] = messageSanko(dues);
   afficher(`
+    <div class="accueil-haut">
+      ${sankoDit(humeur, message, 92, "sanko-flotte")}
+      <div class="objectif" aria-label="Objectif du jour">
+        ${anneauObjectif(o)}
+        <div>
+          <span class="etiquette">Objectif du jour</span>
+          <ul>
+            <li class="${o.exo ? "fait" : ""}">${icone(o.exo ? "juste" : "crayon")}Comprendre 1 exercice</li>
+            <li class="${o.revision ? "fait" : ""}">${icone(o.revision ? "juste" : "crayon")}Faire 1 révision ou 1 quiz</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <section class="cahier bloc-exo" aria-labelledby="titreExo">
       <span class="etiquette">${premier ? "Ton 1er exercice est offert" : "Toutes les matières"}</span>
       <h1 class="display-xl" id="titreExo">Mon exercice</h1>
-      <p>Prends ton exercice en photo. On t'explique la méthode, étape par étape.</p>
+      <p>Prends ton exercice en photo. Sanko t'explique la méthode, étape par étape.</p>
       <button class="btn btn-principal" id="prendrePhoto">${icone("photo")}Prendre la photo</button>
       <div class="bloc-exo-pied">
         <button class="btn btn-discret" id="ecrire">ou écris-le</button>
@@ -221,38 +304,37 @@ function renderHome() {
       </div>
     </section>
 
-    <button class="carte carte-action" id="carteRevoir">
-      ${icone("reviser")}
-      <span class="grow">
-        <span class="titre">${dues ? `${pluriel(dues, "erreur")} à revoir` : "Rien à revoir aujourd'hui"}</span>
-        <span class="petit">${dues ? `Environ ${Math.max(2, dues)} min · ` : "Tes erreurs reviennent ici au bon moment · "}<span class="gratuit">gratuit</span></span>
-      </span>
-      ${icone("chevron", "ico chevron")}
-    </button>
-
-    <button class="carte carte-action" id="carteQuiz">
-      ${icone("quiz")}
-      <span class="grow">
+    <div class="tuiles">
+      <button class="tuile" id="carteRevoir">
+        <span class="tuile-ico rouge">${icone("reviser")}</span>
+        <span class="titre">Mes erreurs ${dues ? `<span class="badge-nombre">${dues}</span>` : ""}</span>
+        <span class="petit">${dues ? "Sanko les a ramenées" : "Rien à revoir"}</span>
+        <span class="gratuit">gratuit</span>
+      </button>
+      <button class="tuile" id="carteQuiz">
+        <span class="tuile-ico bic">${icone("quiz")}</span>
         <span class="titre">Quiz du jour</span>
-        <span class="petit">5 questions · environ 2 min · <span class="gratuit">gratuit</span></span>
-      </span>
-      ${icone("chevron", "ico chevron")}
-    </button>
-
-    <button class="carte carte-action" id="carteDuel">
-      ${icone("duel")}
-      <span class="grow">
-        <span class="titre">Défier un ami</span>
-        <span class="petit">Les mêmes 5 questions. Le meilleur score gagne.</span>
-      </span>
-      ${icone("chevron", "ico chevron")}
-    </button>`, "home");
+        <span class="petit">5 questions · 2 min</span>
+        <span class="gratuit">gratuit</span>
+      </button>
+      <button class="tuile" id="carteDuel">
+        <span class="tuile-ico soleil">${icone("duel")}</span>
+        <span class="titre">Duel</span>
+        <span class="petit">Défie un ami de ta classe</span>
+      </button>
+      <button class="tuile" id="carteSerie">
+        <span class="tuile-ico juste">${icone("serie")}</span>
+        <span class="titre">${pluriel(state.streak, "jour")}</span>
+        <span class="petit">de série${state.gels ? ` · ${pluriel(state.gels, "jour")} de repos` : ""}</span>
+      </button>
+    </div>`, "home");
 
   $("#prendrePhoto").addEventListener("click", () => $("#photoInput").click());
   $("#ecrire").addEventListener("click", () => { exo = { photo: null, texte: "" }; renderSaisie(); });
-  $("#carteRevoir").addEventListener("click", () => render("reviser"));
+  $("#carteRevoir").addEventListener("click", () => (cartesDues().length ? demarrerQuiz("revoir") : render("reviser")));
   $("#carteQuiz").addEventListener("click", () => demarrerQuiz("quiz"));
   $("#carteDuel").addEventListener("click", () => demarrerQuiz("duel"));
+  $("#carteSerie").addEventListener("click", () => render("profil"));
 }
 
 // ---------- Mon exercice : photo, énoncé lu, correction ----------
@@ -347,11 +429,11 @@ function renderSaisie() {
 function renderAttente(etapes, courante) {
   afficher(`
     <div class="attente" role="status" aria-live="polite">
-      <h1 class="display-l">Un instant…</h1>
+      ${sankoDit("reflechit", `${esc(etapes[courante])}…`, 110, "sanko-flotte")}
       <ul class="attente-etapes">
         ${etapes.map((t, i) => `<li class="${i < courante ? "fait" : i === courante ? "encours" : ""}">${i < courante ? icone("juste") : icone("crayon")}${esc(t)}</li>`).join("")}
       </ul>
-    </div>`);
+    </div>`, "", true);
 }
 
 async function lireEnonce() {
@@ -428,6 +510,7 @@ async function expliquer() {
   }
   state.exosFaits += 1;
   marquerActif();
+  if (cocherObjectif("exo")) setTimeout(() => { son("fin"); confettis(); toast("Objectif du jour atteint !"); }, 400);
   save();
   majBarre();
   ouvrirCorrection(data);
@@ -435,18 +518,13 @@ async function expliquer() {
 
 function renderErreur(message, proposerPhoto, creditRendu) {
   afficher(`
-    <h1 class="display-l">Petit souci</h1>
-    <section class="carte carte-piege">
-      <p>${esc(message)}</p>
-      ${creditRendu ? `<p class="petit">Ton crédit a été rendu.</p>` : ""}
-    </section>
+    ${sankoDit("encourage", `${esc(message)}${creditRendu ? `<br><span class="petit">Ton crédit t'a été rendu.</span>` : ""}`, 100)}
     ${proposerPhoto ? `<button class="btn btn-principal btn-large" id="reprendre">${icone("photo")}Reprendre la photo</button>` : ""}
     <button class="btn btn-large" id="accueil">Retour à l'accueil</button>`);
   $("#reprendre")?.addEventListener("click", () => $("#photoInput").click());
   $("#accueil").addEventListener("click", () => render("home"));
 }
 
-// La correction se dévoile progressivement : l'élève essaie d'abord, demande un indice s'il bloque.
 function ouvrirCorrection(data, depuisRevision) {
   exo = Object.assign(exo || {}, {
     correction: data,
@@ -477,15 +555,11 @@ function renderCorrection() {
         <p>${multiligne(d.enonce)}</p>
       </section>
 
-      ${exo.palier >= 1 && !methodeVisible ? `
-      <section class="carte apparait">
-        <h2 class="carte-titre">${icone("crayon")}Coup de pouce</h2>
-        <p>${multiligne(d.indice)}</p>
-      </section>` : ""}
+      ${exo.palier >= 1 && !methodeVisible ? sankoDit("encourage", `<span class="etiquette">Coup de pouce</span><br>${multiligne(d.indice)}`, 72, "apparait") : ""}
 
       ${demarrage?.choix?.length && !exo.toutVoir ? `
       <section class="carte">
-        <h2 class="carte-titre">${esc(demarrage.question)}</h2>
+        ${sankoDit("reflechit", esc(demarrage.question), 64)}
         <div class="choix-demarrage">
           ${demarrage.choix.map((c, i) => {
             const etat = exo.choixDemarrage === i ? (c.juste ? "juste" : "erreur") : exo.demarrageRepondu && c.juste ? "juste" : "";
@@ -525,6 +599,7 @@ function renderCorrection() {
       </section>` : ""}
 
       ${fini ? `
+      ${sankoDit("joie", "Et voilà ! Tu as la méthode. Essaie maintenant l'exercice « À toi de jouer ».", 72, "sanko-saute")}
       <section class="carte carte-reponse apparait">
         <h2 class="carte-titre">${icone("juste")}Réponse</h2>
         <p class="reponse-finale">${multiligne(d.reponse)}</p>
@@ -570,6 +645,7 @@ function renderCorrection() {
   view.querySelectorAll("[data-demarrage]").forEach((b) => b.addEventListener("click", () => {
     exo.choixDemarrage = Number(b.dataset.demarrage);
     exo.demarrageRepondu = true;
+    son(exo.correction.demarrage.choix[exo.choixDemarrage].juste ? "juste" : "erreur");
     renderCorrection();
   }));
   $("#bloque")?.addEventListener("click", () => {
@@ -637,22 +713,22 @@ function demarrerQuiz(mode, duel, matiere = state.studio) {
 }
 
 function renderQuestion() {
-  const { qs, i, resultats } = session;
+  const { qs, i } = session;
   const q = qs[i];
   session.ordre = shuffle(q.choix.map((_, k) => k));
+  const combo = session.combo >= 2 ? `<span class="serie-combo">${session.combo} d'affilée !</span>` : "";
   afficher(`
-    <div class="quiz-entete">
-      <span class="etiquette">${esc(matiereLabel(q.matiere))} · ${q.niveau === "bac" ? "BAC" : esc(brevet())}${session.mode === "revoir" ? " · Révision" : ""}</span>
+    <div class="barre-lecon">
       <button class="btn btn-discret" id="quitter" aria-label="Quitter le quiz">${icone("fermer")}</button>
+      <div class="jauge" role="progressbar" aria-valuemin="0" aria-valuemax="${qs.length}" aria-valuenow="${i}"><span style="width:${(i / qs.length) * 100}%"></span></div>
     </div>
-    <div class="progression" aria-label="Question ${i + 1} sur ${qs.length}">
-      ${qs.map((_, k) => `<span class="${k < resultats.length ? (resultats[k] ? "juste" : "erreur") : k === i ? "courant" : ""}"></span>`).join("")}
-    </div>
+    <span class="etiquette">${esc(matiereLabel(q.matiere))} · ${q.niveau === "bac" ? "BAC" : esc(brevet())}${session.mode === "revoir" ? " · Sanko te l'a ramenée" : ""}</span>
+    ${combo}
     <p class="question">${esc(q.q)}</p>
     <div class="actions" id="choix">
       ${session.ordre.map((k, n) => `<button class="choix" data-k="${k}"><span class="choix-lettre">${"ABCD"[n]}</span><span class="choix-texte">${esc(q.choix[k])}</span></button>`).join("")}
     </div>
-    <div id="apres"></div>`, session.mode === "revoir" ? "reviser" : "");
+    <div class="espace-feuille" aria-hidden="true"></div>`, "", true);
   $("#quitter").addEventListener("click", () => { session = null; render("home"); });
   view.querySelectorAll("[data-k]").forEach((b) => b.addEventListener("click", () => repondre(Number(b.dataset.k))));
 }
@@ -676,18 +752,25 @@ function repondre(k) {
   card.due = addDays(today(), ok ? BOX_DAYS[card.box] : 1);
   state.cards[q.id] = card;
   state.answered += 1;
-  if (ok) { state.good += 1; session.score += 1; }
+  if (ok) { state.good += 1; session.score += 1; session.combo = (session.combo || 0) + 1; } else session.combo = 0;
   session.resultats.push(ok);
   save();
+  son(ok ? "juste" : "erreur");
+  const jauge = view.querySelector(".jauge span");
+  if (jauge) jauge.style.width = `${((session.i + 1) / session.qs.length) * 100}%`;
 
   const dernier = session.i === session.qs.length - 1;
-  $("#apres").innerHTML = `
-    <div class="retour apparait">
-      <span class="annotation ${ok ? "annotation-bravo" : "annotation-attention"}">${ok ? "Juste !" : "Pas tout à fait."}</span>
-      <p>${esc(q.explication)}</p>
-      ${ok ? "" : `<p class="petit">Cette question reviendra demain.</p>`}
-    </div>
-    <button class="btn btn-principal btn-large" id="suivante" style="margin-top:12px">${dernier ? "Voir mon bilan" : "Question suivante"}</button>`;
+  const bravo = ["Juste !", "Bien vu !", "Excellent !", "C'est ça !"][session.i % 4];
+  document.querySelector(".toast")?.remove();
+  const feuille = document.createElement("div");
+  feuille.className = `feuille ${ok ? "feuille-juste" : "feuille-erreur"}`;
+  feuille.setAttribute("role", "status");
+  feuille.innerHTML = `
+    <div class="feuille-titre">${sanko(ok ? "joie" : "encourage", 64, ok ? "sanko-saute" : "")}<h2>${ok ? bravo : "Pas tout à fait"}</h2></div>
+    ${ok ? `<p>${esc(q.explication)}</p>` : `<p><b>Bonne réponse : ${esc(q.choix[q.bonne])}</b></p><p>${esc(q.explication)}</p><p class="petit">Pas grave : Sanko te la ramènera demain.</p>`}
+    <button class="btn ${ok ? "btn-juste" : "btn-rouge"} btn-large" id="suivante">${dernier ? "Voir mon bilan" : "Continuer"}</button>`;
+  document.body.appendChild(feuille);
+  $("#suivante").focus();
   $("#suivante").addEventListener("click", () => {
     if (dernier) finSeance();
     else { session.i += 1; renderQuestion(); }
@@ -697,52 +780,57 @@ function repondre(k) {
 function finSeance() {
   const { score, qs, duel, mode, resultats } = session;
   const nouveauJour = marquerActif();
+  const objectifAtteint = cocherObjectif("revision");
   let gelGagne = false;
   if (mode === "revoir" && state.gels < 2) { state.gels += 1; gelGagne = true; save(); }
   majBarre();
   const ratees = qs.filter((_, k) => !resultats[k]);
   const pct = Math.round((score / qs.length) * 100);
   const semaine = Array.from({ length: 7 }, (_, k) => addDays(today(), k - 6));
+  const titre = pct === 100 ? "Parfait !" : pct >= 60 ? "Bien joué !" : "Séance terminée";
+  const humeur = pct >= 60 ? "fier" : "encourage";
 
   let duelLigne = "";
   if (duel) {
-    duelLigne = score > duel.score ? `Tu bats ${esc(duel.nom)} (${duel.score}/${qs.length}).`
+    duelLigne = score > duel.score ? `Tu bats ${esc(duel.nom)} (${duel.score}/${qs.length}) !`
       : score === duel.score ? `Égalité avec ${esc(duel.nom)}.`
       : `${esc(duel.nom)} gagne avec ${duel.score}/${qs.length}. Revanche ?`;
   }
 
   afficher(`
-    <h1 class="display-l">Séance terminée</h1>
-    <section class="carte">
-      <span class="etiquette">Ce que tu as retenu</span>
-      <p>${ratees.length ? esc(ratees[0].explication) : "Tout est juste. Continue comme ça."}</p>
-    </section>
-    <section class="carte">
-      <span class="score">${score}/${qs.length}</span>
-      <span class="petit">${pct} % de bonnes réponses</span>
-      ${duelLigne ? `<p><b>${duelLigne}</b></p>` : ""}
-    </section>
+    <div class="celebration">
+      ${sanko(humeur, 140, "sanko-saute")}
+      <h1 class="display-xl">${titre}</h1>
+      ${duelLigne ? `<p class="titre">${duelLigne}</p>` : ""}
+      <div class="chiffres">
+        <div class="chiffre soleil"><span>Score</span><b>${score}/${qs.length}</b></div>
+        <div class="chiffre juste"><span>Précision</span><b>${pct} %</b></div>
+        <div class="chiffre bic"><span>Série</span><b>${state.streak} j</b></div>
+      </div>
+    </div>
     ${ratees.length ? `
     <section class="carte">
-      <span class="etiquette">Envoyé en révision</span>
+      ${sankoDit("reflechit", `Je garde ${ratees.length > 1 ? "ces questions" : "cette question"} dans mon bec. Je te ${ratees.length > 1 ? "les" : "la"} ramène demain.`, 56)}
       <ul class="liste-simple">${ratees.map((q) => `<li><span>${esc(q.q)}</span><span class="petit">demain</span></li>`).join("")}</ul>
     </section>` : ""}
     <section class="carte">
-      <span class="etiquette">Ta série</span>
+      <span class="etiquette">Ta semaine</span>
       <div class="calendrier" aria-label="Série : ${pluriel(state.streak, "jour")}">
         ${semaine.map((j) => {
           const fait = (state.jours || []).includes(j);
           return `<span class="${fait ? "fait" : ""} ${fait && j === today() && nouveauJour ? "aujourdhui" : ""}">${fait ? icone("juste") : new Date(j).toLocaleDateString("fr-FR", { weekday: "narrow", timeZone: "UTC" })}</span>`;
         }).join("")}
       </div>
-      <p><b>${pluriel(state.streak, "jour")}</b> d'affilée${state.gels ? ` · ${pluriel(state.gels, "jour")} de repos en réserve` : ""}</p>
-      ${gelGagne ? `<span class="annotation annotation-bravo">Tu as gagné 1 jour de repos !</span>` : ""}
+      ${gelGagne ? `<span class="annotation annotation-bravo">Tu as gagné 1 jour de repos pour ta série !</span>` : ""}
+      ${objectifAtteint ? `<span class="annotation annotation-bravo">Objectif du jour atteint !</span>` : ""}
     </section>
     <div class="actions">
-      <button class="btn btn-principal" id="encore">${cartesDues().length ? "Revoir mes erreurs" : "Encore un quiz"}</button>
-      <button class="btn" id="defier">${icone("duel")}Défier un ami sur ces questions</button>
+      <button class="btn btn-principal btn-large" id="encore">${cartesDues().length ? "Revoir mes erreurs" : "Encore un quiz"}</button>
+      <button class="btn btn-large" id="defier">${icone("duel")}Défier un ami sur ces questions</button>
       <button class="btn btn-discret" id="accueil">Retour à l'accueil</button>
-    </div>`);
+    </div>`, "", true);
+  son("fin");
+  if (pct >= 60 || objectifAtteint) confettis();
   $("#encore").addEventListener("click", () => demarrerQuiz(cartesDues().length ? "revoir" : "quiz"));
   $("#defier").addEventListener("click", () => partagerDuel(qs, score));
   $("#accueil").addEventListener("click", () => render("home"));
@@ -795,7 +883,7 @@ function renderReviser() {
         </span>
         ${icone("chevron", "ico chevron")}
       </button>`).join("") : `
-      <section class="carte"><p class="petit">Après une correction, dis si tu as réussi l'exercice « À toi de jouer ». Il sera rangé ici pour le refaire au bon moment.</p></section>`}
+      ${sankoDit("dort", "Rien ici pour l'instant. Après une correction, dis-moi si tu as réussi « À toi de jouer » : je rangerai l'exercice ici pour te le ramener au bon moment.", 64)}`}
 
     <h2 class="titre section-titre">Quiz par matière</h2>
     ${puces(MATIERES_QUIZ, state.studio || "", "studio")}
@@ -828,7 +916,7 @@ function renderRecharge(contexte) {
     afficher(`
       <button class="btn btn-discret" id="retour" style="align-self:flex-start">${icone("retour")}Retour</button>
       <h1 class="display-l">${titre}</h1>
-      <p class="petit">${sousTitre}</p>
+      ${sankoDit("content", sousTitre, 64)}
 
       <div class="offres" role="radiogroup" aria-label="Offres">
         ${OFFRES.map((x) => `
@@ -932,11 +1020,23 @@ function renderProfil() {
     ${puces(CLASSES.map((c) => [c, c]), state.classe, "classe")}
     <span class="champ-label">Affichage</span>
     ${puces([["auto", "Comme mon téléphone"], ["cahier", "Cahier (clair)"], ["ardoise", "Ardoise (sombre)"]], state.theme, "theme")}
+    <span class="champ-label">Sons et vibrations</span>
+    ${puces([["oui", "Activés"], ["non", "Coupés"]], state.sons ? "oui" : "non", "sons")}
+    <section class="carte histoire">
+      ${sanko("fier", 72)}
+      <div>
+        <span class="etiquette">Qui est Sanko ?</span>
+        <p>Sanko vient de <b>Sankofa</b>, l'oiseau des symboles adinkra qui se retourne pour reprendre l'œuf laissé derrière lui.</p>
+        <blockquote>« Il n'est jamais interdit de revenir chercher ce que tu as oublié. »</blockquote>
+        <p class="petit">C'est ce qu'il fait pour toi : il te ramène tes erreurs au bon moment.</p>
+      </div>
+    </section>
     <button class="btn btn-principal btn-large" id="recharger">${icone("piece")}Recharger mes crédits</button>`, "profil");
   $("#pseudo").addEventListener("change", (e) => { state.pseudo = e.target.value.trim(); save(); toast("Prénom enregistré"); });
   lierPuces("pays", (v) => { state.country = v; save(); });
   lierPuces("classe", (v) => { state.classe = v; save(); });
   lierPuces("theme", (v) => { state.theme = v; save(); appliquerTheme(); });
+  lierPuces("sons", (v) => { state.sons = v === "oui"; save(); son("tap"); });
   $("#recharger").addEventListener("click", () => renderRecharge());
 }
 
@@ -959,6 +1059,7 @@ $("#credits").addEventListener("click", () => renderRecharge());
 window.addEventListener("online", majBarre);
 window.addEventListener("offline", majBarre);
 
+document.querySelector(".logo").innerHTML = `${sanko("content", 36)}<span>Révizo</span>`;
 appliquerTheme();
 refillDaily();
 majBarre();
