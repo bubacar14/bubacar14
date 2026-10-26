@@ -1059,7 +1059,7 @@ $("#credits").addEventListener("click", () => renderRecharge());
 window.addEventListener("online", majBarre);
 window.addEventListener("offline", majBarre);
 
-document.querySelector(".logo").innerHTML = `${sanko("content", 36)}<span>Révizo</span>`;
+document.querySelector(".logo").innerHTML = LOGO_REVIZO;
 appliquerTheme();
 refillDaily();
 majBarre();
