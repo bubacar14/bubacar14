@@ -464,3 +464,553 @@ Ces URL viennent toutes du brouillon. **Je n'ai pas pu les rouvrir pendant cette
 7. L'état de la réforme du BAC sénégalais en octobre 2026, et la signification du programme « Maths LS ».
 8. La place des similitudes en S2 et en série D, et les notations officielles de la loi binomiale dans chaque pays.
 9. Le seuil du coefficient de corrélation utilisé dans les cours locaux.
+
+---
+
+## 11. Ce que montrent les vidéos des profs (YouTube)
+
+Cette section s'appuie sur **19 vidéos** de correction ou de cours de maths : 10 du Sénégal, 7 de Côte d'Ivoire, 1 de série D dont le pays n'est pas confirmé (probablement la Côte d'Ivoire) et 1 sans pays indiqué. **5 vidéos ont été écartées** parce qu'elles sont hors sujet.
+
+Les transcriptions sont des sous-titres automatiques, parfois très abîmés. Quand le texte était déformé, les formules ont été reconstruites d'après le sens. Les citations entre guillemets sont celles des profs, avec la qualité de la transcription.
+
+Les codes entre crochets (par exemple [CI26] ou [SN25-TS]) renvoient à la liste du 11.7.
+
+---
+
+### 11.1 Comment ils expliquent
+
+#### Ordre des étapes
+
+- **Commencer par les prérequis.** Avant l'exercice, le prof liste ce qu'il faut savoir : formes algébrique, trigonométrique et exponentielle, module et argument, division euclidienne, Horner, identification, discriminant, affixes, angles orientés, similitudes directes. Il dit : « si vous ne les comprenez pas très bien, vous allez voir votre cours… avant d'aborder l'exercice ». [SN25-SP]
+- **Partir de l'ensemble de travail.** Avant tout calcul, on regarde à quel ensemble appartient n, ou on cherche l'ensemble de définition.
+  - « On regarde notre appartenance. On ne travaille pas dans le vide comme ça là. »
+  - Il rappelle « quel que soit n appartenant à ℕ » à chaque résultat. [CI26]
+- **Lire d'abord la nature de la fonction.** C'est « la première chose à faire » : savoir si c'est un polynôme, une fonction rationnelle ou une fonction irrationnelle (avec une racine). La méthode de calcul de limite en dépend. [SN-TL]
+- **Rappeler la formule du cours, puis l'adapter.** Le prof écrit la formule générale du cours, X_n = X_p × q^(n−p), puis remplace lettre par lettre.
+  - « Maîtrisez toujours vos cours et adaptez vos cours aux exercices que on vous propose. »
+  - « Vous n'arrivez pas à comprendre parce que vous ne maîtrisez pas vos formules d'abord. » [CI26]
+- **Rappeler l'énoncé, puis corriger question par question.** [SN25-SP, CI03-D]
+- **Utiliser la question précédente.** Chaque question est présentée comme une suite de la précédente.
+  - « Cette question vient de la question précédente. » [CI26]
+  - « Vous voyez le lien entre la question numéro 1 et la question numéro 2. » [D23]
+  - « Cette fonction qu'on vous donne là, c'est pas n'importe comment… forcément il y aura un lien avec la partie B. » [SN25-TS]
+- **Étudier g, puis f.** On étudie la fonction intermédiaire g pour obtenir son signe, qui sert ensuite pour f′ dans la partie B.
+  - « La fonction intermédiaire va revenir dans la partie B. »
+  - Sur le tableau de variation de g : « c'est juste pour pouvoir donner les signes de g ». [SN25-MA, SN26-S, SN25-TS]
+- **Suivre toujours le même ordre en étude de fonction :** limites → dérivée → signe de la dérivée → variations → tableau → TVI → encadrement de α → signe de la fonction. [CI03-D, AL-TVI, SN25-TS]
+- **Calculer d'abord les morceaux.** Par exemple la limite de e^(−x) avant celle du produit. Le prof donne parfois le résultat d'abord, puis le justifie : « je vais mettre la limite directement… et après je vais justifier pourquoi ». [CI03-D]
+- **Toujours conclure.** « Il faut toujours conclure, c'est-à-dire répondre à la question posée. » Un calcul sans phrase de conclusion est « une réponse partielle ». Le résultat final est encadré. [SN-TL, CI26, CI03-D]
+- **Rédiger la correction en rubriques :** « analyse et stratégie », « propriété du cours », « solution », « vérification » (en vert), « astuce du bac ». Le résultat est en bleu. [SN25-TS]
+
+#### Ton et phrases types
+
+- **[CI26]** Rythme très lent et répétitif.
+  - Il s'adresse aux élèves par « chers apprenants » et « mesdames et messieurs ».
+  - Il présente certaines questions comme des cadeaux : « c'est une question bonus pour vous », « exercice cadeau », « c'est un jeu d'enfant ».
+  - « On fait doucement pour que vous puissiez comprendre… on se met toujours à votre place. »
+  - « Pour ceux qui maîtrisent, vous pouvez aller rapidement. »
+- **[CI03-D]** Même style lent.
+  - « Je vais aller pas à pas pour que vous puissiez bien comprendre. »
+  - « Vous pouvez revoir la vidéo à plusieurs reprises. »
+  - « Il n'est jamais trop tard pour apprendre. »
+- **[SN25-TS]**
+  - « Il faut faire les choses étape par étape, même si la dérivée semble vraiment facile. »
+  - « Point cadeau si vous apprenez le cours. »
+  - « Si vous faussez, c'est de votre faute, parce que vous pouvez toujours vérifier. »
+- **[SN25-MA, SN26-S, SN26-L]** Ton rapide et direct.
+  - « C'est une propriété du cours », « vous savez depuis la première que… ».
+  - « On n'a pas besoin de se fatiguer » (quand on peut simplifier).
+- **[CI23-T]** « Ça semble compliqué mais c'est facile », « n'ayez pas peur… vous aurez la moyenne ».
+- **[SN-BFEM]** « Mettre la vidéo sur pause et essayer de faire ces exercices tout seul avant de regarder la correction. »
+- **Conclusion type du TVI :** « D'après le théorème des valeurs intermédiaires, il existe un unique α… » [AL-TVI, CI03-D]
+
+#### Questions posées à l'élève
+
+- « Qu'est-ce qu'on remarque ? » / « Qu'est-ce que nous remarquons ici ? » [CI26, CI03-D]
+- « Qu'est-ce qui est possible de mettre en facteur ici ? » [CI26]
+- « Si on avait dit que n appartenait à ℕ*, comment on aurait fait ? » [CI26]
+- « Il y a combien d'antécédents de zéro ? Il suffit de voir comment est g. » [SN25-MA]
+- « Et cela veut dire quoi ? » (pour une interprétation graphique) [SN25-MA]
+- « Quel est le nombre réel dont le cosinus est 1/2 et le sinus √3/2 ? » [SN26-S]
+- « Si x tend vers +∞, t tend vers combien ? » [SN26-S]
+- « Cos négatif, sinus positif : c'est dans quel cadran, les amis ? » [SN25-TS]
+- « Est-ce que c'est minimum ou maximum ? » [SN25-TS]
+- « Si α est entre −1 et 0, lequel de ces deux intervalles choisirez-vous ? » [CI03-D]
+- « Est-ce que vous avez compris ? », « Est-ce que vous suivez ? » [CI03-D, SN25-TS]
+
+#### Analogies et astuces de présentation
+
+- **Anagrammes pour compter les positions.** Pour placer 2 boules vertes et 2 jaunes : « les anagrammes du mot VVJJ », soit 4!/(2!·2!). [SN26-L]
+- **Reconnaître une expression connue.** Après factorisation, U_{n+1} − (2/5)U_n « n'est rien d'autre que V_n ». [CI26]
+- **Module et argument.** Le module, « c'est des longueurs » : les modules se multiplient et se divisent. L'argument, « c'est comme les angles » : les arguments s'additionnent et se soustraient. [SN25-TS]
+- **Lire le cadran sur le cercle trigonométrique.** On trouve d'abord l'angle « sans le signe » (par exemple π/4), puis on prend π − α, π + α ou −α selon le cadran. [SN25-TS]
+- **Bénéfice et chiffre d'affaires.** Un paquet de biscuits est acheté 2 500 F et revendu 3 000 F : les 3 000 F sont le chiffre d'affaires, les 500 F le bénéfice. [SN25-TS]
+- **Un problème construit « comme en SVT » :** les parties sont liées. Les maths servent par exemple à aider un chef d'usine à décider combien de téléphones produire. [SN25-TS]
+
+#### Comment ils vérifient un résultat
+
+- **Cohérence avec l'énoncé.** Les affixes données ensuite « ne sont pas n'importe quels points » : ce sont les solutions de la question précédente. Si l'élève ne les retrouve pas, il doit revoir ses calculs. [D23, SN25-TS]
+- **Cohérence avec ce que l'énoncé annonce.** Pour le sondage, comparer le résultat 0,529 avec l'affirmation de l'énoncé : « propos confirmé ». [SN26-S]
+- **Cohérence entre limites et variations.** Une fonction décroissante ne peut pas aller de 1 à +∞. Calculer f(α) avec α ≈ 1,75 pour contrôler le signe. [SN26-S, SN25-TS]
+- **Racine d'un polynôme.** On remplace dans P et on doit trouver 0 (éventuellement à la calculatrice). Après Horner, un 0 dans la dernière case confirme la racine. [SN25-TS, SN26-S]
+- **Factorisation.** On redéveloppe pour vérifier. Les coefficients obtenus par identification doivent vérifier toutes les relations. [SN25-TS]
+- **Similitude.** On recalcule S(B), qui doit donner C, et on vérifie que le centre est invariant. [SN25-TS]
+- **Primitive.** On dérive F et on doit retrouver f : « c'est exactement petit f ». [SN26-L]
+- **Équation différentielle.** On calcule h′ − 2h et on doit retrouver le second membre. [CI24-D]
+- **Solution d'une équation avec ln.** On vérifie qu'elle appartient au domaine de validité (5 ∈ ]3 ; +∞[ est gardé, 1 est rejeté). [SN26-L]
+- **Point sur un cercle.** On remplace ses coordonnées et on doit trouver le rayon au carré, ou on calcule la distance au centre. [D23, SN-BFEM]
+- **Loi de probabilité.** La somme des probabilités doit faire 1. [CI15-D]
+- **Aire.** Une aire doit être positive. [SN25-TS]
+- **Courbe.** On calcule l'image de quelques points (« prenez 5 points ») et on regarde s'ils tombent sur la courbe. [SN25-TS]
+- **Raisonnement par l'absurde au lieu de la calculatrice.** Pour comparer 42 et 24√3 : on suppose 42 < 24√3, on élève au carré (tout est positif) et on obtient 1764 < 1728, ce qui est « totalement impossible ». [SN-BFEM]
+
+---
+
+### 11.2 Ce qu'ils disent que le correcteur attend
+
+#### Barème et points
+
+- **Sénégal, grille officielle commentée par le prof [SN25-TS] (BAC S2 2025) :**
+  - les questions de cours (propriétés du module et de l'argument) sont des « points cadeau » ;
+  - déterminer G : 0,50 point ;
+  - partie A du problème : « 0,50, 0,50, 1… deux points avec cette petite partie » ;
+  - exercice 2 de probabilités : « sur six points » ;
+  - courbe : 0,75 ;
+  - réciproque : 0,75 et 0,25 ;
+  - discriminant calculé, Δ = 1 trouvé et racines obtenues : 0,125 point (« il ne faut pas minimiser ces 0,125 points ») ;
+  - Horner et identification sont acceptés tous les deux ;
+  - module calculé directement puis argument déterminé : 0,50 ;
+  - « le barème valorise une figure qui traduit fidèlement les résultats ». Même avec une courbe imparfaite, placer les éléments rapporte « quelques points » ;
+  - il y a des questions qu'« il ne faut jamais fausser ».
+- **Côte d'Ivoire :**
+  - « Cette question était simple, c'était 3 points… c'était à votre portée » (expression de V_n en fonction de n). [CI26]
+  - « Si vous n'arrivez pas à répondre à la première question… très très difficile d'avoir la moyenne. » [CI26]
+  - En série D, l'exercice 1 (vrai/faux) et l'exercice 2 (QCM) valent chacun 2 points, « pour permettre à ceux qui ne sont pas forts d'avoir quelques points ». [CI23-T]
+- **Les autres vidéos ne citent aucun point.**
+
+#### Rédaction et justifications attendues
+
+- **Préciser l'ensemble à chaque résultat** (« quel que soit n ∈ ℕ ») et encadrer le résultat final. [CI26]
+- **Conclure chaque question**, par exemple avec « c'est ce qu'il fallait démontrer ». [SN-TL, CI03-D, SN25-TS]
+- **Interpréter graphiquement chaque limite et chaque nombre dérivé.** « Si on interprète ça graphiquement, cela veut dire quoi ? » Ces interprétations « servent pour tracer la courbe ». [SN25-MA, SN26-S, SN26-L, SN25-TS, CI22-D, SN22-P]
+
+| Résultat | Interprétation attendue |
+|---|---|
+| lim f = ±∞ en a | droite x = a asymptote verticale |
+| lim f = b en ±∞ (b = 0 : axe des abscisses) | droite y = b asymptote horizontale |
+| lim f = ∞ et f(x)/x → ±∞ | branche parabolique de direction (Oy) |
+| lim f = ∞ et f(x)/x → a réel | chercher une asymptote oblique y = ax + b, avec lim [f(x) − (ax + b)] = 0 |
+| Taux de variation → ∞ | demi-tangente verticale (le signe donne le sens, vers le haut ou le bas) |
+| Taux de variation → 0 | demi-tangente horizontale |
+| Dérivées à gauche et à droite différentes | point anguleux, deux demi-tangentes |
+
+- **TVI et bijection : écrire les trois conditions.** [AL-TVI, CI03-D, SN25-MA, SN26-S, SN25-TS]
+  1. f est continue (« car f est une fonction polynôme », ou « la dérivabilité implique la continuité ») ;
+  2. f est strictement monotone ;
+  3. 0 appartient à f(I), que l'on calcule avec les limites ou les images aux bornes.
+
+  Formule attendue : « f est continue et strictement croissante [ou décroissante] sur I, donc elle réalise une bijection de I sur f(I) ». Le TVI seul donne « au moins un » α ; c'est la monotonie qui donne l'unicité. [AL-TVI]
+
+  La définition longue (« chaque élément de l'ensemble d'arrivée admet un et un seul antécédent ») n'est pas nécessaire : la formule courte suffit. [SN25-TS]
+- **Encadrer α : deux méthodes acceptées.**
+  - Calculer g(1,7)·g(1,8) et montrer que ce produit est négatif. [SN25-TS, CI03-D, AL-TVI]
+  - Ou, si g est déjà connue comme bijective et décroissante : « si 1,7, α et 1,8 sont rangés dans un ordre, leurs images sont rangées dans l'ordre inverse ». Dans ce cas, « pas besoin du TVI ». [SN25-MA]
+- **Justifier les limites et les signes.**
+  - « Car la limite de (x − 1)e^(−x) = 0… » [CI03-D]
+  - « e^(−x) est strictement positif, donc le signe de h′ dépend de celui de 2 − x. » [CI03-D, AL-TVI]
+- **QCM « choisir la bonne réponse et justifier » : il faut vraiment résoudre.** « Si vous ne résolvez pas, vous ne pouvez pas être sûr. » On élimine aussi les propositions impossibles, par exemple une limite en −∞ pour une fonction définie sur ]0 ; +∞[. [SN26-L]
+- **Équation avec ln : donner le domaine de validité avant de résoudre.** « Tout nombre qui n'est pas dans cet intervalle ne sera pas pris comme solution. » [SN26-L]
+- **Ne pas écrire d'avance l'égalité à démontrer.** On calcule un membre, puis on constate qu'il vaut le résultat attendu. Sinon « le raisonnement ne sera pas très logique ». [D23]
+- **Respecter la consigne d'arrondi.** Au 10⁻¹ par excès, on écrit 335,2 et non 335,16. [SN25-TS]
+- **Aire = intégrale × unité d'aire, en cm².** [SN25-MA, SN26-L, SN25-TS, SN22-P]
+  - Unité graphique de 2 cm : 1 unité d'aire = 4 cm².
+  - Unité de 1 cm : 1 unité d'aire = 1 cm².
+  - Donner la valeur exacte, puis la valeur approchée.
+- **Courbe.** Dresser un tableau de valeurs, « même si c'est pas demandé ». [SN26-L]
+- **Tableau de variation.** Mettre une double barre là où la fonction n'est pas définie ou pas dérivable, et indiquer les extremums. [SN26-L, SN26-S]
+- **Probabilités appliquées.** Nommer les événements, préciser la loi suivie par la variable aléatoire, puis calculer le bénéfice à partir de l'espérance. [SN26-S, SN25-TS]
+- **Médiane (BFEM).** Ranger les valeurs dans l'ordre croissant : « c'est obligatoire ». [SN-BFEM]
+
+#### Ce qui fait perdre des points (selon les profs)
+
+- **Ne pas connaître les formules du cours** (formule de récurrence ou explicite, suite arithmétique ou géométrique). [CI26]
+- **Ne pas conclure** : la réponse est alors partielle. [SN-TL]
+- **Se tromper sur une limite.** L'erreur fausse le tableau de variation, puis le TVI : « ça vous pénalise ». [CI03-D]
+- **Se tromper dans la partie A** (dérivée, signe). L'erreur « va se répercuter » sur tout le problème et sur la courbe. [SN25-TS]
+- **Oublier de changer le sens de l'inégalité** en divisant par un nombre négatif : « vous êtes foutu pour le reste ». [SN25-TS]
+- **Oublier le domaine de validité ou une contrainte sur l'inconnue** (par exemple x < 12 pour le côté d'un rectangle). [SN26-L, SN-BFEM]
+- **Tracer la courbe d'un seul trait** ou la faire couper les axes « au hasard ». [SN25-TS, CI22-D]
+- **Perdre du temps** dans un calcul de module « qui remplit beaucoup de pages » au lieu de remarquer que le numérateur est le conjugué du dénominateur. [CI22-D]
+
+---
+
+### 11.3 Méthodes par type d'exercice
+
+#### Suites [CI26, SN26-L, CI23-T]
+
+- **Montrer qu'une suite est géométrique.** On revient à la définition V_{n+1} = q × V_n : « c'est ça que vous devez retenir par cœur ».
+  1. Calculer V_{n+1} en remplaçant n par n+1.
+  2. Remplacer U_{n+2} par son expression.
+  3. Factoriser et reconnaître V_n.
+
+  Autre méthode : calculer V_{n+1}/V_n.
+
+  Une suite géométrique se reconnaît à une multiplication, pas à une addition : « c'est multiplication, pas plus ». [CI23-T]
+- **Formule de récurrence et formule explicite.**
+  - Suite géométrique : V_n = V_p × q^(n−p).
+  - Suite arithmétique : W_n = W_p + (n − p)r.
+  - p est « la plus petite valeur de n » : p = 0 sur ℕ, p = 1 sur ℕ*.
+- **Calculer V_0 :** remplacer n par 0 partout, puis U_0 et U_1 par leurs valeurs.
+- **Simplifier les puissances :** a^m × a^n = a^(m+n) et (b/a)^m = b^m/a^m.
+- **Démontrer une formule de U_n.** Si W_n = U_n/V_n, alors U_n = W_n × V_n. On remplace par les formules explicites et on simplifie. On obtient 2^(n−1)(17n + 8)/5^n.
+- **Situation de modélisation (série L) :** les vues d'une vidéo augmentent de 10 % par jour. [SN26-L]
+  - Calculer V_2 = V_1 + V_1/10 pour comprendre le mécanisme.
+  - Généraliser : V_{n+1} = 1,1 V_n, avec V_1 = 500, donc V_n = 500 × 1,1^(n−1).
+  - Somme : S = V_1 (q^n − 1)/(q − 1), soit environ 82 247 vues sur 30 jours.
+
+#### Nombres complexes et polynômes [SN25-SP, SN25-TS, SN26-S, SN22-C, D23, CI22-D]
+
+- **Racine imaginaire pure** [SN25-SP, SN25-TS] :
+  1. poser β = iy, avec y réel ;
+  2. remplacer dans P(z) = 0 ;
+  3. séparer la partie réelle et la partie imaginaire pour obtenir un système (« un complexe est nul si et seulement si a = 0 et b = 0 ») ;
+  4. résoudre l'équation la plus simple (ici, 1 est racine évidente parce que la somme des coefficients est nulle) ;
+  5. tester chaque solution dans l'autre équation.
+- **Trouver le quotient de P(z) par (z − β) : deux méthodes acceptées.**
+  - Le schéma de Horner. Il donne la racine et le quotient « en même temps ». Il faut « faire entrer le signe moins » dans les coefficients et mettre 0 pour un coefficient absent. [SN25-SP, SN26-S, SN26-L]
+  - L'identification : poser G(z) = z² + bz + c, développer, puis identifier les coefficients. [SN25-TS]
+- **Équation du second degré.** Utiliser Δ′ = b′² − ac quand b est pair (« rien ne vous empêche de calculer Δ »). Puis G(z) = (z − z₁)(z − z₂), et on en déduit la factorisation de P « en une ligne ». [SN25-SP, SN26-S]
+- **Racines carrées de Δ quand l'angle n'est pas remarquable** (par exemple cos θ = −3/5) : poser δ = x + iy et résoudre le système x² − y² = Re Δ, 2xy = Im Δ, x² + y² = |Δ|. Le signe de xy décide des signes de x et y. [SN26-S]
+- **Racines n-ièmes :** z_k = r^(1/n) e^(i(θ + 2kπ)/n), pour k = 0, …, n − 1. Repasser ensuite en forme algébrique si c'est demandé. [D23]
+- **Module et argument d'un quotient** [SN25-SP, SN25-TS, SN26-S, SN22-C] :
+  1. écrire le quotient sous forme a + ib (multiplier en haut et en bas par le conjugué) ;
+  2. calculer |z| ;
+  3. calculer cos θ = a/|z| et sin θ = b/|z| ;
+  4. trouver le cadran, puis l'angle.
+
+  Propriétés utiles : arg(z_1 z_2) = somme des arguments, arg(z_1/z_2) = différence, |aⁿ| = |a|ⁿ, arg(aⁿ) = n arg a. Quand on divise un argument par 2, on obtient « + kπ » et il faut choisir k.
+
+  Lien avec la géométrie : (AB, AC) = arg((z_C − z_A)/(z_B − z_A)) et |z_C − z_A| = AC.
+- **Valeurs exactes, par exemple cos 7π/12** [SN26-S, SN22-C] :
+  - écrire le même nombre sous forme algébrique et sous forme trigonométrique, puis identifier ;
+  - utiliser la parité, cos(π + α) = −cos α et cos(π/2 − α) = sin α.
+- **Nature d'un triangle.**
+  - Avec les distances : des côtés égaux donnent un triangle isocèle ; la réciproque de Pythagore donne un triangle rectangle. [SN26-S]
+  - Avec un quotient : (z_C − z_D)/(z_A − z_D) = i donne un triangle rectangle isocèle en D. Un quotient égal à e^(±iπ/3) donne un triangle équilatéral. [SN26-S, D23]
+  - Pour un triangle isocèle en A : former un rapport où A est au numérateur et au dénominateur, puis montrer que son module vaut 1. Astuce : un complexe et son conjugué ont le même module. [CI22-D]
+- **Points cocycliques.** Deux triangles rectangles qui ont la même hypoténuse [AC] sont inscrits dans le cercle de diamètre [AC]. [SN26-S]
+- **Cercle circonscrit à un triangle équilatéral :** AI = (2/3) AH, où H est le milieu de [BC]. [D23]
+- **Ensemble de points :** poser z = x + iy, utiliser z z̄ = x² + y² et z + z̄ = 2x, puis mettre sous forme canonique (x + 2)² + y² = 4. [D23]
+- **Placer les points.**
+  - Réels sur l'axe des abscisses, imaginaires purs sur l'axe des ordonnées.
+  - Décomposer l'argument (par exemple 19π/12 = 3π/2 + π/12) et reporter le module au compas.
+  - −a est le symétrique de a par rapport à O. [SN25-SP, SN22-C]
+
+#### Similitudes directes [SN25-SP, SN25-TS, D23, CI22-D, CI23-T]
+
+- **Écriture complexe z′ = az + b.**
+  - Écrire les deux conditions (par exemple a·z_A + b = z_A et a·z_B + b = z_C), puis soustraire pour éliminer b. [SN25-SP, D23]
+  - Ou utiliser z′ − z_Ω = a(z − z_Ω), où Ω est le centre. [SN25-TS]
+- **Éléments caractéristiques.**
+  - Centre : le point invariant, z_Ω = b/(1 − a). Si S(D) = D, « pas plus de calcul à faire ».
+  - Rapport : |a|. Si |a| = 1, c'est une rotation.
+  - Angle : arg a.
+- **Écriture analytique.** Poser z = x + iy et z′ = x′ + iy′, développer, puis séparer partie réelle et partie imaginaire. [SN25-SP, SN25-TS]
+- **Point invariant d'une transformation :** résoudre z′ = z. [CI23-T]
+- **Image d'un cercle.** C'est le cercle de centre S(Ω) et de rayon k × R. On lit le centre et le rayon sur (x − a)² + (y − b)² = R². L'image du cercle de diamètre [BD] est le cercle de diamètre [S(B)S(D)]. [SN25-SP, SN25-TS, CI22-D]
+
+#### Probabilités, dénombrement et statistiques
+
+- **Tirages successifs sans remise : arrangements.** [SN26-L]
+  - card Ω = A₁₀⁴ = 5040.
+  - card A = A₃² × A₇² × 4!/(2!·2!) = 1512.
+  - P = cas favorables / cas possibles = 0,3.
+- **Arbre pondéré et probabilités totales** [SN26-S, CI15-D] :
+  - nommer les événements ;
+  - convertir les pourcentages en fractions ;
+  - les branches issues d'un même nœud ont une somme de 1 ;
+  - P(A∩B) = P(A) × P_A(B) ;
+  - P(B) = P(A∩B) + P(Ā∩B) : « il faut toujours tenir compte des deux parties ».
+
+  Faire l'arbre « même si on pouvait utiliser directement la formule ».
+- **Loi binomiale** [SN25-TS, CI20-C, CI15-D, CI23-T] :
+  - deux issues (succès ou échec), répétées dans des conditions identiques et indépendantes : « pensez directement à Bernoulli » ;
+  - P(X = k) = C(n,k) p^k (1 − p)^(n−k) ;
+  - X prend les valeurs de 0 à n, « toujours en commençant par 0 » ;
+  - présenter la loi dans un tableau et vérifier que la somme vaut 1 ;
+  - E(X) = np.
+- **« Au moins un » :** c'est le contraire de « aucun », donc P(X ≥ 1) = 1 − qⁿ. Pour P(N ≥ 10) avec N = 4K, on additionne P(X = 3), P(X = 4) et P(X = 5). [SN25-TS, CI20-C, CI23-T]
+- **Valeur minimale de n** [CI20-C, CI15-D, SN25-TS] :
+  1. écrire 1 − qⁿ ≥ seuil ;
+  2. isoler qⁿ ;
+  3. appliquer ln (fonction croissante) ;
+  4. utiliser ln(qⁿ) = n ln q ;
+  5. diviser par ln q, qui est négatif, donc changer le sens de l'inégalité ;
+  6. prendre le premier entier qui convient (n > 39,01 donne n = 40).
+- **Bénéfice d'une production** [SN25-TS] :
+  - nombre moyen de pièces bonnes : n(1 − p) ≈ 335,2 ;
+  - chiffre d'affaires : ce nombre × le prix unitaire ;
+  - bénéfice : chiffre d'affaires − coût.
+- **Variance :** V(X) = E(X²) − E(X)², et l'écart-type vaut √V. [CI23-T]
+- **Covariance** [SN26-L] :
+  - ajouter une colonne x·y et une ligne des sommes ;
+  - cov = (Σxᵢyᵢ)/N − x̄·ȳ.
+
+#### Étude de fonction, limites et continuité
+
+- **Ensemble de définition.**
+  - Fonction définie par morceaux : appliquer chaque condition sur son intervalle, puis faire la réunion. [SN25-MA, SN26-S, SN20, SN25-TS]
+  - ln exige x > 0. Avec ln|fraction|, il faut un dénominateur non nul et une fraction non nulle. [SN26-S]
+  - Si l'énoncé donne l'intervalle d'étude, travailler dessus sans recalculer l'ensemble de définition. [SN25-TS]
+- **Limites.**
+  - Polynôme : limite du monôme de plus haut degré, en faisant attention au signe (−3x³ en −∞ donne +∞). [SN-TL]
+  - Fonction rationnelle : quotient des monômes de plus haut degré, simplifié. [SN-TL, SN26-S]
+  - Fonction irrationnelle : limite de ce qui est sous la racine. [SN-TL]
+  - Réécrire e^(−x) = 1/eˣ ; « réel sur infini égale 0 ». [CI03-D]
+  - Avant de lever une indétermination, vérifier qu'il y en a bien une. [SN25-TS]
+  - Pour lever une forme 0 × ∞ ou ∞ − ∞ : factoriser par le terme dominant (x(ln x − 2), x², eˣ) ou utiliser les croissances comparées (« l'exponentielle l'emporte »). [SN26-L, SN26-S, CI22-D, CI03-D, SN25-TS]
+  - Changement de variable : X = 1 − x, t = 1 + 2eˣ. [SN25-MA, SN26-S]
+  - Limites usuelles : ln x/x → 0 ; X ln X → 0 en 0⁺ ; ln x/(x − 1) → 1 en 1 (c'est le nombre dérivé de ln en 1). La règle de L'Hospital est aussi mentionnée. [CI03-D]
+- **Continuité en a :** calculer f(a) avec la bonne expression (celle dont l'intervalle contient a), puis la limite à gauche et la limite à droite, et conclure. [SN25-MA, SN26-S, SN25-TS, SN22-P]
+- **Dérivabilité en a.**
+  - Calculer le taux (f(x) − f(a))/(x − a) à gauche et à droite.
+  - Écrire 1 − x plutôt que x − 1 pour simplifier.
+  - Faire apparaître le nombre dérivé d'une fonction connue, u′(0).
+  - Utiliser ln(u/v) = ln u − ln v. [SN25-MA, SN26-S, SN25-TS, SN22-P]
+- **Prolongement par continuité.** Deux conditions : le point n'est pas dans Df et la limite y est finie. On étudie ensuite la dérivabilité du prolongement. [SN22-P]
+- **Enlever une valeur absolue :** faire un tableau de signes, puis changer le signe là où l'expression est négative. [SN26-S]
+- **Dérivée.**
+  - (uv)′ = u′v + uv′, en nommant u et v ; (e^u)′ = u′e^u.
+  - Factoriser par l'exponentielle, ou faire apparaître g : f′(x) = (facteur positif) × g(x). [CI03-D, SN25-TS, CI22-D, SN25-MA, SN26-S]
+- **Signe de f′.**
+  - Un facteur exponentiel est strictement positif, donc le signe ne dépend que de l'autre facteur.
+  - Pour un facteur affine : utiliser sa limite en +∞ pour savoir quel signe mettre à droite de sa racine [CI03-D], ou résoudre f′(x) ≥ 0 [SN25-TS].
+  - Pour le tableau de signes, « faire comme si on était sur ℝ », puis ne garder que l'intervalle utile. [SN26-L]
+- **Signe de g à partir de α.** Si x < α et g est croissante, alors g(x) < g(α) = 0. Garder ce signe au brouillon pour la partie B. [CI03-D, AL-TVI, SN25-TS]
+- **Calculer f(α) :** utiliser g(α) = 0 pour exprimer ln α, puis l'injecter dans f(α). [SN25-MA]
+- **Tangente :** y = f′(x₀)(x − x₀) + f(x₀). Pour la tracer, calculer deux points de la droite. [SN26-L, SN25-TS, SN22-P]
+- **Tracer la courbe** [SN25-TS, CI22-D, SN22-P, SN26-L] :
+  1. dresser un tableau de valeurs ;
+  2. placer les extremums et les intersections avec les axes (f(0), f(x) = 0) ;
+  3. tracer les tangentes et les demi-tangentes ;
+  4. tracer les asymptotes et les branches paraboliques ;
+  5. tracer tranche par tranche ;
+  6. vérifier quelques points.
+- **Fonction réciproque h⁻¹** [SN25-MA, SN26-S, SN25-TS] :
+  - justifier son existence par la continuité et la stricte monotonie ;
+  - elle est définie sur l'image de l'intervalle ;
+  - son tableau de variation s'obtient en échangeant les lignes x et y ;
+  - sa courbe est symétrique de celle de h par rapport à y = x : le point (a, b) devient (b, a) ;
+  - les asymptotes aussi : x = −1 devient y = −1, et y = x + ln 3 devient y = x − ln 3 ;
+  - tracer seulement la partie demandée.
+
+#### Intégrales et aires
+
+- **Primitive donnée :** vérifier F′ = f, puis calculer F(b) − F(a). [SN26-L]
+- **Primitive reconnue :** u′/u donne ln|u|, « sans même passer par des calculs ». [CI23-T]
+- **Changement de variable** (t = 1 − x) : changer en même temps la variable, dx (dt = −dx) et les bornes. Sortir le signe moins et permuter les bornes. [SN25-MA, SN25-TS]
+- **Intégration par parties :** ∫u′v = [uv] − ∫uv′. Avec ln, y penser « même si on ne vous le dit pas » : poser u = ln x et ne pas chercher de primitive de ln. [SN25-MA, SN25-TS, CI22-D]
+- **Aire entre la courbe et l'axe des abscisses** [SN25-MA, SN26-L, SN25-TS, CI22-D, SN22-P] :
+  - vérifier d'abord le signe de f ;
+  - si f change de signe, découper l'intervalle ;
+  - si la courbe est sous l'axe, prendre l'opposé de l'intégrale ;
+  - multiplier par l'unité d'aire.
+- **Aire entre la courbe et une asymptote y = 1 :** intégrer f(x) − 1. [SN22-P]
+
+#### Équations différentielles (Côte d'Ivoire) [CI24-D, CI23-T]
+
+Exemple : (E) y′ − 2y = −4x − 4, avec f(0) = 1.
+
+1. Vérifier la solution particulière h en calculant h′ − 2h.
+2. Les solutions de (E′) y′ − 2y = 0 sont les fonctions x ↦ k·e^(2x).
+3. Montrer que g est solution de (E) si et seulement si g − h est solution de (E′).
+4. En déduire g(x) = k·e^(2x) + h(x).
+5. Trouver k avec la condition initiale (ici k = −2).
+
+Piège de vrai/faux : les solutions de f′ + 2f = 0 sont k·e^(−2x), et non k·e^(2x). [CI23-T]
+
+#### Polynômes et équations avec ln (série L, Sénégal) [SN26-L]
+
+- **Polynôme de degré 3 :**
+  1. chercher une racine évidente (P(1) = 0) ;
+  2. appliquer Horner (mettre 0 pour le coefficient de x² absent) ;
+  3. calculer Δ du trinôme restant ;
+  4. factoriser : a(x − x₁)(x − x₂).
+- **Équation avec ln :**
+  1. donner le domaine de validité ;
+  2. utiliser ln a + ln b = ln(ab) et 3 ln 2 = ln 8 ;
+  3. ln u = ln v équivaut à u = v ;
+  4. résoudre ;
+  5. ne garder que les solutions qui sont dans le domaine.
+
+  Variante de vrai/faux : ln(1 − x) = 0 équivaut à 1 − x = 1, donc x = 0. Il y a une solution. [CI23-T]
+
+#### BFEM (Sénégal 2019, une seule vidéo) [SN-BFEM]
+
+- **Inéquations sur le périmètre et l'aire :** résoudre (par exemple 2(12 + x) > 33), puis croiser avec la contrainte 0 < x < 12.
+- **Côté du carré de même aire :** √108 = 6√3, en décomposant 108 = 36 × 3.
+- **Hauteur issue de C :**
+  - elle est perpendiculaire au côté opposé, donc le produit des coefficients directeurs vaut −1 ;
+  - C appartient à la droite, ce qui donne l'ordonnée à l'origine.
+- **Triangle isocèle :** si la hauteur passe par le milieu du côté opposé, elle est aussi médiatrice.
+- **Cercle circonscrit à un triangle rectangle :** l'hypoténuse est un diamètre.
+- **Angles :**
+  - deux angles inscrits qui interceptent le même arc sont égaux ;
+  - dans un triangle rectangle, les deux angles aigus sont complémentaires.
+- **Cône (patron) :**
+  - proportionnalité entre l'angle et l'arc (360° correspond à 2πR) ;
+  - hauteur par Pythagore ;
+  - aire totale = aire de la base + aire latérale.
+- **Statistiques :**
+  - le salaire est un caractère quantitatif « puisqu'on le compte » ;
+  - avec des fréquences en %, l'effectif total vaut 100 ;
+  - retrouver les effectifs par proportionnalité ;
+  - la médiane se trouve entre la 20ᵉ et la 21ᵉ valeur, après rangement.
+
+---
+
+### 11.4 Erreurs fréquentes signalées
+
+#### Erreurs d'élèves
+
+- **Aller trop vite.** Les élèves « font des erreurs rapidement et facilement ». [SN25-TS]
+- **Ne pas maîtriser les formules du cours.** Confondre formule de récurrence et formule explicite. Se tromper sur p (0 sur ℕ, 1 sur ℕ*). [CI26]
+- **Fractions étagées.** « Certains des élèves vont mêler tout… même avec la calculatrice. » À retenir : a ÷ (b/c) = a × c/b et (a/b) ÷ c = a/(bc). [CI26]
+- **Confondre fonction rationnelle et fonction irrationnelle.** Oublier le signe du coefficient dans une limite. [SN-TL]
+- **Se tromper dans une limite**, avec des conséquences sur toute la suite. [CI03-D]
+- **Utiliser la mauvaise expression d'une fonction définie par morceaux.** Pour f(0) ou une limite en −∞, il faut prendre la branche définie sur ]−∞ ; 1[. [SN25-TS, SN22-P]
+- **Recalculer l'ensemble de définition** au lieu d'utiliser l'intervalle donné. [SN25-TS]
+- **Oublier de changer le sens de l'inégalité** avec un nombre négatif ou en divisant par un ln négatif (ln 0,98, ln 0,42, ln(459/512)). [SN25-TS, CI20-C, CI15-D]
+- **Confondre P(B) et P_A(B)** : « ne confondez pas ». [CI15-D]
+- **Négliger la loi binomiale** pour ne réviser que l'arbre : « des fois les élèves n'apprennent même pas cette partie ». [SN25-TS]
+- **Oublier le signe moins dans Horner.** [SN26-S]
+- **Changer de variable sans changer les bornes ni dx.** [SN25-TS]
+- **Aire :** oublier la conversion en cm², ou ne pas vérifier le signe avant de calculer. [SN25-TS]
+- **Courbe :** la tracer d'un seul trait, ou lui faire couper les axes au hasard. [SN25-TS, CI22-D]
+- **Faire des calculs longs et inutiles** au lieu d'observer (conjugués). [CI22-D]
+- **Oublier une contrainte ou le domaine de validité.** Oublier de ranger les valeurs avant de chercher la médiane. [SN26-L, SN-BFEM]
+- **Ne pas réussir les « situations complexes ».** « Soit on voit, on trouve, ou bien on ne voit pas, on passe à côté. » Le prof souhaite que les élèves en fassent davantage en entraînement. [SN26-S]
+- **Croire les rumeurs** selon lesquelles telle leçon « va sauter ». Conseil du prof : « apprenez tout, révisez tout ». [SN25-TS]
+
+#### Erreurs des profs eux-mêmes (à ne pas reproduire si ces vidéos servent de modèle)
+
+- **[CI26]**
+  - Il lit un « + » comme un « × » (et se corrige).
+  - Il écrit « U_n est géométrique » au lieu de V_n.
+  - Il annonce 17 × 5 = 84 au lieu de 85.
+  - Il annonce W de raison 5/2 mais calcule avec 2/5 à la question 2B. La suite de la correction est cohérente avec 5/2.
+- **[SN25-MA]** Le taux de variation tend vers 1, mais il parle de « demi-tangente horizontale ».
+- **[SN25-SP]** Dans les prérequis, il dit que l'image d'un cercle est un cercle « de même rayon », puis il calcule r′ = k × r (ce qui est correct).
+- **[CI22-D]** Pour lim f(x)/x = +∞, il parle d'une branche de direction (Oy), puis de direction (Ox). La transcription est contradictoire.
+
+---
+
+### 11.5 Différences entre pays observées
+
+Ces observations ne valent que pour cet échantillon : 10 vidéos sénégalaises, 7 ivoiriennes, 1 de série D probablement ivoirienne [D23] et 1 sans pays [AL-TVI]. Elles ne décrivent pas les deux systèmes en général.
+
+| Aspect | Sénégal | Côte d'Ivoire |
+|---|---|---|
+| Niveaux et séries | S2 [SN25-SP, SN25-TS, SN25-MA, SN22-C, SN22-P], S2/S4/S5 et « 1er groupe » [SN26-S], séries L (L1a, L1b, L′1, L2) [SN26-L], cours de Terminale L [SN-TL], BFEM [SN-BFEM] | Séries C [CI20-C] et D [CI15-D, CI23-T, CI24-D, CI03-D, CI22-D, D23 probable]. Série D : durée 4 h, coefficient 4 [CI23-T] |
+| Structure du sujet | Exercice 1 (complexes, polynôme, similitude), exercice 2 (probabilités, 6 points), puis un problème en parties A, B, C (fonction intermédiaire g, fonction f définie par morceaux, réciproque, aire). « Situation complexe » en S2 (sondage) et en L (vues d'une vidéo). QCM « choisir et justifier » en série L | Exercice 1 en vrai/faux et exercice 2 en QCM, tous deux sur 2 points [CI23-T]. Exercices numérotés jusqu'à 5 au moins [CI22-D]. Problème d'étude de fonction en parties A et B [CI03-D]. Questions guidées avec « on admet que… » [CI26] |
+| Contenus visibles | Racine imaginaire pure, Horner ou identification, Δ′, similitude et image d'un cercle, cos 7π/12, cocyclicité, loi binomiale appliquée au bénéfice en francs CFA, point anguleux, réciproque, aire avec changement de variable puis intégration par parties. En L : polynôme de degré 3, équations avec ln, arrangements, covariance, suite géométrique | Suites définies par une récurrence d'ordre 2 avec des suites auxiliaires [CI26], équations différentielles y′ − 2y = ax + b [CI24-D], arbre et loi binomiale avec espérance [CI15-D], « au moins un » et n minimal [CI20-C], fonctions avec ln et exp et TVI [CI03-D], similitude et triangle isocèle [CI22-D], racines n-ièmes et ensembles de points [D23] |
+| Barème | Grille officielle commentée au 0,125 point près [SN25-TS]. Aucun point cité dans les autres vidéos | Points cités oralement (« c'était 3 points ») [CI26], répartition des exercices 1 et 2 [CI23-T]. Pas de grille montrée |
+| Format de correction | Document rédigé à l'avance avec « analyse et stratégie », « astuces du bac » et « vérification » (environ 1 h 45) [SN25-TS]. Prérequis listés avant l'exercice [SN25-SP]. Maths Accessibles : rapide, interprète graphiquement chaque résultat | Correction au tableau, très lente et répétitive, « chers apprenants » [CI26, CI03-D]. Sujet en PDF dans la description [CI15-D]. Corrections partielles avec « abonnez-vous pour la suite » [CI23-T, CI24-D] |
+| Vocabulaire | « Fonction intermédiaire », « restriction », « bijection », « situation complexe », « 1er groupe », « rappeler », « déterminer les éléments caractéristiques » | « Formule de récurrence / formule explicite », « appartenance », « justifier », « en déduire », « interpréter graphiquement », « question bonus », « exercice cadeau », sujets auxquels « vos aînés » ont été confrontés |
+
+**Points communs aux deux pays :**
+- les similitudes directes et leurs éléments caractéristiques ;
+- le schéma « au moins un : 1 − qⁿ ≥ seuil, puis ln pour trouver n minimal » ;
+- le TVI et l'encadrement de α ;
+- l'intégration par parties avec ln ;
+- l'interprétation graphique des limites et des nombres dérivés ;
+- l'idée que chaque question s'appuie sur la précédente.
+
+---
+
+### 11.6 Règles supplémentaires pour l'IA de Révizo (tirées de ces vidéos)
+
+1. **Commencer par le cadre.** Avant tout calcul, indiquer l'ensemble de travail (n ∈ ℕ ou ℕ*, Df, domaine de validité, intervalle donné par l'énoncé), et le rappeler dans la conclusion.
+2. **Rappeler la règle du cours, puis l'appliquer.** Écrire la formule ou la propriété générale, puis remplacer lettre par lettre. Si un prérequis manque à l'élève, le lui signaler avant l'exercice.
+3. **Relier les questions.** Dire explicitement quel résultat précédent est utilisé (« d'après la question 1… », signe de g utilisé pour f′). Si l'énoncé donne ensuite des valeurs (affixes, α ≈ 1,75), s'en servir pour faire vérifier les résultats de l'élève.
+4. **Toujours conclure et mettre le résultat en évidence.** Une réponse sans phrase de conclusion doit être signalée comme « partielle ».
+5. **Exiger les justifications que le correcteur attend :**
+   - les trois conditions du TVI ou de la bijection ;
+   - la justification de chaque signe et de chaque limite ;
+   - l'interprétation graphique de chaque limite ou nombre dérivé (utiliser le tableau du 11.2) ;
+   - la loi suivie par la variable aléatoire ;
+   - le domaine de validité avant une équation avec ln.
+6. **Accepter toutes les méthodes reconnues par la grille**, sans en imposer une : Horner ou identification ; Δ ou Δ′ ; produit f(a)·f(b) < 0 ou argument de monotonie pour encadrer α ; arbre ou formule des probabilités totales.
+7. **Faire vérifier systématiquement.** Proposer à chaque fois un contrôle rapide :
+   - remplacer la racine trouvée dans le polynôme ;
+   - redévelopper une factorisation ;
+   - dériver une primitive ;
+   - vérifier qu'une somme de probabilités vaut 1 ;
+   - vérifier qu'une aire est positive et exprimée en cm² ;
+   - recalculer l'image d'un point par la similitude ;
+   - vérifier la cohérence entre les limites et les variations.
+8. **Prévenir avant chaque piège connu :**
+   - changement du sens de l'inégalité avec ln q < 0 ;
+   - bonne branche d'une fonction définie par morceaux ;
+   - changement de variable avec les bornes et dx ;
+   - fractions étagées ;
+   - p = 0 ou p = 1 ;
+   - P(B) et P_A(B) ;
+   - signe moins dans Horner ;
+   - valeurs rangées avant la médiane.
+9. **Respecter les consignes de l'énoncé à la lettre :** arrondi (par excès ou par défaut, précision demandée), unité graphique convertie en cm², forme algébrique si elle est demandée, partie de courbe demandée seulement.
+10. **Pour un QCM ou un vrai/faux, exiger une vraie résolution** (« si vous ne résolvez pas, vous ne pouvez pas être sûr ») et faire éliminer les propositions impossibles.
+11. **Pour tracer une courbe, donner la procédure complète :** tableau de valeurs, points remarquables, tangentes et demi-tangentes, asymptotes, tracé tranche par tranche, vérification de quelques points.
+12. **Parler de points avec prudence.** Ne citer un barème que s'il vient d'une grille connue (Sénégal S2 2025). Sinon, dire qu'une question « rapporte des points faciles » sans inventer de valeurs. Rappeler que chaque étape juste rapporte des points (0,125 compte).
+13. **Adapter le style.** Ton patient et encourageant (« ça semble compliqué mais c'est facile »), étape par étape. Poser une question à l'élève avant de donner l'étape suivante (« qu'est-ce qu'on remarque ? », « dans quel cadran ? »). Proposer d'essayer seul avant de montrer la correction.
+14. **Adapter l'entraînement au pays et à la série :**
+    - Côte d'Ivoire : vrai/faux et QCM en début de sujet, équations différentielles, suites définies par récurrence avec des suites auxiliaires, séries C et D ;
+    - Sénégal : problème en parties A, B, C avec une fonction intermédiaire et une réciproque, « situations complexes », QCM justifiés en série L, BFEM.
+
+    Prévoir des situations complexes en entraînement, puisque les profs disent qu'elles manquent.
+15. **Utiliser des analogies concrètes** quand elles aident : module comme longueur et argument comme angle, anagrammes pour le dénombrement, biscuits pour le bénéfice et le chiffre d'affaires.
+16. **Ne jamais reproduire les erreurs relevées dans les vidéos** (voir 11.4) et ne pas faire dire à un prof ce que la transcription ne permet pas d'établir.
+17. **Encourager à tout réviser.** Ne pas valider l'idée qu'un chapitre « va sauter ». Rappeler que la loi binomiale est souvent négligée.
+
+---
+
+### 11.7 Vidéos analysées (liste avec liens) et vidéos écartées
+
+#### Vidéos analysées
+
+| Code | Titre (chaîne) | Lien | Pays / niveau / thème |
+|---|---|---|---|
+| SN25-SP | Correction complète du Bac 2025 – Maths S2 – Exercice 1 (Complexes, Polynômes et Similitudes) (Savoir+ Sénégal) | https://www.youtube.com/watch?v=f-1hOIv2Wuo | Sénégal, S2 2025, exercice 1 |
+| SN25-TS | BAC 2025 MATHÉMATIQUES : CORRECTION DÉTAILLÉE EXERCICE PAR EXERCICE (THIAM SCIENCES) | https://www.youtube.com/watch?v=ju4p2PYW0OA | Sénégal, S2 2025, sujet complet avec grille commentée |
+| SN25-MA | Correction Bac S2 Mathématiques - Analyse - Année 2025 Sénégal (Maths Accessibles) | https://www.youtube.com/watch?v=9GS-DsXzzV4 | Sénégal, S2 2025, problème d'analyse |
+| SN26-S | Correction BAC S2-S4-S5 2026 Maths 1er Groupe (Maths Accessibles) | https://www.youtube.com/watch?v=HfLoNVEJCI4 | Sénégal, S2/S4/S5 2026, sujet complet |
+| SN26-L | 2026 Baccalaureate Maths Exam Answer Key Series L1 A L1 B L'1 L2 LA (Maths Accessibles) | https://www.youtube.com/watch?v=GW2LrmMhkXQ | Sénégal, séries L 2026, sujet complet |
+| SN22-C | COMPLEX NUMBER: CORRECTION BAC SENEGAL 2022 (sensolution TV) | https://www.youtube.com/watch?v=LbE-xRnFfls | Sénégal, S2 2022, complexes |
+| SN22-P | Maths Correction BAC Sénégal 2022 \| Problème BAC 2022: Partie A (sensolution TV) | https://www.youtube.com/watch?v=tPYPuNKPuJ8 | Sénégal, 2022, problème partie A |
+| SN20 | Maths Baccalaureate Exam Correction: Domain of Definition, Continuity and Differentiability (sensolution TV) | https://www.youtube.com/watch?v=AhffGxlS-fM | Sénégal, 2020, fonction définie par morceaux |
+| SN-BFEM | BFEM Maths Sénégal 2019 correction (Quarante Douze) | https://www.youtube.com/watch?v=JRnv2UuSNFU | Sénégal, BFEM 2019 |
+| SN-TL | Course - Terminale L - Mathematics: Limit and continuity / MBOW (Ecoles Au Senegal) | https://www.youtube.com/watch?v=Q5qlmocksw4 | Sénégal, cours de Terminale L sur les limites |
+| CI26 | MATH BAC 2026 EXAM SOLUTIONS – 2026 SESSION CÔTE D'IVOIRE (S@v@nts UJLOG: Doum & Zam) | https://www.youtube.com/watch?v=1tk_9CnZ1Cg | Côte d'Ivoire, BAC 2026, suites |
+| CI24-D | Bac 2024 correction de l'exercice numéro 4 Série D Mathématique (Côte d'Ivoire) (Digital mathématique) | https://www.youtube.com/watch?v=v0WljrqslL0 | Côte d'Ivoire, D 2024, équation différentielle |
+| CI23-T | Correction Sujet de Mathématique type BAC 2023 (Exemple de sujet) (SADIA TV) | https://www.youtube.com/watch?v=p6QnPJ7VtvA | Côte d'Ivoire, sujet type série D, vrai/faux et QCM |
+| CI22-D | BAC COTE D'IVOIRE 2022 - Mathématiques série D - Exercices 3 et 5 (Stat Math R) | https://www.youtube.com/watch?v=xoKXdTcGRKE | Côte d'Ivoire, D 2022, similitude et fonction |
+| CI20-C | Corrigé du sujet de Bacc Série C 2020 Mathématiques Côte d'Ivoire probabilité (Antsa's math channel) | https://www.youtube.com/watch?v=dcxDFco_Sqk | Côte d'Ivoire, C 2020, probabilités |
+| CI15-D | Exercice 2 / CORRIGÉ (Probabilité) - BAC CÔTE D'IVOIRE 2015 - Série D (Banima* SUNWOGOU) | https://www.youtube.com/watch?v=f9jf57YXuf4 | Côte d'Ivoire, D 2015, probabilités |
+| CI03-D | Etude de Fonction : [Correction Extrait Bac 2003, serie D, sn normale Côte d'Ivoire] Avec Doumbia | https://www.youtube.com/watch?v=xEjtN9YZ_v4 | Côte d'Ivoire, D 2003, étude de fonction |
+| D23 | EXERCICE 1 corrigé #baccalauréat D #2023 (MAAUTECH) | https://www.youtube.com/watch?v=ZqpCgwHqwTo | Série D 2023, complexes et similitude. Le pays n'est pas dans la transcription : « Côte d'Ivoire » vient seulement du mot-clé de recherche |
+| AL-TVI | Applying the Intermediate Value Theorem (PROF AIT LAHBIB) | https://www.youtube.com/watch?v=lw1GC0yu7FI | Pays non indiqué. Exercice de cours sur le TVI, pas un sujet de BAC |
+
+#### Vidéos écartées (hors sujet)
+
+- **« Démontrons que 1+1=3 »** (Éducation Plus), https://www.youtube.com/watch?v=JDF2BVeFoZ8. Fausse démonstration présentée comme une devinette, sans correction de BAC ni de BFEM.
+- **« The SECRET method of students who get 18/20 in physics »** (Badara Faye Fall), https://www.youtube.com/watch?v=RN71OE4DAcw. Méthode d'étude générale centrée sur la physique : expliquer à voix haute, carnet d'erreurs, révisions espacées à J1, J3, J7 et J21.
+- **« Comment ÉTUDIER si VITE que ça ressemble à de la TRICHE ! »** (Stick Life and MÉMORIX), https://www.youtube.com/watch?v=SqBBywO173g. Méthode d'étude générale : état d'esprit, minuteur, règle des 80/20, carnet d'erreurs.
+- **« How to Learn 10x Faster Than 90% of Students (7 Scientific Methods) »** (Un-Pas-De-Plus), https://www.youtube.com/watch?v=ck-cAQRqp1E. Méthodes générales (Pomodoro, Feynman, rappel actif, sommeil), sans contenu mathématique. Seul conseil utile : travailler sur les annales pour repérer ce qui tombe souvent.
+- **« How I Learn 10 Pages of Notes in 30 Minutes »** (Fafaa en Droit), https://www.youtube.com/watch?v=j_Ilg2BmC0s. Révision pour des étudiants en droit, avec la promotion d'un livre. Aucun contenu mathématique.
+
+#### Limites des sources
+
+- **Transcriptions de mauvaise qualité.** Les sous-titres de SN20, SN22-P et SN-TL sont très abîmés, et ceux de CI15-D sont bruités. Seuls les passages lisibles ont été gardés.
+- **Vidéos incomplètes.** SN20 est incomplète. CI23-T présente surtout le sujet et renvoie plusieurs réponses à « la prochaine correction ».
+- **BFEM.** Une seule vidéo (Sénégal 2019) traite ce niveau. Aucune vidéo ne porte sur le BEPC ivoirien.
+- **Petit échantillon par pays.** Les différences du 11.5 décrivent ces vidéos, pas l'ensemble des examens.
