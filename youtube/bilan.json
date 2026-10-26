@@ -1,0 +1,34 @@
+{
+  "maths": {
+    "videos_vues": 40,
+    "transcriptions": 14
+  },
+  "pc": {
+    "videos_vues": 32,
+    "transcriptions": 0
+  },
+  "svt": {
+    "videos_vues": 32,
+    "transcriptions": 0
+  },
+  "philo": {
+    "videos_vues": 21,
+    "transcriptions": 0
+  },
+  "francais": {
+    "videos_vues": 32,
+    "transcriptions": 0
+  },
+  "hg": {
+    "videos_vues": 23,
+    "transcriptions": 0
+  },
+  "anglais": {
+    "videos_vues": 24,
+    "transcriptions": 0
+  },
+  "eco": {
+    "videos_vues": 16,
+    "transcriptions": 0
+  }
+}
