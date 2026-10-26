@@ -38,8 +38,6 @@ const PRESETS = [
   { id: "duel", nom: "Duel", desc: "Défie un ami sur les mêmes questions", emoji: "⚔️", bg: "linear-gradient(160deg,#f7971e,#ffd200)", live: true },
   { id: "photo", nom: "Où j'ai faux ?", desc: "Photo de ta copie de maths", emoji: "📸", bg: "linear-gradient(160deg,#8e2de2,#4a00e0)" },
   { id: "copie", nom: "Copie Rouge", desc: "Ta dissertation annotée", emoji: "📝", bg: "linear-gradient(160deg,#e52d27,#b31217)" },
-  { id: "podcast", nom: "Podcast du cahier", desc: "Ta leçon en audio", emoji: "🎧", bg: "linear-gradient(160deg,#11998e,#38ef7d)" },
-  { id: "oral", nom: "Jury oral", desc: "Simulation du 2nd groupe", emoji: "🎤", bg: "linear-gradient(160deg,#fc466b,#3f5efb)" },
   { id: "fiches", nom: "Fiches du cahier", desc: "Photo, puis flashcards", emoji: "🧠", bg: "linear-gradient(160deg,#614385,#516395)" },
 ];
 

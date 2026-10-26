@@ -19,7 +19,7 @@ C'est une appli web installable (PWA) : on l'ouvre depuis un lien, on l'ajoute �
 
 - **Paiement** : les packs ajoutent les crédits sans paiement réel. À brancher sur un agrégateur mobile money (PayDunya, CinetPay, FedaPay…).
 - **Classement** : des joueurs de démonstration. Il faudra un serveur (par exemple Supabase) pour un vrai classement.
-- **Presets « Bientôt »** : Où j'ai faux ?, Copie Rouge, Podcast du cahier, Jury oral, Fiches du cahier. Ils demandent des API d'IA (vision, voix, LLM) côté serveur.
+- **Presets « Bientôt »** : Où j'ai faux ?, Copie Rouge, Fiches du cahier. Ils demandent des API d'IA (vision, texte) côté serveur.
 - **Banque de questions** : 30 questions de démonstration dans `questions.js`, à faire valider et compléter par des profs.
 
 ## Lancer en local
