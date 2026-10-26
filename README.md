@@ -4,6 +4,19 @@ Prototype d'une plateforme de révision « façon Higgsfield » pour les élève
 
 C'est une appli web installable (PWA) : on l'ouvre depuis un lien, on l'ajoute à l'écran d'accueil, et elle marche aussi sans connexion.
 
+## Fonction phare : Mon exercice
+
+Sur l'accueil, le grand bouton vert **📸 Mon exercice** est la fonction principale. L'élève envoie n'importe quel exercice, en photo ou en texte, dans n'importe quelle matière. Révizo lui renvoie :
+
+- 🎯 ce qu'on lui demande ;
+- 🧠 la méthode à retenir pour tous les exercices de ce type ;
+- ✍️ la résolution étape par étape, avec le pourquoi de chaque étape ;
+- ✅ la réponse finale ;
+- ⚠️ les pièges à éviter ;
+- 🔁 un exercice du même type pour s'entraîner, avec sa solution cachée.
+
+Un exercice coûte 10 crédits. Si la photo est illisible ou si le service échoue, les crédits sont rendus. Le serveur (`server.js`) envoie l'exercice à Claude, réduit la photo avant l'envoi et impose un format de réponse fixe.
+
 ## Ce qui fonctionne
 
 - **Choix du pays** : le nom de l'examen (BFEM, BEPC, DEF), la devise (FCFA ou GNF), les moyens de paiement et les villes s'adaptent.
@@ -24,12 +37,17 @@ C'est une appli web installable (PWA) : on l'ouvre depuis un lien, on l'ajoute �
 
 ## Lancer en local
 
+Il faut Node.js 18 ou plus récent et une clé API Anthropic (console.anthropic.com).
+
 ```bash
-python3 -m http.server 8000
+npm install
+ANTHROPIC_API_KEY=ta_cle npm start
 ```
 
-Puis ouvrir http://localhost:8000.
+Puis ouvrir http://localhost:3000.
 
-## Mettre en ligne gratuitement
+Le modèle par défaut est `claude-opus-5-5`. Pour un modèle moins cher, il suffit de changer la variable `REVIZO_MODEL`, par exemple `REVIZO_MODEL=claude-haiku-5-5`.
 
-Il n'y a rien à compiler : il suffit d'activer **GitHub Pages** sur ce dépôt (Settings → Pages → branche et dossier racine). Le site sera alors accessible depuis n'importe quel téléphone.
+## Mettre en ligne
+
+« Mon exercice » a besoin d'un serveur Node : GitHub Pages ne suffit plus. Render, Railway ou Fly.io conviennent. Il faut y définir la variable `ANTHROPIC_API_KEY`, et ne jamais mettre la clé dans le code.
