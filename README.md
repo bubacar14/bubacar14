@@ -4,6 +4,20 @@ Prototype d'une plateforme de révision « façon Higgsfield » pour les élève
 
 C'est une appli web installable (PWA) : on l'ouvre depuis un lien, on l'ajoute à l'écran d'accueil, et elle marche aussi sans connexion.
 
+## Design
+
+L'appli suit la charte graphique Révizo :
+- deux thèmes : « Cahier » (clair) et « Ardoise » (sombre) ;
+- bleu Bic, jaune soleil et rouge du prof ;
+- polices Bricolage Grotesque, Atkinson Hyperlegible, JetBrains Mono et Caveat ;
+- icônes au trait, sans emoji.
+
+Les choix d'écrans s'appuient sur l'étude des applis concurrentes, dans `recherche/design-synthese.md` :
+- l'énoncé lu est confirmé avant la correction ;
+- la correction se dévoile pas à pas, avec des indices et un bouton « Je bloque » ;
+- la révision, les quiz et la série sont gratuits ;
+- les crédits n'ont pas d'abonnement.
+
 ## Fonction phare : Mon exercice
 
 Sur l'accueil, le grand bouton vert **📸 Mon exercice** est la fonction principale. L'élève envoie n'importe quel exercice, en photo ou en texte, dans n'importe quelle matière. Révizo lui renvoie :

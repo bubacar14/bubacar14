@@ -47,6 +47,8 @@ Règles :
 - Vérifie chaque calcul avant de le donner. Si l'énoncé est ambigu ou incomplet, dis quelle hypothèse tu prends.
 - Pour une dissertation ou un commentaire : donne la méthode, la problématique, un plan détaillé et des exemples d'arguments ; rédige l'introduction en exemple, pas tout le devoir.
 - S'il y a plusieurs exercices, traite-les tous dans "etapes", dans l'ordre.
+- "indice" aide à démarrer sans rien dévoiler. "demarrage" propose 2 ou 3 choix courts, dont un seul juste.
+- "marge" est une annotation de prof très courte, seulement quand elle aide (un piège, une exigence du correcteur).
 - Si la photo est illisible ou ne contient pas d'exercice, mets lisible à false et explique dans "probleme" ce que l'élève doit refaire (photo plus nette, plus de lumière, cadrer l'énoncé).`;
 
 // Format imposé à la réponse : l'appli l'affiche en cartes.
@@ -58,6 +60,29 @@ const SCHEMA = {
     matiere: { type: "string" },
     niveau: { type: "string", description: "Classe ou examen estimé, ex. Terminale S, 3e / BFEM." },
     enonce: { type: "string", description: "Ce qu'on demande à l'élève, reformulé simplement." },
+    indice: { type: "string", description: "Un coup de pouce pour démarrer seul, sans donner la méthode ni la réponse." },
+    demarrage: {
+      type: "object",
+      description: "Une question pour faire réfléchir l'élève avant de montrer la méthode : par quoi commencer ?",
+      properties: {
+        question: { type: "string" },
+        choix: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              texte: { type: "string" },
+              juste: { type: "boolean" },
+              retour: { type: "string", description: "Une phrase : pourquoi ce choix est bon ou non." },
+            },
+            required: ["texte", "juste", "retour"],
+            additionalProperties: false,
+          },
+        },
+      },
+      required: ["question", "choix"],
+      additionalProperties: false,
+    },
     methode: {
       type: "array",
       items: { type: "string" },
@@ -71,8 +96,9 @@ const SCHEMA = {
           titre: { type: "string" },
           explication: { type: "string", description: "Ce qu'on fait et pourquoi." },
           calcul: { type: "string", description: "Le calcul ou la rédaction de l'étape. Vide si sans objet." },
+          marge: { type: "string", description: "Remarque de prof en marge, 6 mots au plus (ex. « attention au signe »). Vide si rien d'utile." },
         },
-        required: ["titre", "explication", "calcul"],
+        required: ["titre", "explication", "calcul", "marge"],
         additionalProperties: false,
       },
     },
@@ -88,9 +114,46 @@ const SCHEMA = {
       additionalProperties: false,
     },
   },
-  required: ["lisible", "probleme", "matiere", "niveau", "enonce", "methode", "etapes", "reponse", "pieges", "entrainement"],
+  required: ["lisible", "probleme", "matiere", "niveau", "enonce", "indice", "demarrage", "methode", "etapes", "reponse", "pieges", "entrainement"],
   additionalProperties: false,
 };
+
+const SCHEMA_LECTURE = {
+  type: "object",
+  properties: {
+    lisible: { type: "boolean" },
+    probleme: { type: "string", description: "Si illisible : ce que l'élève doit refaire. Vide sinon." },
+    enonce: { type: "string", description: "L'énoncé recopié fidèlement, formules en texte lisible (x², √2, Δ). Vide si illisible." },
+    matiere: { type: "string", enum: [...Object.keys(MATIERES), "autre"] },
+    doutes: {
+      type: "array",
+      description: "Les passages lus avec un doute (écriture, symbole) et la question à poser à l'élève. Liste vide si aucun.",
+      items: {
+        type: "object",
+        properties: { extrait: { type: "string" }, question: { type: "string", description: "Ex. « x ou × ? »" } },
+        required: ["extrait", "question"],
+        additionalProperties: false,
+      },
+    },
+    a_interpreter: { type: "boolean", description: "Vrai si l'énoncé est rédigé en phrases et demande une interprétation." },
+  },
+  required: ["lisible", "probleme", "enonce", "matiere", "doutes", "a_interpreter"],
+  additionalProperties: false,
+};
+
+// Lit la photo et recopie l'énoncé, pour que l'élève le vérifie avant la correction.
+async function lire({ image, mediaType }) {
+  const response = await client.beta.messages.create({
+    model: MODEL,
+    max_tokens: 8000,
+    betas: ["server-side-fallback-2026-07-01"],
+    fallbacks: "default",
+    output_config: { effort: "low", format: { type: "json_schema", schema: SCHEMA_LECTURE } },
+    system: "Tu recopies fidèlement l'énoncé d'un exercice scolaire photographié (cahier, feuille, sujet d'examen d'Afrique de l'Ouest francophone). Ne résous rien. Signale chaque passage où tu hésites sur un caractère ou un symbole.",
+    messages: [{ role: "user", content: [{ type: "image", source: { type: "base64", media_type: mediaType, data: image } }, { type: "text", text: "Recopie l'énoncé." }] }],
+  });
+  return readJson(response);
+}
 
 function userContent({ texte, image, mediaType, pays, classe }) {
   const content = [];
@@ -200,6 +263,35 @@ function sendJson(res, status, data) {
   res.end(JSON.stringify(data));
 }
 
+function sendApiError(res, error) {
+  if (error instanceof Anthropic.RateLimitError) {
+    sendJson(res, 429, { erreur: "Beaucoup d'élèves en même temps. Réessaie dans une minute." });
+  } else if (error instanceof Anthropic.APIError) {
+    console.error(`API error ${error.status}:`, error.message);
+    sendJson(res, 502, { erreur: "Le service est momentanément indisponible." });
+  } else {
+    console.error(error);
+    sendJson(res, 500, { erreur: "Erreur inattendue." });
+  }
+}
+
+async function handleLire(req, res) {
+  let body;
+  try {
+    body = JSON.parse(await readBody(req));
+  } catch (e) {
+    return sendJson(res, e.message === "too_large" ? 413 : 400, { erreur: e.message === "too_large" ? "Photo trop lourde." : "Requête invalide." });
+  }
+  if (typeof body.image !== "string" || !body.image) return sendJson(res, 400, { erreur: "Envoie une photo." });
+  if (!IMAGE_TYPES.includes(body.mediaType)) return sendJson(res, 400, { erreur: "Format de photo non pris en charge." });
+  try {
+    const result = await lire({ image: body.image, mediaType: body.mediaType });
+    sendJson(res, result.erreur ? 422 : 200, result);
+  } catch (error) {
+    sendApiError(res, error);
+  }
+}
+
 async function handleResoudre(req, res) {
   let body;
   try {
@@ -223,15 +315,7 @@ async function handleResoudre(req, res) {
     });
     sendJson(res, result.erreur ? 422 : 200, result);
   } catch (error) {
-    if (error instanceof Anthropic.RateLimitError) {
-      sendJson(res, 429, { erreur: "Beaucoup d'élèves en même temps. Réessaie dans une minute." });
-    } else if (error instanceof Anthropic.APIError) {
-      console.error(`API error ${error.status}:`, error.message);
-      sendJson(res, 502, { erreur: "Le service est momentanément indisponible." });
-    } else {
-      console.error(error);
-      sendJson(res, 500, { erreur: "Erreur inattendue." });
-    }
+    sendApiError(res, error);
   }
 }
 
@@ -257,6 +341,7 @@ async function handleStatic(req, res) {
 
 http
   .createServer((req, res) => {
+    if (req.method === "POST" && req.url === "/api/lire") return handleLire(req, res);
     if (req.method === "POST" && req.url === "/api/resoudre") return handleResoudre(req, res);
     if (req.method === "GET") return handleStatic(req, res).catch(() => { res.writeHead(500); res.end(); });
     res.writeHead(405);
