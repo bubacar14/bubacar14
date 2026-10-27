@@ -28,7 +28,7 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
 | `guides/` | Guides de correction par matière, envoyés à l'IA selon la matière. Maths et PC sont enrichis de vidéos YouTube ; les guides ont aussi des sections tirées de sources officielles (Office du Bac, corrigés de profs, annales). Le reste est encore à vérifier |
 | `guides/pays/` | Une fiche par pays (SN, CI, ML, BF, GN, BJ, TG, NE) : examens, épreuves, barèmes, vocabulaire. Seule la fiche du pays de l'élève est envoyée à l'IA (`server.js`) |
 | `recherche/` | Études : concurrents, design, acquisition, pays |
-| `youtube/` | Transcriptions de vidéos de profs (maths seulement pour l'instant) |
+| `youtube/` | Transcriptions de vidéos de profs, toutes matières. `catalogue.json` liste les vidéos vérifiées : vrai titre, chaîne, pays et preuve du pays, statut. Ce sont des sous-titres automatiques non corrigés |
 | `marque/` | Les fichiers du logo et son guide |
 | `tools/youtube_transcripts.py` | Récupère les transcriptions. À lancer sur un ordinateur personnel : YouTube bloque les serveurs cloud |
 

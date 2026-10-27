@@ -47,7 +47,7 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 
 - ⬜ Vrais comptes : numéro de téléphone après le 1er exercice, sauvegarde en ligne (Supabase)
 - ⬜ Vrai paiement mobile money (CinetPay, PayDunya ou FedaPay), avec Wave et Orange Money
-- ⬜ Hébergement en ligne (Render ou Railway) et nom de domaine
+- 🔄 Hébergement en ligne (Render ou Railway) et nom de domaine : **revizo.click acheté** (27 octobre 2026), reste à le relier à l'hébergeur
 - ⬜ Banque de 1 500 questions validées par des profs, par pays et par examen
 - ⬜ Mode hors ligne : file d'attente des photos quand le réseau manque
 - ⬜ Mesures d'usage (PostHog) : rétention à J1, J7 et J30, conversion en payant, coût par exercice
@@ -88,3 +88,4 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | 27 octobre 2026 | Sites de cours relus pour toutes les classes : programmes sénégalais de la 6e à la Terminale et sujets du BAC 2024-2025 dans les guides. Philo : consigne « texte à expliquer et discuter » confirmée (S 2024). HG : commentaires guidés par des questions au BAC |
 | 27 octobre 2026 | Une fiche par pays dans guides/pays/, envoyée seule selon le pays de l'élève (moins de texte envoyé à l'IA, et plus juste). Sources officielles intégrées : grilles du BAC sénégalais en français et en anglais, coefficients du BFEM, réforme du CFEE 2026 (concours d'entrée en 6e supprimé), barème officiel du français au BEPC burkinabè, CEPE ivoirien |
 | 27 octobre 2026 | L'Office du Bac devient la source de référence pour le BAC sénégalais : corrigés et grilles officiels 2026, programmes de Terminale. Nouveauté repérée : en maths, un exercice « situation » sans questions guidées (1,5 traduction + 1,5 calcul + 1 interprétation). Deux erreurs de frappe relevées dans les corrigés officiels et signalées dans les guides |
+| 27 octobre 2026 | Nom de domaine **revizo.click** acheté. Il servira d'adresse publique (liens de duel, demande de paiement à un parent, retours et notifications du paiement) |
