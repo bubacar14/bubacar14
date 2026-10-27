@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { MODEL } from "./ia.js";
 import { comptesActifs } from "./comptes.js";
-import { routeLire, routeResoudre, routeCompte, routeSignaler, routeAchatDemo } from "./routes.js";
+import { routeLire, routeResoudre, routeCompte, routeSignaler, routeAchatDemo, routePayer, routeCommande, routeWebhook } from "./routes.js";
 import { PUBLIC } from "./fichiers-publics.js";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -42,6 +42,8 @@ const ROUTES = {
   "/api/compte": routeCompte,
   "/api/signaler": routeSignaler,
   "/api/achat-demo": routeAchatDemo,
+  "/api/payer": routePayer,
+  "/api/commande": routeCommande,
 };
 
 async function handleApi(req, res, route) {
@@ -78,6 +80,9 @@ async function handleStatic(req, res) {
 http
   .createServer((req, res) => {
     if (req.method === "POST" && ROUTES[req.url]) return handleApi(req, res, ROUTES[req.url]);
+    if (req.method === "POST" && req.url === "/api/dexpay-webhook") {
+      return readBody(req).then(async (brut) => { const { status, data } = await routeWebhook(brut, req.headers); sendJson(res, status, data); }, () => sendJson(res, 400, {}));
+    }
     if (req.method === "GET") return handleStatic(req, res).catch(() => { res.writeHead(500); res.end(); });
     res.writeHead(405);
     res.end();

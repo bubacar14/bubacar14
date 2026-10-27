@@ -1275,7 +1275,85 @@ function renderRecharge(contexte) {
   dessiner();
 }
 
+// Pays où DexPay encaisse le mobile money (même liste que le serveur, paiement.js).
+const PAYS_DEXPAY = ["SN", "CI", "ML", "BF", "GN"];
+
+function messagePaiement(texte) {
+  afficher(`
+    ${sankoDit("encourage", texte, 100)}
+    <button class="btn btn-principal btn-large" id="recharge">Revenir aux offres</button>
+    <button class="btn btn-large" id="accueil">Retour à l'accueil</button>`);
+  $("#recharge").addEventListener("click", () => renderRecharge());
+  $("#accueil").addEventListener("click", () => render("home"));
+}
+
+// Vrai paiement : le serveur crée la commande, puis l'élève part sur la page de paiement DexPay.
+async function payerDexpay(offre) {
+  if (!PAYS_DEXPAY.includes(state.country)) {
+    messagePaiement("Le paiement mobile money n'est pas encore disponible dans ton pays. Ton exercice offert revient chaque jour.");
+    return;
+  }
+  renderAttente(["Je prépare ton paiement"], 8);
+  const r = await appelApi("api/payer", { offre: offre.id, pays: state.country });
+  if (!r.url) {
+    messagePaiement(esc(r.erreur || "Le paiement n'a pas pu commencer. Réessaie dans un instant."));
+    return;
+  }
+  location.href = r.url;
+}
+
+// Retour de la page de paiement (?paiement=ok|echec&ref=…). L'adresse ne prouve rien :
+// on demande au serveur, qui vérifie chez DexPay, et on attend jusqu'à 30 secondes la confirmation.
+function lireRetourPaiement() {
+  const p = new URLSearchParams(location.search);
+  const reference = p.get("ref");
+  if (!p.get("paiement") || !reference) return null;
+  history.replaceState(null, "", location.pathname);
+  return { reference, annule: p.get("paiement") === "echec" };
+}
+
+// Après une annulation, une seule vérification : DexPay garde le paiement ouvert 24 h,
+// et les crédits arriveront tout seuls si l'élève paie finalement.
+async function renderRetourPaiement({ reference, annule }) {
+  renderAttente(["Je vérifie ton paiement"], annule ? 4 : 30);
+  let etat = null;
+  for (let essai = 0; essai < (annule ? 1 : 10); essai += 1) {
+    etat = await appelApi("api/commande", { reference });
+    if (etat.statut !== "en_attente") break;
+    await new Promise((ok) => setTimeout(ok, 3000));
+  }
+  if (typeof etat?.credits === "number") { state.credits = etat.credits; save(); majBarre(); }
+  if (etat?.statut === "payee") {
+    son("fin");
+    confettis();
+    afficher(`
+      <h1 class="display-l">Paiement reçu</h1>
+      <section class="carte carte-reponse">
+        <h2 class="carte-titre">${icone("juste")}+${etat.credits_achetes} crédits</h2>
+        <div class="recu">Référence  ${esc(reference)}\nMontant    ${prix(etat.montant)}\nSolde      ${pluriel(state.credits, "crédit")}</div>
+      </section>
+      <button class="btn btn-principal btn-large" id="exercice">${icone("photo")}Prendre un exercice en photo</button>
+      <button class="btn btn-large" id="accueil">Retour à l'accueil</button>`);
+    $("#exercice").addEventListener("click", () => $("#photoInput").click());
+    $("#accueil").addEventListener("click", () => render("home"));
+    return;
+  }
+  if (etat?.statut === "en_attente" && annule) {
+    messagePaiement(`Paiement annulé : aucun crédit n'a été ajouté, et rien n'a été retiré.<br><span class="petit">Référence ${esc(reference)}</span>`);
+    return;
+  }
+  if (etat?.statut === "en_attente") {
+    messagePaiement(`Ton paiement est en cours de vérification. Tes crédits arriveront tout seuls dès qu'il sera confirmé.<br><span class="petit">Référence ${esc(reference)}</span>`);
+    return;
+  }
+  messagePaiement(`Le paiement n'a pas abouti, aucun crédit n'a été ajouté. Si de l'argent a quand même été retiré, garde cette référence et écris-nous.<br><span class="petit">Référence ${esc(reference)}</span>`);
+}
+
 function payer(offre, operateur) {
+  if (paiement === "dexpay") {
+    payerDexpay(offre);
+    return;
+  }
   if (paiement === "bientot") {
     afficher(`
       ${sankoDit("encourage", `Le paiement par ${esc(operateur)} arrive très bientôt. En attendant, ton exercice offert revient chaque jour.`, 100)}
@@ -1566,8 +1644,10 @@ async function syncCompte() {
 refillDaily();
 majBarre();
 syncCompte();
+const retourPaiement = lireRetourPaiement();
 const duelRecu = lireDuel();
-if (duelRecu) demarrerQuiz("duel", duelRecu);
+if (retourPaiement) renderRetourPaiement(retourPaiement);
+else if (duelRecu) demarrerQuiz("duel", duelRecu);
 else render("home");
 
 if ("serviceWorker" in navigator) {

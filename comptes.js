@@ -36,3 +36,9 @@ export async function solde(qui) {
 export const debiter = (qui) => rpc("revizo_debiter", { p_cle_hash: qui.cle, p_ip_hash: qui.ip });
 export const rendre = (qui, mouvement, motif) => rpc("revizo_rendre", { p_cle_hash: qui.cle, p_mouvement: mouvement, p_motif: motif });
 export const crediter = (qui, credits) => rpc("revizo_crediter", { p_cle_hash: qui.cle, p_ip_hash: qui.ip, p_credits: credits });
+
+export const creerCommande = (qui, reference, offre, credits, montant) =>
+  rpc("revizo_commande_creer", { p_cle_hash: qui.cle, p_ip_hash: qui.ip, p_reference: reference, p_offre: offre, p_credits: credits, p_montant: montant });
+export const payerCommande = (reference, montant) => rpc("revizo_commande_payer", { p_reference: reference, p_montant: montant });
+export const echouerCommande = (reference) => rpc("revizo_commande_echouer", { p_reference: reference });
+export const etatCommande = (qui, reference) => rpc("revizo_commande_etat", { p_cle_hash: qui.cle, p_reference: reference });

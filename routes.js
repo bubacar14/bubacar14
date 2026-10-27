@@ -1,13 +1,12 @@
 // Les routes de l'API, communes au serveur local (server.js) et à Vercel (api/).
 // Chaque route reçoit le corps JSON et les en-têtes, et renvoie { status, data }.
 import { traiterLire, traiterResoudre } from "./ia.js";
-import { comptesActifs, identifier, solde, debiter, rendre, crediter } from "./comptes.js";
+import { comptesActifs, identifier, solde, debiter, rendre, crediter, creerCommande, payerCommande, echouerCommande, etatCommande } from "./comptes.js";
+import { paiementActif, OFFRES, PAYS_DEXPAY, nouvelleReference, creerSession, etatSession, signatureValide } from "./paiement.js";
 
 const PAS_DE_CLE = { status: 400, data: { erreur: "Mets l'appli à jour (Cmd + Maj + R) puis réessaie." } };
 const PANNE = { status: 503, data: { erreur: "Le service est momentanément indisponible. Réessaie dans un instant." } };
 
-// Les offres de la page Recharge : le serveur ne fait confiance qu'à cette liste.
-const OFFRES = { petit: 3, moyen: 10, grand: 50 };
 
 async function avecCompte(entetes, travail) {
   if (!comptesActifs) return travail(null);
@@ -17,16 +16,17 @@ async function avecCompte(entetes, travail) {
     return await travail(qui);
   } catch (error) {
     console.error(error);
-    return String(error.message).includes("trop_de_comptes")
-      ? { status: 429, data: { erreur: "Trop de nouveaux comptes depuis ce réseau aujourd'hui. Réessaie demain." } }
-      : PANNE;
+    if (String(error.message).includes("trop_de_comptes")) return { status: 429, data: { erreur: "Trop de nouveaux comptes depuis ce réseau aujourd'hui. Réessaie demain." } };
+    if (String(error.message).includes("trop_de_commandes")) return { status: 429, data: { erreur: "Trop de paiements commencés aujourd'hui. Réessaie demain." } };
+    return PANNE;
   }
 }
 
 // Solde de l'élève (l'exercice offert du jour est ajouté ici).
 export function routeCompte(body, entetes) {
   return avecCompte(entetes, async (qui) => {
-    const paiement = process.env.VERCEL ? "bientot" : "demo";
+    // « dexpay » : vrai paiement ; « demo » : paiement simulé (ordinateur du développeur) ; « bientot » : pas encore branché.
+    const paiement = paiementActif && comptesActifs ? "dexpay" : process.env.VERCEL ? "bientot" : "demo";
     if (!qui) return { status: 200, data: { local: true, paiement } };
     return { status: 200, data: { credits: await solde(qui), paiement } };
   });
@@ -70,10 +70,67 @@ export function routeSignaler(body, entetes) {
 export function routeAchatDemo(body, entetes) {
   if (process.env.VERCEL) return Promise.resolve({ status: 403, data: { erreur: "Le paiement par mobile money arrive bientôt.", code: "paiement_indisponible" } });
   return avecCompte(entetes, async (qui) => {
-    const credits = OFFRES[body?.offre];
+    const credits = OFFRES[body?.offre]?.credits;
     if (!credits) return { status: 400, data: { erreur: "Offre inconnue." } };
     if (!qui) return { status: 200, data: { local: true } };
     const r = await crediter(qui, credits);
     return { status: 200, data: { credits: r.credits } };
   });
+}
+
+// Commence un vrai paiement : la commande (montant et crédits fixés ici) puis la page de paiement DexPay.
+export function routePayer(body, entetes) {
+  if (!paiementActif || !comptesActifs) return Promise.resolve({ status: 403, data: { erreur: "Le paiement par mobile money arrive bientôt.", code: "paiement_indisponible" } });
+  return avecCompte(entetes, async (qui) => {
+    const offre = OFFRES[body?.offre];
+    if (!offre) return { status: 400, data: { erreur: "Offre inconnue." } };
+    if (!PAYS_DEXPAY.includes(body?.pays)) return { status: 400, data: { erreur: "Le paiement n'est pas encore disponible dans ton pays.", code: "pays_indisponible" } };
+    const reference = nouvelleReference();
+    await creerCommande(qui, reference, body.offre, offre.credits, offre.prix);
+    const url = await creerSession(reference, offre);
+    return { status: 200, data: { url, reference } };
+  });
+}
+
+// Au retour de la page de paiement : l'état de la commande. Si DexPay confirme le paiement
+// et que le webhook n'est pas encore arrivé, les crédits sont ajoutés ici (une seule fois).
+// L'adresse ?paiement=ok ne prouve rien : seule la réponse de DexPay compte.
+export function routeCommande(body, entetes) {
+  return avecCompte(entetes, async (qui) => {
+    const reference = String(body?.reference || "");
+    if (!qui || !/^RZ-[A-Z0-9-]{6,40}$/.test(reference)) return { status: 400, data: { erreur: "Requête invalide." } };
+    let etat = await etatCommande(qui, reference);
+    if (!etat) return { status: 404, data: { erreur: "Paiement introuvable." } };
+    if (etat.statut === "en_attente" && paiementActif) {
+      const s = await etatSession(reference).catch(() => null);
+      if (s?.statut === "completed") await payerCommande(reference, s.montant);
+      if (s && ["failed", "cancelled"].includes(s.statut)) await echouerCommande(reference);
+      etat = await etatCommande(qui, reference);
+    }
+    return { status: 200, data: etat };
+  });
+}
+
+// DexPay annonce un paiement réussi ou échoué. Signature vérifiée sur le corps brut, puis
+// l'état est relu chez DexPay avant d'ajouter les crédits. Répond toujours 200 une fois traité.
+export async function routeWebhook(corpsBrut, entetes) {
+  if (!paiementActif || !comptesActifs) return { status: 503, data: { erreur: "Paiement inactif." } };
+  if (!signatureValide(corpsBrut, entetes["x-webhook-signature"])) return { status: 401, data: { erreur: "Signature invalide." } };
+  let evenement;
+  try {
+    evenement = JSON.parse(corpsBrut);
+  } catch {
+    return { status: 400, data: { erreur: "Requête invalide." } };
+  }
+  const reference = String(evenement.reference || evenement.metadata?.reference || "");
+  if (!reference.startsWith("RZ-")) return { status: 200, data: { ignore: true } };
+  try {
+    const s = await etatSession(reference);
+    if (s.statut === "completed") await payerCommande(reference, s.montant);
+    else if (["failed", "cancelled"].includes(s.statut)) await echouerCommande(reference);
+    return { status: 200, data: { ok: true } };
+  } catch (error) {
+    console.error(error);
+    return { status: 500, data: { erreur: "Réessaie plus tard." } };
+  }
 }

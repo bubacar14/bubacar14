@@ -1,5 +1,5 @@
 // Cache de l'application pour qu'elle fonctionne sans connexion.
-const CACHE = "revizo-v21";
+const CACHE = "revizo-v23";
 const FILES = ["./", "index.html", "styles.css", "app.js", "sanko.js", "questions.js", "essais.js", "manifest.webmanifest", "icon.svg"];
 
 self.addEventListener("install", (e) => {
