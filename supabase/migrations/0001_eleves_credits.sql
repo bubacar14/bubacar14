@@ -28,7 +28,7 @@ alter table public.eleves enable row level security;
 alter table public.mouvements enable row level security;
 
 -- Trouve ou crée l'élève, et donne l'exercice offert du jour (le solde remonte à 1 s'il est à 0).
--- 10 nouveaux comptes au plus par adresse IP et par jour, pour limiter les abus.
+-- Limite de nouveaux comptes par adresse IP et par jour (300 depuis 0003_limite_comptes.sql).
 create function public.revizo_eleve(p_cle_hash text, p_ip_hash text)
 returns public.eleves
 language plpgsql security definer set search_path = public
