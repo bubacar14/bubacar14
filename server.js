@@ -8,7 +8,10 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 3000;
-const MODEL = process.env.REVIZO_MODEL || "claude-opus-5-5";
+// Haiku 5.5 : aussi juste qu'Opus sur les sujets du BAC 2026 testés, pour environ 7 FCFA par exercice au lieu de 190.
+const MODEL = process.env.REVIZO_MODEL || "claude-haiku-5-5";
+// Bascule vers un autre modèle si l'IA refuse une demande. Haiku n'en a pas : on ne l'envoie qu'aux autres modèles.
+const SECOURS = MODEL.startsWith("claude-haiku") ? {} : { betas: ["server-side-fallback-2026-07-01"], fallbacks: "default" };
 const MAX_BODY = 8 * 1024 * 1024; // une photo de téléphone compressée tient largement
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
@@ -67,6 +70,7 @@ Règles :
 - Écris dans un français simple et clair, avec des phrases courtes. Explique chaque mot technique la première fois.
 - Écris les formules en texte lisible sur téléphone (ex. x², √2, Δ = b² − 4ac, 3 × 10⁸ m/s). Pas de LaTeX.
 - Vérifie chaque calcul avant de le donner. Si l'énoncé est ambigu ou incomplet, dis quelle hypothèse tu prends.
+- Respecte chaque verbe de la consigne : si elle demande de préciser, nommer, justifier ou conclure, la réponse finale le fait aussi (ex. « que vous préciserez » : nommer le procédé à côté de chaque phrase).
 - Pour une dissertation ou un commentaire : donne la méthode, la problématique, un plan détaillé et des exemples d'arguments ; rédige l'introduction en exemple, pas tout le devoir.
 - S'il y a plusieurs exercices, traite-les tous dans "etapes", dans l'ordre.
 - "indice" aide à démarrer sans rien dévoiler. "demarrage" propose 2 ou 3 choix courts, dont un seul juste.
@@ -168,12 +172,12 @@ async function lire({ image, mediaType }) {
   const response = await client.beta.messages.create({
     model: MODEL,
     max_tokens: 8000,
-    betas: ["server-side-fallback-2026-07-01"],
-    fallbacks: "default",
+    ...SECOURS,
     output_config: { effort: "low", format: { type: "json_schema", schema: SCHEMA_LECTURE } },
     system: "Tu recopies fidèlement l'énoncé d'un exercice scolaire photographié (cahier, feuille, sujet d'examen d'Afrique de l'Ouest francophone). Ne résous rien. Signale chaque passage où tu hésites sur un caractère ou un symbole.",
     messages: [{ role: "user", content: [{ type: "image", source: { type: "base64", media_type: mediaType, data: image } }, { type: "text", text: "Recopie l'énoncé." }] }],
   });
+  journal("lecture", response);
   return readJson(response);
 }
 
@@ -188,6 +192,15 @@ function userContent({ texte, image, mediaType, pays, classe }) {
     text: `${contexte}\n\n${texte ? `Exercice :\n${texte}` : "L'exercice est sur la photo."}`.trim(),
   });
   return content;
+}
+
+// Une ligne par appel à l'IA : sert à mesurer le coût réel d'un exercice.
+function journal(etape, response) {
+  const u = response.usage || {};
+  console.log(JSON.stringify({
+    etape, modele: response.model, fin: response.stop_reason,
+    entree: u.input_tokens, cache_lu: u.cache_read_input_tokens, cache_ecrit: u.cache_creation_input_tokens, sortie: u.output_tokens,
+  }));
 }
 
 function readJson(response) {
@@ -206,8 +219,7 @@ async function detecterMatiere(content) {
   const response = await client.beta.messages.create({
     model: MODEL,
     max_tokens: 2000,
-    betas: ["server-side-fallback-2026-07-01"],
-    fallbacks: "default",
+    ...SECOURS,
     output_config: {
       effort: "low",
       format: {
@@ -223,6 +235,7 @@ async function detecterMatiere(content) {
     system: `Indique la matière scolaire de cet exercice : ${Object.entries(MATIERES).map(([k, v]) => `${k} = ${v}`).join(", ")}, autre = toute autre matière ou pas un exercice.`,
     messages: [{ role: "user", content }],
   });
+  journal("matiere", response);
   const data = readJson(response);
   return MATIERES[data.matiere] ? data.matiere : null;
 }
@@ -257,16 +270,17 @@ async function resoudre({ texte, image, mediaType, pays, classe, matiere }) {
     });
   }
 
-  const response = await client.beta.messages.create({
+  // En flux : une longue réflexion sur un gros sujet (probabilités, plusieurs exercices) ne coupe pas la réponse.
+  const response = await client.beta.messages.stream({
     model: MODEL,
-    max_tokens: 16000,
-    betas: ["server-side-fallback-2026-07-01"],
-    fallbacks: "default",
+    max_tokens: 32000,
+    ...SECOURS,
     thinking: { type: "adaptive" },
     output_config: { effort: "high", format: { type: "json_schema", schema: SCHEMA } },
     system,
     messages: [{ role: "user", content }],
-  });
+  }).finalMessage();
+  journal("correction", response);
   return readJson(response);
 }
 
@@ -377,4 +391,4 @@ http
     res.writeHead(405);
     res.end();
   })
-  .listen(PORT, () => console.log(`Révizo sur http://localhost:${PORT}`));
+  .listen(PORT, () => console.log(`Révizo sur http://localhost:${PORT} (modèle ${MODEL})`));

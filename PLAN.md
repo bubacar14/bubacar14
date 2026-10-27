@@ -7,9 +7,9 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | Sujet | Options | Recommandation |
 |---|---|---|
 | Nom de l'appli | Garder « Révizo » ou en choisir un autre | Vérifier que le nom et le domaine sont libres dans les 8 pays avant de dépenser en marque |
-| Sanko (mascotte) | Valider le nom, le dessin et l'histoire | Faire relire l'histoire Sankofa par quelqu'un de culture akan, puis faire dessiner les poses par un illustrateur |
+| Lumi (mascotte, ex-Sanko) | Nom choisi : Lumi. Reste à valider le dessin et l'histoire | Faire relire l'histoire Sankofa par quelqu'un de culture akan, puis faire dessiner les poses par un illustrateur |
 | Logo | Piste A (retenue), B (le « o » en Sanko) ou C (mot seul) | A |
-| Modèle d'IA | Opus 5.5 (meilleur, environ 30 à 60 FCFA par exercice) ou Haiku 5.5 (environ 1 à 3 FCFA) | Tester les deux sur 20 vrais exercices, puis garder le moins cher qui corrige juste |
+| Modèle d'IA | **Mesuré le 27 octobre 2026** sur 8 pages du BAC 2026 : Haiku 5.5 environ 7 FCFA par exercice, Sonnet 5.5 environ 90, Opus 5.5 environ 190 (lecture + correction, 1 $ compté 600 FCFA) | Haiku 5.5 : 8 pages sur 8 justes après correction de la limite de longueur, et seul rentable avec des crédits à 33-50 FCFA. Sonnet s'est trompé en probabilités. À confirmer sur de vraies photos d'élèves (cahiers, écriture à la main) |
 | Prix des crédits | Provisoire : 200 FCFA les 3, 500 FCFA les 10, 2 000 FCFA les 50 | À recalculer une fois le modèle choisi |
 | Premier pays | Sénégal ou Côte d'Ivoire | Le pays où tu peux tester avec de vrais élèves et des profs |
 
@@ -25,7 +25,7 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 ## Phase 2 : rendre l'IA fiable 🔄
 
 - ⬜ Tester « Mon exercice » sur 20 vrais exercices (2 par matière, plus 2 photos floues) et noter de 1 à 5 : juste, clair, adapté, rapide
-- ⬜ Comparer Opus 5.5 et Haiku 5.5 sur ces exercices (qualité et coût réel)
+- 🔄 Comparer les modèles : fait sur 8 pages de sujets du BAC 2026 (Haiku, Sonnet, Opus). Reste à refaire sur de vraies photos d'élèves
 - ⬜ Relancer la vérification des 7 guides en brouillon (PC, SVT, philo, français, histoire-géo, anglais, économie), avec le réseau élargi et un quota de recherche neuf
 - ⬜ Faire relire chaque guide par un prof de la matière
 - 🟡 Récupérer les transcriptions YouTube des autres matières : script élargi (59 recherches, 8 pays, brevet), liste des vidéos dans youtube/candidats.json. 12 vidéos de PC récupérées, puis YouTube a bloqué l'adresse IP plus de 2 h. Reste : SVT, philo, français, HG, anglais, éco (relancer `python tools/youtube_transcripts.py`, idéalement sur une autre connexion)
@@ -62,8 +62,8 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 
 ## Phase 5 : lancement et croissance ⬜
 
-- ⬜ Faire vivre Sanko sur TikTok, Instagram et WhatsApp (vidéos, mèmes, stickers)
-- ⬜ 10 premiers scripts de vidéos TikTok avec Sanko
+- ⬜ Faire vivre Lumi sur TikTok, Instagram et WhatsApp (vidéos, mèmes, stickers)
+- ⬜ 10 premiers scripts de vidéos TikTok avec Lumi
 - ⬜ Campagnes Meta et TikTok calées sur les examens (60 % du budget de mars à juin)
 - ⬜ Ambassadeurs dans les lycées, offre pour les cours de renforcement et les écoles
 - ⬜ 2e et 3e pays
@@ -89,3 +89,11 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | 27 octobre 2026 | Une fiche par pays dans guides/pays/, envoyée seule selon le pays de l'élève (moins de texte envoyé à l'IA, et plus juste). Sources officielles intégrées : grilles du BAC sénégalais en français et en anglais, coefficients du BFEM, réforme du CFEE 2026 (concours d'entrée en 6e supprimé), barème officiel du français au BEPC burkinabè, CEPE ivoirien |
 | 27 octobre 2026 | L'Office du Bac devient la source de référence pour le BAC sénégalais : corrigés et grilles officiels 2026, programmes de Terminale. Nouveauté repérée : en maths, un exercice « situation » sans questions guidées (1,5 traduction + 1,5 calcul + 1 interprétation). Deux erreurs de frappe relevées dans les corrigés officiels et signalées dans les guides |
 | 27 octobre 2026 | Nom de domaine **revizo.click** acheté. Il servira d'adresse publique (liens de duel, demande de paiement à un parent, retours et notifications du paiement) |
+| 27 octobre 2026 | Test des 3 modèles sur 8 pages du BAC 2026 (SVT, français, HG, maths, philo). SVT, français, HG, philo : les 3 justes. Maths probabilités : Opus et Haiku justes, Sonnet faux (parties traitées comme indépendantes). Coût mesuré par exercice : Haiku environ 7 FCFA, Sonnet 90, Opus 190. La correction passe en flux avec une limite de 32 000 tokens (Haiku coupait sur les longs sujets). Le serveur note désormais les tokens de chaque appel |
+| 27 octobre 2026 | **Haiku 5.5 devient le modèle par défaut** de l'appli (lecture et correction). Opus reste possible avec REVIZO_MODEL |
+| 27 octobre 2026 | Haiku vérifié sur une photo d'exercice écrit à la main (relue sans faute, correction juste) et sur deux exercices déjà corrigés par Opus (mêmes réponses). Coût mesuré : 2,5 à 7 FCFA par exercice selon le cache. Ajouts : le paramètre de bascule n'est plus envoyé à Haiku (il n'en a pas), et une règle oblige la réponse finale à suivre chaque verbe de la consigne (Haiku oubliait de nommer les procédés quand la consigne disait « que vous préciserez ») |
+| 27 octobre 2026 | Vidéos YouTube : archive d'un autre outil vérifiée (190 vidéos réelles, pays confirmé pour 189). `youtube/catalogue.json` donne pour chacune le vrai titre, la chaîne, le pays et sa preuve. 50 sont transcrites (dont la version anglaise originale d'un corrigé d'anglais), 1 n'a pas de sous-titres, 139 restent à récupérer : YouTube bloque l'adresse IP par moments, il faut relancer plus tard |
+| 27 octobre 2026 | Profil refait : avatar avec l'initiale du prénom, classe et pays sous le nom, 4 statistiques en couleur (série, réussite, exercices expliqués, notions maîtrisées), carte des crédits avec « Recharger », semaine de révision. Réglages rangés en lignes comme sur un téléphone : pays et classe s'ouvrent au toucher, affichage Clair/Sombre/Auto, interrupteur pour les sons, histoire de Sanko repliée |
+| 27 octobre 2026 | Sanko redessiné, même personnage (oiseau Sankofa jaune, huppe en goutte d'encre) en plus moderne : corps en œuf avec ombrage, huppe à deux gouttes, grands yeux à reflets, bec arrondi, sourcils et ailes selon l'humeur, « zz » quand il dort. La tête du logo dans l'appli suit le nouveau dessin. Reste à mettre à jour les fichiers du logo dans marque/ |
+| 27 octobre 2026 | La mascotte s'appelle désormais **Lumi** (de « lumière » : il éclaire ce que l'élève n'a pas compris). Même dessin ; son histoire garde l'inspiration Sankofa. Vérifier que « Lumi » n'a pas de sens gênant dans les langues locales |
+| 27 octobre 2026 | Bienvenue en 3 étapes, dans cet ordre : classe, pays, prénom. Le prénom devient obligatoire (2 lettres minimum) |

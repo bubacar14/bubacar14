@@ -283,7 +283,7 @@ function exosDus() {
 }
 
 function messageSanko(dues) {
-  if (state.exosFaits === 0) return ["content", "Moi c'est Sanko, ton prof de poche."];
+  if (state.exosFaits === 0) return ["content", "Moi c'est Lumi, ton prof de poche."];
   if (dues) return ["reflechit", `J'ai ramené ${pluriel(dues, "chose")} que tu avais oubliée${dues > 1 ? "s" : ""}. On les revoit ? Ça prend 2 minutes.`];
   if (state.streak >= 2) return ["joie", `${state.streak} jours d'affilée ! On continue ?`];
   return ["content", "On attaque quel exercice aujourd'hui ?"];
@@ -347,7 +347,7 @@ function renderHome() {
       <div class="hero-texte">
         <span class="hero-etiquette">${icone("etincelle")}${premier ? "1er exercice offert" : "Toutes les matières"}</span>
         <h2 class="hero-titre" id="titreExo">Mon <span class="hero-titre-accent">exercice</span></h2>
-        <p>Une photo, et Sanko t'explique la méthode pas à pas.</p>
+        <p>Une photo, et Lumi t'explique la méthode pas à pas.</p>
       </div>
       <div class="hero-scene" aria-hidden="true">
         <div class="hero-viseur">
@@ -388,7 +388,7 @@ function renderHome() {
         ${icone("reviser", "ico tuile-filigrane")}
         <span class="tuile-ico">${icone("reviser")}</span>
         <span class="titre">Mes erreurs ${dues ? `<span class="badge-nombre">${dues}</span>` : ""}</span>
-        <span class="petit">${dues ? "Sanko les a ramenées" : "Rien à revoir"}</span>
+        <span class="petit">${dues ? "Lumi les a ramenées" : "Rien à revoir"}</span>
       </button>
       <button class="tuile violet" id="carteDuel">
         ${icone("duel", "ico tuile-filigrane")}
@@ -501,7 +501,7 @@ const ASTUCES = [
   "Pendant ce temps, relis la question : que cherche-t-on exactement ?",
   "Astuce : souligne les données de l'énoncé avant de calculer.",
   "Au BAC, la méthode rapporte souvent plus de points que le résultat.",
-  "Une erreur, c'est une question que Sanko te ramènera. Rien de grave.",
+  "Une erreur, c'est une question que Lumi te ramènera. Rien de grave.",
   "Écris chaque étape : le correcteur doit pouvoir te suivre.",
 ];
 
@@ -846,7 +846,7 @@ function renderQuestion() {
       <button class="btn btn-discret" id="quitter" aria-label="Quitter le quiz">${icone("fermer")}</button>
       <div class="jauge" role="progressbar" aria-valuemin="0" aria-valuemax="${qs.length}" aria-valuenow="${i}"><span style="width:${(i / qs.length) * 100}%"></span></div>
     </div>
-    <span class="etiquette">${esc(matiereLabel(q.matiere))} · ${q.niveau === "bac" ? "BAC" : esc(brevet())}${session.mode === "revoir" ? " · Sanko te l'a ramenée" : ""}</span>
+    <span class="etiquette">${esc(matiereLabel(q.matiere))} · ${q.niveau === "bac" ? "BAC" : esc(brevet())}${session.mode === "revoir" ? " · Lumi te l'a ramenée" : ""}</span>
     ${combo}
     <p class="question">${esc(q.q)}</p>
     <div class="actions" id="choix">
@@ -892,7 +892,7 @@ function repondre(k) {
   feuille.setAttribute("role", "status");
   feuille.innerHTML = `
     <div class="feuille-titre">${sanko(ok ? "joie" : "encourage", 64, ok ? "sanko-saute" : "")}<h2>${ok ? bravo : "Pas tout à fait"}</h2></div>
-    ${ok ? `<p>${esc(q.explication)}</p>` : `<p><b>Bonne réponse : ${esc(q.choix[q.bonne])}</b></p><p>${esc(q.explication)}</p><p class="petit">Pas grave : Sanko te la ramènera demain.</p>`}
+    ${ok ? `<p>${esc(q.explication)}</p>` : `<p><b>Bonne réponse : ${esc(q.choix[q.bonne])}</b></p><p>${esc(q.explication)}</p><p class="petit">Pas grave : Lumi te la ramènera demain.</p>`}
     <button class="btn ${ok ? "btn-juste" : "btn-principal"} btn-large" id="suivante">${dernier ? "Voir mon bilan" : "Continuer"}</button>`;
   document.body.appendChild(feuille);
   // Les réponses restent visibles au-dessus du panneau.
@@ -904,6 +904,20 @@ function repondre(k) {
   });
 }
 
+// La semaine du lundi au dimanche : jours révisés cochés, aujourd'hui entouré.
+function calendrierSemaine(animer = false) {
+  const lundi = addDays(today(), -((new Date(`${today()}T00:00:00Z`).getUTCDay() + 6) % 7));
+  const semaine = Array.from({ length: 7 }, (_, k) => addDays(lundi, k));
+  return `
+    <div class="calendrier" aria-label="Série : ${pluriel(state.streak, "jour")}">
+      ${semaine.map((j) => {
+        const fait = (state.jours || []).includes(j);
+        const lettre = new Date(j).toLocaleDateString("fr-FR", { weekday: "narrow", timeZone: "UTC" });
+        return `<span class="${fait ? "fait" : ""} ${j === today() ? "jour-j" : ""} ${j > today() ? "a-venir" : ""} ${fait && j === today() && animer ? "aujourdhui" : ""}"><small>${lettre}</small>${fait ? icone("juste") : ""}</span>`;
+      }).join("")}
+    </div>`;
+}
+
 function finSeance() {
   const { score, qs, duel, mode, matiere, resultats } = session;
   const nouveauJour = marquerActif();
@@ -913,8 +927,6 @@ function finSeance() {
   majBarre();
   const ratees = qs.filter((_, k) => !resultats[k]);
   const pct = Math.round((score / qs.length) * 100);
-  const lundi = addDays(today(), -((new Date(`${today()}T00:00:00Z`).getUTCDay() + 6) % 7));
-  const semaine = Array.from({ length: 7 }, (_, k) => addDays(lundi, k));
   const titre = pct === 100 ? "Parfait !" : pct >= 60 ? "Bien joué !" : "Séance terminée";
   const humeur = pct >= 60 ? "fier" : "encourage";
 
@@ -943,13 +955,7 @@ function finSeance() {
     </section>` : ""}
     <section class="carte">
       <span class="etiquette">Ta semaine</span>
-      <div class="calendrier" aria-label="Série : ${pluriel(state.streak, "jour")}">
-        ${semaine.map((j) => {
-          const fait = (state.jours || []).includes(j);
-          const lettre = new Date(j).toLocaleDateString("fr-FR", { weekday: "narrow", timeZone: "UTC" });
-          return `<span class="${fait ? "fait" : ""} ${j === today() ? "jour-j" : ""} ${j > today() ? "a-venir" : ""} ${fait && j === today() && nouveauJour ? "aujourdhui" : ""}"><small>${lettre}</small>${fait ? icone("juste") : ""}</span>`;
-        }).join("")}
-      </div>
+      ${calendrierSemaine(nouveauJour)}
       ${gelGagne ? `<span class="annotation annotation-bravo">Tu as gagné 1 jour de repos pour ta série !</span>` : ""}
       ${objectifAtteint ? `<span class="annotation annotation-bravo">Objectif du jour atteint !</span>` : ""}
     </section>
@@ -1129,94 +1135,188 @@ function payer(offre, operateur) {
 function renderProfil() {
   const maitrisees = Object.values(state.cards).filter((x) => x.box >= 3).length;
   const taux = state.answered ? Math.round((state.good / state.answered) * 100) : 0;
+  const nomPays = () => COUNTRIES[state.country]?.nom || "À choisir";
+  const sousTitre = () => [state.classe, COUNTRIES[state.country]?.nom].filter(Boolean).join(" · ") || "Choisis ta classe et ton pays";
+  const avatar = () => state.pseudo ? `<span class="avatar-lettre">${esc(state.pseudo[0].toUpperCase())}</span>` : sanko("content", 56);
   afficher(`
-    <h1 class="display-l">Mon profil</h1>
-    <div class="stats">
-      <div class="stat"><b>${state.streak}</b><span class="petit">${state.streak > 1 ? "jours" : "jour"} de série</span></div>
-      <div class="stat"><b>${taux} %</b><span class="petit">de réussite</span></div>
-      <div class="stat"><b>${maitrisees}</b><span class="petit">notions maîtrisées</span></div>
-    </div>
-    <label class="champ-label" for="pseudo">Mon prénom (pour les duels)</label>
-    <input type="text" id="pseudo" value="${esc(state.pseudo)}" placeholder="Ex. Awa" maxlength="20">
-    <span class="champ-label">Mon pays</span>
-    ${puces(Object.entries(COUNTRIES).map(([k, v]) => [k, v.nom]), state.country || "", "pays")}
-    <span class="champ-label">Ma classe</span>
-    ${puces(CLASSES.map((c) => [c, c]), state.classe, "classe")}
-    <span class="champ-label">Affichage</span>
-    ${puces([["cahier", "Cahier (clair)"], ["ardoise", "Ardoise (sombre)"], ["auto", "Comme mon téléphone"]], state.theme, "theme")}
-    <span class="champ-label">Sons et vibrations</span>
-    ${puces([["oui", "Activés"], ["non", "Coupés"]], state.sons ? "oui" : "non", "sons")}
-    <section class="carte histoire">
-      ${sanko("fier", 72)}
-      <div>
-        <span class="etiquette">Qui est Sanko ?</span>
-        <p>Sanko vient de <b>Sankofa</b>, l'oiseau des symboles adinkra qui se retourne pour reprendre l'œuf laissé derrière lui.</p>
-        <blockquote>« Il n'est jamais interdit de revenir chercher ce que tu as oublié. »</blockquote>
-        <p class="petit">C'est ce qu'il fait pour toi : il te ramène tes erreurs au bon moment.</p>
+    <section class="profil-tete">
+      <div class="avatar" id="avatar">${avatar()}</div>
+      <div class="grow">
+        <h1 class="display-l" id="nomProfil">${esc(state.pseudo) || "Mon profil"}</h1>
+        <p class="petit" id="sousProfil">${esc(sousTitre())}</p>
       </div>
     </section>
-    <button class="btn btn-principal btn-large" id="recharger">${icone("piece")}Recharger mes crédits</button>`, "profil");
-  $("#pseudo").addEventListener("change", (e) => { state.pseudo = e.target.value.trim(); save(); toast("Prénom enregistré"); });
-  lierPuces("pays", (v) => { state.country = v; save(); });
-  lierPuces("classe", (v) => { state.classe = v; save(); });
-  lierPuces("theme", (v) => { state.theme = v; state.themeChoisi = true; save(); appliquerTheme(); });
-  lierPuces("sons", (v) => { state.sons = v === "oui"; save(); son("tap"); });
+
+    <div class="stats stats-profil">
+      <div class="stat stat-orange">${icone("flamme")}<b>${state.streak}</b><span class="petit">${state.streak > 1 ? "jours" : "jour"} de série</span></div>
+      <div class="stat stat-vert">${icone("juste")}<b>${taux} %</b><span class="petit">de réussite aux quiz</span></div>
+      <div class="stat stat-violet">${icone("photo")}<b>${state.exosFaits}</b><span class="petit">${state.exosFaits > 1 ? "exercices expliqués" : "exercice expliqué"}</span></div>
+      <div class="stat stat-bleu">${icone("etincelle")}<b>${maitrisees}</b><span class="petit">${maitrisees > 1 ? "notions maîtrisées" : "notion maîtrisée"}</span></div>
+    </div>
+
+    <section class="carte carte-credits">
+      <span class="credits-ico">${icone("piece")}</span>
+      <div class="grow">
+        <b class="credits-solde">${pluriel(state.credits, "crédit")}</b>
+        <span class="petit">+1 offert chaque jour</span>
+      </div>
+      <button class="btn btn-soleil" id="recharger">Recharger</button>
+    </section>
+
+    <section class="carte">
+      <div class="carte-entete"><span class="etiquette">Ta semaine</span>${state.gels ? `<span class="petit">${pluriel(state.gels, "jour")} de repos en réserve</span>` : ""}</div>
+      ${calendrierSemaine()}
+    </section>
+
+    <h2 class="titre section-titre">Mes infos</h2>
+    <div class="reglages">
+      <label class="reglage-ligne" for="pseudo">
+        <span class="reglage-nom">Prénom</span>
+        <input type="text" id="pseudo" value="${esc(state.pseudo)}" placeholder="Pour les duels" maxlength="20" autocomplete="given-name">
+      </label>
+      <details class="reglage" id="reglagePays">
+        <summary class="reglage-ligne"><span class="reglage-nom">Pays</span><span class="reglage-valeur" id="valeurPays">${esc(nomPays())}</span>${icone("chevron", "ico chevron")}</summary>
+        <p class="petit">Je corrige comme ton correcteur d'examen.</p>
+        <div class="grille-choix">${Object.entries(COUNTRIES).map(([k, v]) => `<button class="puce" data-pays="${k}" aria-pressed="${state.country === k}">${esc(v.nom)}</button>`).join("")}</div>
+      </details>
+      <details class="reglage" id="reglageClasse">
+        <summary class="reglage-ligne"><span class="reglage-nom">Classe</span><span class="reglage-valeur" id="valeurClasse">${esc(state.classe || "À choisir")}</span>${icone("chevron", "ico chevron")}</summary>
+        <p class="petit">Tes quiz s'adaptent à ton niveau.</p>
+        <div class="grille-choix">${CLASSES.map((c) => `<button class="puce" data-classe="${esc(c)}" aria-pressed="${state.classe === c}">${esc(c)}</button>`).join("")}</div>
+      </details>
+    </div>
+
+    <h2 class="titre section-titre">Réglages</h2>
+    <div class="reglages">
+      <div class="reglage-ligne reglage-bloc">
+        <span class="reglage-nom">Affichage</span>
+        <div class="segments" role="group" aria-label="Affichage">
+          ${[["cahier", "Clair"], ["ardoise", "Sombre"], ["auto", "Auto"]].map(([k, nom]) => `<button class="segment" data-affichage="${k}" aria-pressed="${state.theme === k}">${nom}</button>`).join("")}
+        </div>
+      </div>
+      <div class="reglage-ligne">
+        <span class="reglage-nom">Sons et vibrations</span>
+        <button class="interrupteur" id="sons" role="switch" aria-checked="${state.sons}" aria-label="Sons et vibrations"><span></span></button>
+      </div>
+    </div>
+
+    <details class="reglage reglage-seul">
+      <summary class="reglage-ligne"><span class="reglage-nom">Qui est Lumi ?</span>${icone("chevron", "ico chevron")}</summary>
+      <div class="histoire">
+        ${sanko("fier", 64)}
+        <div>
+          <p>Lumi est un petit oiseau soleil : il éclaire ce que tu n'as pas compris. Il s'inspire de <b>Sankofa</b>, l'oiseau des symboles adinkra qui se retourne pour reprendre l'œuf laissé derrière lui.</p>
+          <blockquote>« Il n'est jamais interdit de revenir chercher ce que tu as oublié. »</blockquote>
+          <p class="petit">C'est ce qu'il fait pour toi : il te ramène tes erreurs au bon moment.</p>
+        </div>
+      </div>
+    </details>`, "profil");
+
+  const majTete = () => {
+    $("#nomProfil").textContent = state.pseudo || "Mon profil";
+    $("#sousProfil").textContent = sousTitre();
+    $("#avatar").innerHTML = avatar();
+  };
+  $("#pseudo").addEventListener("change", (e) => { state.pseudo = e.target.value.trim(); save(); majTete(); toast("Prénom enregistré"); });
+  lierPuces("pays", (v) => {
+    state.country = v; save(); son("tap");
+    $("#valeurPays").textContent = nomPays(); majTete();
+    $("#reglagePays").open = false;
+  });
+  lierPuces("classe", (v) => {
+    state.classe = v; save(); son("tap");
+    $("#valeurClasse").textContent = v; majTete();
+    $("#reglageClasse").open = false;
+  });
+  lierPuces("affichage", (v) => { state.theme = v; state.themeChoisi = true; save(); appliquerTheme(); });
+  $("#sons").addEventListener("click", (e) => {
+    state.sons = !state.sons; save();
+    e.currentTarget.setAttribute("aria-checked", String(state.sons));
+    son("tap");
+  });
   $("#recharger").addEventListener("click", () => renderRecharge());
 }
 
 // ---------- Bienvenue (premier lancement) ----------
 
+// Trois petites étapes : la classe, le pays, puis le prénom.
 function renderBienvenue(etape = 1) {
-  const points = `<div class="points-etapes" aria-label="Étape ${etape} sur 2"><span class="fait"></span><span class="${etape === 2 ? "fait" : ""}"></span></div>`;
+  const points = `<div class="points-etapes" aria-label="Étape ${etape} sur 3">${[1, 2, 3].map((k) => `<span class="${k <= etape ? "fait" : ""}"></span>`).join("")}</div>`;
+  const entete = etape === 1 ? points : `
+    <div class="entete-flux">
+      <button class="btn btn-discret" id="retour" aria-label="Étape précédente">${icone("retour")}</button>
+      ${points}
+    </div>`;
+  const suivante = () => setTimeout(() => renderBienvenue(etape + 1), 180);
+
   if (etape === 1) {
     afficher(`
-      ${points}
+      ${entete}
       <div class="bienvenue">
         ${sanko("joie", 104, "sanko-flotte")}
         <h1 class="display-l">Bienvenue sur Révizo !</h1>
-        <p class="salut-message">Tu es dans quel pays ? Je corrigerai comme ton correcteur d'examen.</p>
+        <p class="salut-message">Moi c'est Lumi. Pour commencer, tu es en quelle classe ?</p>
+      </div>
+      <div class="grille-choix">
+        ${CLASSES.map((c) => `<button class="puce" data-classe="${esc(c)}" aria-pressed="${state.classe === c}">${esc(c)}</button>`).join("")}
+      </div>`, "", true);
+    lierPuces("classe", (v) => { state.classe = v; save(); son("tap"); suivante(); });
+    return;
+  }
+
+  if (etape === 2) {
+    afficher(`
+      ${entete}
+      <div class="bienvenue">
+        ${sanko("content", 80)}
+        <h1 class="display-l">Tu es dans quel pays ?</h1>
+        <p class="salut-message">Je corrigerai comme ton correcteur d'examen.</p>
       </div>
       <div class="grille-choix">
         ${Object.entries(COUNTRIES).map(([k, v]) => `<button class="puce" data-pays="${k}" aria-pressed="${state.country === k}">${esc(v.nom)}</button>`).join("")}
       </div>`, "", true);
-    lierPuces("pays", (v) => { state.country = v; save(); son("tap"); setTimeout(() => renderBienvenue(2), 180); });
+    $("#retour").addEventListener("click", () => renderBienvenue(1));
+    lierPuces("pays", (v) => { state.country = v; save(); son("tap"); suivante(); });
     return;
   }
+
   afficher(`
-    <div class="entete-flux">
-      <button class="btn btn-discret" id="retour" aria-label="Changer de pays">${icone("retour")}</button>
-      ${points}
-    </div>
+    ${entete}
     <div class="bienvenue">
-      ${sanko("content", 80)}
-      <h1 class="display-l">En quelle classe ?</h1>
-      <p class="salut-message">Tes quiz seront à ton niveau.</p>
+      ${sanko("encourage", 80)}
+      <h1 class="display-l">Comment tu t'appelles ?</h1>
+      <p class="salut-message">C'est le nom que verront tes amis quand tu les défies.</p>
     </div>
-    <div class="grille-choix">
-      ${CLASSES.map((c) => `<button class="puce" data-classe="${esc(c)}" aria-pressed="${state.classe === c}">${esc(c)}</button>`).join("")}
-    </div>
-    <label class="champ-label" for="pseudoBienvenue">Ton prénom <span class="petit">(facultatif, pour les duels)</span></label>
-    <input type="text" id="pseudoBienvenue" maxlength="20" placeholder="Ex. Awa" value="${esc(state.pseudo)}">
+    <label class="champ-label" for="pseudoBienvenue">Ton prénom</label>
+    <input type="text" id="pseudoBienvenue" maxlength="20" placeholder="Ex. Awa" value="${esc(state.pseudo)}" autocomplete="given-name" enterkeyhint="go">
     <div class="cta-fixe">
-      <button class="btn btn-soleil btn-large" id="cestParti" ${state.classe ? "" : "disabled"}>C'est parti !</button>
+      <button class="btn btn-soleil btn-large" id="cestParti" disabled>C'est parti !</button>
     </div>`, "", true);
-  $("#retour").addEventListener("click", () => renderBienvenue(1));
-  lierPuces("classe", (v) => { state.classe = v; save(); $("#cestParti").disabled = false; });
-  $("#cestParti").addEventListener("click", () => {
-    state.pseudo = $("#pseudoBienvenue").value.trim();
+  const champ = $("#pseudoBienvenue");
+  const pret = () => champ.value.trim().length >= 2;
+  const maj = () => { $("#cestParti").disabled = !pret(); };
+  const valider = () => {
+    if (!pret()) return;
+    state.pseudo = champ.value.trim();
     state.bienvenue = true;
     save();
     son("tap");
     render("home");
-  });
+  };
+  maj();
+  champ.focus({ preventScroll: true });
+  champ.addEventListener("input", maj);
+  champ.addEventListener("keydown", (e) => { if (e.key === "Enter") valider(); });
+  $("#retour").addEventListener("click", () => renderBienvenue(2));
+  $("#cestParti").addEventListener("click", valider);
 }
 
 // ---------- Navigation ----------
 
 function render(name) {
   session = null;
-  // Un élève arrivé par un lien de duel n'a pas encore vu l'accueil : on lui demande d'abord pays et classe.
-  if (!state.bienvenue && !(state.country && state.classe)) renderBienvenue();
+  // Un élève arrivé par un lien de duel n'a pas encore vu l'accueil : on lui demande d'abord classe, pays et prénom.
+  if (!state.bienvenue && !(state.country && state.classe && state.pseudo)) renderBienvenue();
   else if (name === "reviser") renderReviser();
   else if (name === "profil") renderProfil();
   else renderHome();

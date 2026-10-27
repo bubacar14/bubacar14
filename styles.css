@@ -195,7 +195,7 @@ p { margin: 0; }
 .hero-titre-accent { background: linear-gradient(90deg, #ffe680, #ffc21a 45%, #ff9a3c); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .hero-actions { display: flex; flex-direction: column; gap: var(--espace-2); }
 
-/* La scène : une feuille d'exercice dans le viseur de l'appareil photo, Sanko qui regarde. */
+/* La scène : une feuille d'exercice dans le viseur de l'appareil photo, Lumi qui regarde. */
 .hero-scene { position: relative; height: 128px; }
 .hero-viseur {
   position: absolute; left: 0; top: 4px; bottom: 4px; width: min(230px, 72%);
@@ -413,7 +413,7 @@ textarea, input[type="text"] {
   .calendrier span.aujourdhui .ico { stroke-dashoffset: 0; }
 }
 
-/* ---------- Refonte « Sanko » : une interface qu'on a envie de toucher ---------- */
+/* ---------- Refonte « Lumi » : une interface qu'on a envie de toucher ---------- */
 
 /* Boutons en relief : ils s'enfoncent quand on appuie. */
 .btn, .choix, .tuile, .offre, .operateur, .puce {
@@ -434,7 +434,7 @@ textarea, input[type="text"] {
 .puce { border-width: 2px; box-shadow: 0 3px 0 var(--ligne-fonce); }
 .puce[aria-pressed="true"] { box-shadow: 0 3px 0 var(--bic); }
 
-/* Sanko et ses bulles */
+/* Lumi et ses bulles */
 .sanko { display: block; flex: none; overflow: visible; }
 .sanko .sanko-yeux { transform-origin: 60px 60px; animation: cligne 5s infinite; }
 @keyframes cligne { 0%, 94%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
@@ -594,7 +594,7 @@ body.immersif { padding-bottom: 0; }
 .confettis i { position: absolute; top: -20px; width: 10px; height: 14px; border-radius: 2px; animation: tombe 1.6s ease-in forwards; }
 @keyframes tombe { to { transform: translateY(110vh) rotate(540deg); } }
 
-/* Histoire de Sanko */
+/* Histoire de Lumi */
 .histoire { display: flex; gap: var(--espace-3); align-items: flex-start; }
 .histoire blockquote { margin: 0; font-family: var(--font-annotation); font-size: 22px; line-height: 26px; color: var(--bic); }
 
@@ -716,7 +716,7 @@ body.immersif main { min-height: calc(100dvh - 64px); }
 .lien-photo { align-self: flex-start; display: inline-flex; align-items: center; gap: var(--espace-1); background: none; border: 0; padding: var(--espace-1) 0; color: var(--bic); font-weight: 700; font-size: 15px; }
 .lien-photo .ico { width: 20px; height: 20px; }
 
-/* Attente : Sanko au centre, une jauge qui avance, une astuce pour patienter. */
+/* Attente : Lumi au centre, une jauge qui avance, une astuce pour patienter. */
 .attente { align-items: center; text-align: center; gap: var(--espace-3); padding-top: var(--espace-6); }
 .attente-titre { font-family: var(--font-display); font-size: 22px; line-height: 28px; font-weight: 800; }
 .attente-jauge { width: min(280px, 100%); height: 12px; border-radius: var(--rayon-pilule); background: var(--ligne); overflow: hidden; }
@@ -725,7 +725,7 @@ body.immersif main { min-height: calc(100dvh - 64px); }
 .attente-etapes { align-self: center; text-align: left; }
 .attente-astuce { max-width: 32ch; margin-top: var(--espace-3); padding: var(--espace-3); border-radius: var(--rayon-l); background: var(--soleil-doux); color: var(--encre); font-size: 15px; }
 
-/* Énoncé lu : la photo en miniature à côté de Sanko. */
+/* Énoncé lu : la photo en miniature à côté de Lumi. */
 .lu-photo { display: flex; align-items: center; gap: var(--espace-3); }
 .lu-photo img { flex: none; width: 72px; height: 72px; object-fit: cover; border-radius: var(--rayon-m); border: 2px solid var(--ligne); }
 .lu-photo .sanko-dit { flex: 1; min-width: 0; }
@@ -759,3 +759,53 @@ body.immersif main { min-height: calc(100dvh - 64px); }
 .calendrier span.fait { background: var(--bic-doux); }
 .calendrier span.jour-j { border-width: 2px; border-color: var(--bic); }
 .calendrier span.a-venir { opacity: 0.5; }
+
+/* ---------- Profil ---------- */
+.profil-tete { display: flex; align-items: center; gap: var(--espace-3); }
+.avatar { flex: none; width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; overflow: hidden; background: var(--soleil-doux); border: 3px solid var(--soleil); }
+.avatar-lettre { font-family: var(--font-display); font-size: 34px; font-weight: 800; color: var(--encre); }
+.profil-tete .display-l { overflow-wrap: anywhere; }
+
+.stats-profil { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.stats-profil .stat { gap: 2px; border-width: 2px; }
+.stats-profil .stat .ico { width: 24px; height: 24px; margin-bottom: var(--espace-1); }
+.stat-orange { background: var(--orange-doux); border-color: var(--orange-doux); } .stat-orange .ico { color: var(--orange); }
+.stat-vert { background: var(--juste-doux); border-color: var(--juste-doux); } .stat-vert .ico { color: var(--juste); }
+.stat-violet { background: var(--violet-doux); border-color: var(--violet-doux); } .stat-violet .ico { color: var(--violet); }
+.stat-bleu { background: var(--bic-doux); border-color: var(--bic-doux); } .stat-bleu .ico { color: var(--bic); }
+
+.carte-credits { flex-direction: row; align-items: center; gap: var(--espace-3); }
+.carte-credits .grow { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.credits-ico { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--soleil); color: var(--on-soleil); }
+.credits-ico .ico { width: 26px; height: 26px; }
+.credits-solde { font-family: var(--font-display); font-size: 22px; line-height: 28px; }
+.carte-credits .btn { flex: none; margin: 0; padding: 0 var(--espace-3); }
+.carte-entete { display: flex; justify-content: space-between; align-items: baseline; gap: var(--espace-2); flex-wrap: wrap; }
+
+/* Réglages en lignes, comme dans les réglages du téléphone. */
+.reglages { display: flex; flex-direction: column; border: 2px solid var(--ligne); border-radius: var(--rayon-l); background: var(--papier-2); overflow: hidden; }
+.reglages > * + * { border-top: 2px solid var(--ligne); }
+.reglage-ligne { display: flex; align-items: center; gap: var(--espace-2); min-height: 56px; padding: var(--espace-2) var(--espace-4); }
+.reglage-nom { flex: 1; font-weight: 700; }
+.reglage-valeur { color: var(--encre-2); font-weight: 700; }
+.reglage-ligne input[type="text"] { flex: 1.4; min-width: 0; min-height: 40px; padding: 0 var(--espace-3); text-align: right; border-color: transparent; background: transparent; }
+.reglage-ligne input[type="text"]:focus { border-color: var(--bic); background: var(--papier); text-align: left; }
+.reglage summary { list-style: none; cursor: pointer; }
+.reglage summary::-webkit-details-marker { display: none; }
+.reglage .chevron { width: 20px; height: 20px; color: var(--encre-2); transition: transform 160ms ease; }
+.reglage[open] .chevron { transform: rotate(90deg); }
+.reglage > :not(summary) { margin: 0 var(--espace-4) var(--espace-3); }
+.reglage-seul { border: 2px solid var(--ligne); border-radius: var(--rayon-l); background: var(--papier-2); }
+.reglage-bloc { flex-wrap: wrap; }
+
+/* Choix en segments (Clair / Sombre / Auto). */
+.segments { display: flex; padding: 3px; gap: 3px; border-radius: var(--rayon-pilule); background: var(--ligne); }
+.segment { min-height: 36px; padding: 0 var(--espace-3); border: 0; border-radius: var(--rayon-pilule); background: transparent; color: var(--encre-2); font-weight: 700; font-size: 14px; }
+.segment[aria-pressed="true"] { background: var(--papier-2); color: var(--bic); box-shadow: 0 1px 3px rgba(27, 31, 59, 0.15); }
+
+/* Interrupteur marche / arrêt. */
+.interrupteur { flex: none; position: relative; width: 52px; height: 32px; border: 0; border-radius: var(--rayon-pilule); background: var(--ligne-fonce); transition: background 160ms ease; }
+.interrupteur span { position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #ffffff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); transition: transform 160ms ease; }
+.interrupteur[aria-checked="true"] { background: var(--juste); }
+.interrupteur[aria-checked="true"] span { transform: translateX(20px); }
+@media (prefers-reduced-motion: reduce) { .interrupteur, .interrupteur span, .reglage .chevron { transition: none; } }

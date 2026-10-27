@@ -12,10 +12,10 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
   3. l'élève confirme l'énoncé, ce qui coûte 1 crédit ;
   4. l'IA explique la méthode pas à pas (`/api/resoudre`).
 - **La correction se dévoile progressivement :** question de départ, indices (« Je bloque »), méthode, étapes une à une. On ne donne pas la réponse d'emblée : une étude sur environ 1 000 lycéens montre que les réponses directes font baisser les notes à l'examen.
-- **Premier lancement :** un écran de bienvenue en 2 étapes demande le pays, puis la classe (prénom facultatif). La classe n'est plus redemandée ensuite ; la matière se choisit par exercice. Le pays sert à l'IA pour corriger comme l'examen du pays, la classe choisit le niveau des quiz (brevet ou BAC).
+- **Premier lancement :** un écran de bienvenue en 3 étapes demande d'abord la classe, puis le pays, puis le prénom (obligatoire, 2 lettres minimum). La classe choisit le niveau des quiz, le pays sert à l'IA pour corriger comme l'examen du pays, le prénom sert à l'accueil et aux duels. Rien n'est redemandé ensuite ; la matière se choisit par exercice.
 - **Gratuit :** quiz, révision des erreurs en répétition espacée, duels, série de jours (avec jours de repos), et 1 exercice offert par jour.
 - **Crédits :** 1 crédit = 1 exercice. Pas d'abonnement ni de prélèvement automatique. Le paiement mobile money est encore **simulé**.
-- **Sanko, la mascotte** (`sanko.js`) : un oiseau jaune soleil avec une huppe en goutte d'encre bleue. Il vient de Sankofa, l'oiseau adinkra : « il n'est jamais interdit de revenir chercher ce que tu as oublié ». Il « ramène » les erreurs à l'élève et a six humeurs : content, joie, réfléchit, encourage, dort, fier.
+- **Lumi, la mascotte** (de « lumière », ancien nom Sanko changé le 27 octobre 2026 ; le code garde les noms `sanko.js`, `sanko()`, `.sanko`) : un oiseau jaune soleil en forme d'œuf, avec une huppe en deux gouttes d'encre bleue. Dessin du 27 octobre 2026 : volume par ombrage, grands yeux à reflets, sourcils et ailes qui changent selon l'humeur (ailes levées pour la joie, une aile qui salue pour encourager). Il vient de Sankofa, l'oiseau adinkra : « il n'est jamais interdit de revenir chercher ce que tu as oublié ». Il « ramène » les erreurs à l'élève et a six humeurs : content, joie, réfléchit, encourage, dort, fier.
 
 ## Le code
 
@@ -34,7 +34,7 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
 
 - **Lancer l'appli :** `npm install`, puis `cp .env.example .env`, puis `npm run dev`, et ouvrir http://localhost:3000.
 - **La clé** `ANTHROPIC_API_KEY` va dans `.env`, jamais dans le code ni dans une conversation.
-- **Le modèle** est `claude-opus-5-5` par défaut. `REVIZO_MODEL=claude-haiku-5-5` coûte beaucoup moins cher : à comparer sur de vrais exercices.
+- **Le modèle** est `claude-haiku-5-5` par défaut (choisi le 27 octobre 2026 après un test sur 8 pages du BAC 2026 : aussi juste qu'Opus, environ 7 FCFA par exercice contre 190). `REVIZO_MODEL=claude-opus-5-5` reste possible. Haiku n'a pas de bascule automatique si l'IA refuse une demande. **Garder chaque appel sous 100 000 tokens** : au-delà, Haiku coûte 5 fois plus cher (une correction de maths en envoie déjà environ 68 000).
 - **La branche de travail** est `claude/phone-control-l2egop`.
 
 ## Règles de design (charte Révizo)
