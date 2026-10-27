@@ -1252,6 +1252,13 @@ function renderRecharge(contexte) {
   const c = pays();
   let choisie = "moyen";
   let operateur = c?.paiement[0] || "";
+  // Paiement réel : opérateurs de DexPay (null tant qu'ils ne sont pas chargés), moyen choisi et numéro tapé.
+  let moyens = paiement === "dexpay" ? moyensParPays[state.country] || null : [];
+  let moyen = moyens?.[0] || null;
+  let telephone = "";
+  if (paiement === "dexpay" && c && !moyens) {
+    moyensDuPays(state.country).then((m) => { moyens = m || []; moyen = moyens[0] || null; if (document.querySelector("#zonePaiement")) dessiner(); });
+  }
   const titre = contexte === "epuise" ? "Tu n'as plus de crédit" : "Recharge tes crédits";
   const sousTitre = contexte === "epuise"
     ? `Demain, ${pluriel(CREDIT_OFFERT_PAR_JOUR, "crédit")} t'est offert. Tu peux aussi recharger maintenant.`
@@ -1277,9 +1284,22 @@ function renderRecharge(contexte) {
             </span>
           </button>`).join("")}
       </div>
-      <p class="rassure">${icone("juste")}<span>Valables toute l'année. <b>Aucun prélèvement automatique.</b> Quiz, révisions, duels et 1 exercice par jour restent gratuits.</span></p>
-
-      ${c ? `
+      ${c && paiement === "dexpay" ? `
+        <div id="zonePaiement">
+        ${!moyens ? `<p class="petit">Je charge les moyens de paiement…</p>`
+          : !moyens.length ? `<p class="rassure">${icone("etincelle")}<span>Le paiement mobile money arrive bientôt ${esc(auPays(state.country))}. En attendant, ton exercice offert revient chaque jour.</span></p>`
+          : `
+          <span class="champ-label">Payer avec</span>
+          <div class="operateurs">
+            ${moyens.map((m) => `<button class="operateur operateur-logo" data-moyen="${esc(m.code)}" aria-pressed="${m.code === moyen?.code}">${m.logo ? `<img src="${esc(m.logo)}" alt="" width="28" height="28">` : ""}<span>${esc(m.nom)}</span></button>`).join("")}
+          </div>
+          <label class="champ-label" for="telPaiement">Ton numéro ${esc(moyen?.nom || "")}</label>
+          <div class="champ-tel">
+            <span class="indicatif">+${INDICATIFS_TEL[state.country] || ""}</span>
+            <input type="tel" id="telPaiement" inputmode="tel" autocomplete="tel-national" placeholder="77 123 45 67" value="${esc(telephone)}">
+          </div>`}
+        </div>
+      ` : c ? `
         <span class="champ-label">Payer avec</span>
         <div class="operateurs">
           ${c.paiement.map((m) => `<button class="operateur" data-operateur="${esc(m)}" aria-pressed="${m === operateur}">${esc(m)}</button>`).join("")}
@@ -1288,15 +1308,24 @@ function renderRecharge(contexte) {
         <span class="champ-label">Ton pays, pour afficher tes moyens de paiement</span>
         ${puces(Object.entries(COUNTRIES).map(([k, v]) => [k, v.nom]), "", "pays")}
       `}
+      <p class="rassure">${icone("juste")}<span>Valables toute l'année. <b>Aucun prélèvement automatique.</b> Quiz, révisions, duels et 1 exercice par jour restent gratuits.</span></p>
       <button class="btn btn-discret" id="parent">${icone("whatsapp")}Demander à un parent de payer</button>
-      <p class="demo">Démo : aucun paiement réel. Les crédits sont ajoutés directement.</p>
-      ${c ? `<div class="cta-fixe"><button class="btn btn-principal btn-large" id="payer">Payer ${prix(o.prix)} avec ${esc(operateur)}</button></div>` : ""}`, "", true);
+      ${paiement === "demo" ? `<p class="demo">Démo : aucun paiement réel. Les crédits sont ajoutés directement.</p>` : ""}
+      ${c && (paiement !== "dexpay" || moyen) ? `<div class="cta-fixe"><button class="btn btn-principal btn-large" id="payer">Payer ${prix(o.prix)} avec ${esc(paiement === "dexpay" ? moyen.nom : operateur)}</button></div>` : ""}`, "", true);
 
     $("#retour").addEventListener("click", () => render("home"));
     view.querySelectorAll("[data-offre]").forEach((b) => b.addEventListener("click", () => { choisie = b.dataset.offre; dessiner(); }));
     view.querySelectorAll("[data-operateur]").forEach((b) => b.addEventListener("click", () => { operateur = b.dataset.operateur; dessiner(); }));
+    view.querySelectorAll("[data-moyen]").forEach((b) => b.addEventListener("click", () => { telephone = $("#telPaiement")?.value || telephone; moyen = moyens.find((m) => m.code === b.dataset.moyen); dessiner(); }));
+    $("#telPaiement")?.addEventListener("input", (e) => { telephone = e.target.value; });
     lierPuces("pays", (v) => { state.country = v; save(); renderRecharge(contexte); });
-    $("#payer")?.addEventListener("click", () => payer(o, operateur));
+    $("#payer")?.addEventListener("click", () => {
+      if (paiement === "dexpay") {
+        telephone = $("#telPaiement").value.trim();
+        if (telephone.replace(/\D/g, "").length < 8) { toast("Écris ton numéro de téléphone."); $("#telPaiement").focus(); return; }
+      }
+      payer(o, operateur, moyen, telephone);
+    });
     $("#parent").addEventListener("click", () => {
       const texte = `Bonjour, peux-tu m'acheter ${o.credits} crédits Révizo (${prix(o.prix)}) pour mes révisions ? ${location.origin}${location.pathname}`;
       window.open(`https://wa.me/?text=${encodeURIComponent(texte)}`, "_blank", "noopener");
@@ -1305,8 +1334,7 @@ function renderRecharge(contexte) {
   dessiner();
 }
 
-// Pays où DexPay encaisse le mobile money (même liste que le serveur, paiement.js).
-const PAYS_DEXPAY = ["SN", "CI", "ML", "BF", "GN"];
+const INDICATIFS_TEL = { SN: "221", CI: "225", ML: "223", BF: "226", GN: "224", BJ: "229", TG: "228", NE: "227" };
 
 function messagePaiement(texte) {
   afficher(`
@@ -1317,19 +1345,66 @@ function messagePaiement(texte) {
   $("#accueil").addEventListener("click", () => render("home"));
 }
 
-// Vrai paiement : le serveur crée la commande, puis l'élève part sur la page de paiement DexPay.
-async function payerDexpay(offre) {
-  if (!PAYS_DEXPAY.includes(state.country)) {
-    messagePaiement("Le paiement mobile money n'est pas encore disponible dans ton pays. Ton exercice offert revient chaque jour.");
-    return;
+// Les opérateurs du pays (Wave, Orange Money…), demandés au serveur qui les tient de DexPay.
+const moyensParPays = {};
+async function moyensDuPays(code) {
+  if (!moyensParPays[code]) {
+    const r = await appelApi("api/moyens", { pays: code });
+    if (!Array.isArray(r.moyens)) return null;
+    moyensParPays[code] = r.moyens;
   }
-  renderAttente(["Je prépare ton paiement"], 8);
-  const r = await appelApi("api/payer", { offre: offre.id, pays: state.country });
-  if (!r.url) {
+  return moyensParPays[code];
+}
+
+// Paiement sans quitter Révizo : le serveur crée la commande et envoie la demande à l'opérateur.
+// Wave renvoie un lien vers son appli ; Orange Money, MTN, Moov et Mixx envoient une demande à valider sur le téléphone.
+async function payerDirect(offre, moyen, telephone) {
+  renderAttente([`Je contacte ${moyen.nom}`], 8);
+  const r = await appelApi("api/payer", { offre: offre.id, pays: state.country, operateur: moyen.code, telephone, nom: state.pseudo || "" });
+  if (!r.reference) {
     messagePaiement(esc(r.erreur || "Le paiement n'a pas pu commencer. Réessaie dans un instant."));
     return;
   }
-  location.href = r.url;
+  attendreConfirmation({ ...r, offre, nomMoyen: moyen.nom });
+}
+
+// En attendant la confirmation de l'opérateur : le serveur est interrogé toutes les 4 secondes pendant 3 minutes.
+// Les crédits ne viennent que de la confirmation de DexPay ; « Annuler » arrête seulement l'attente.
+function attendreConfirmation({ reference, lien, offre, nomMoyen }) {
+  let fini = false;
+  afficher(`
+    <div class="attente attente-paiement" role="status" aria-live="polite">
+      ${sanko("encourage", 104, "sanko-flotte")}
+      <h1 class="display-l">${lien ? `Paie avec ${esc(nomMoyen)}` : "Confirme sur ton téléphone"}</h1>
+      <p>${lien
+        ? `Touche le bouton : ${esc(nomMoyen)} s'ouvre sur le paiement de <b class="mono">${prix(offre.prix)}</b>. Valide, puis reviens ici.`
+        : `Une demande de <b class="mono">${prix(offre.prix)}</b> arrive sur ton téléphone. Valide-la avec ton code secret ${esc(nomMoyen)}.`}</p>
+      ${lien ? `<a class="btn btn-soleil btn-large" id="ouvrirLien" href="${esc(lien)}" target="_blank" rel="noopener">Ouvrir ${esc(nomMoyen)}</a>` : ""}
+      <div class="attente-jauge" aria-hidden="true"><span style="animation-duration:180s"></span></div>
+      <p class="petit" id="etatAttente">J'attends la confirmation…</p>
+    </div>
+    <button class="btn btn-large" id="annuler">Annuler</button>`, "", true);
+  const arreter = () => { fini = true; };
+  $("#annuler").addEventListener("click", () => {
+    arreter();
+    messagePaiement(`Attente arrêtée. Si tu valides quand même le paiement, tes crédits arriveront tout seuls.<br><span class="petit">Référence ${esc(reference)}</span>`);
+  });
+  const debut = Date.now();
+  const verifier = async () => {
+    if (fini) return;
+    const etat = await appelApi("api/commande", { reference });
+    if (fini) return;
+    if (typeof etat.credits === "number") { state.credits = etat.credits; save(); majBarre(); }
+    if (etat.statut === "payee") { arreter(); afficherRecu(etat, reference); return; }
+    if (etat.statut === "echouee") { arreter(); messagePaiement(`Le paiement n'a pas abouti, aucun crédit n'a été ajouté.<br><span class="petit">Référence ${esc(reference)}</span>`); return; }
+    if (Date.now() - debut > 180000) {
+      arreter();
+      messagePaiement(`Pas encore de confirmation. Si tu as validé, tes crédits arriveront tout seuls dans quelques minutes.<br><span class="petit">Référence ${esc(reference)}</span>`);
+      return;
+    }
+    setTimeout(verifier, 4000);
+  };
+  setTimeout(verifier, 4000);
 }
 
 // Retour de la page de paiement (?paiement=ok|echec&ref=…). L'adresse ne prouve rien :
@@ -1344,6 +1419,21 @@ function lireRetourPaiement() {
 
 // Après une annulation, une seule vérification : DexPay garde le paiement ouvert 24 h,
 // et les crédits arriveront tout seuls si l'élève paie finalement.
+function afficherRecu(etat, reference) {
+  son("fin");
+  confettis();
+  afficher(`
+    <h1 class="display-l">Paiement reçu</h1>
+    <section class="carte carte-reponse">
+      <h2 class="carte-titre">${icone("juste")}+${etat.credits_achetes} crédits</h2>
+      <div class="recu">Référence  ${esc(reference)}\nMontant    ${prix(etat.montant)}\nSolde      ${pluriel(state.credits, "crédit")}</div>
+    </section>
+    <button class="btn btn-principal btn-large" id="exercice">${icone("photo")}Prendre un exercice en photo</button>
+    <button class="btn btn-large" id="accueil">Retour à l'accueil</button>`);
+  $("#exercice").addEventListener("click", () => $("#photoInput").click());
+  $("#accueil").addEventListener("click", () => render("home"));
+}
+
 async function renderRetourPaiement({ reference, annule }) {
   renderAttente(["Je vérifie ton paiement"], annule ? 4 : 30);
   let etat = null;
@@ -1354,18 +1444,7 @@ async function renderRetourPaiement({ reference, annule }) {
   }
   if (typeof etat?.credits === "number") { state.credits = etat.credits; save(); majBarre(); }
   if (etat?.statut === "payee") {
-    son("fin");
-    confettis();
-    afficher(`
-      <h1 class="display-l">Paiement reçu</h1>
-      <section class="carte carte-reponse">
-        <h2 class="carte-titre">${icone("juste")}+${etat.credits_achetes} crédits</h2>
-        <div class="recu">Référence  ${esc(reference)}\nMontant    ${prix(etat.montant)}\nSolde      ${pluriel(state.credits, "crédit")}</div>
-      </section>
-      <button class="btn btn-principal btn-large" id="exercice">${icone("photo")}Prendre un exercice en photo</button>
-      <button class="btn btn-large" id="accueil">Retour à l'accueil</button>`);
-    $("#exercice").addEventListener("click", () => $("#photoInput").click());
-    $("#accueil").addEventListener("click", () => render("home"));
+    afficherRecu(etat, reference);
     return;
   }
   if (etat?.statut === "en_attente" && annule) {
@@ -1379,9 +1458,9 @@ async function renderRetourPaiement({ reference, annule }) {
   messagePaiement(`Le paiement n'a pas abouti, aucun crédit n'a été ajouté. Si de l'argent a quand même été retiré, garde cette référence et écris-nous.<br><span class="petit">Référence ${esc(reference)}</span>`);
 }
 
-function payer(offre, operateur) {
+function payer(offre, operateur, moyen, telephone) {
   if (paiement === "dexpay") {
-    payerDexpay(offre);
+    payerDirect(offre, moyen, telephone);
     return;
   }
   if (paiement === "bientot") {

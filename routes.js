@@ -2,7 +2,7 @@
 // Chaque route reçoit le corps JSON et les en-têtes, et renvoie { status, data }.
 import { traiterLire, traiterResoudre } from "./ia.js";
 import { comptesActifs, identifier, solde, debiter, rendre, crediter, creerCommande, payerCommande, echouerCommande, etatCommande } from "./comptes.js";
-import { paiementActif, OFFRES, PAYS_DEXPAY, nouvelleReference, creerSession, etatSession, signatureValide } from "./paiement.js";
+import { paiementActif, OFFRES, nouvelleReference, creerSession, etatSession, signatureValide, moyensDePaiement, numeroInternational, lancerTentative } from "./paiement.js";
 
 const PAS_DE_CLE = { status: 400, data: { erreur: "Mets l'appli à jour (Cmd + Maj + R) puis réessaie." } };
 const PANNE = { status: 503, data: { erreur: "Le service est momentanément indisponible. Réessaie dans un instant." } };
@@ -78,17 +78,42 @@ export function routeAchatDemo(body, entetes) {
   });
 }
 
-// Commence un vrai paiement : la commande (montant et crédits fixés ici) puis la page de paiement DexPay.
+// Les opérateurs proposés dans le pays de l'élève (Wave, Orange Money…), d'après DexPay.
+export async function routeMoyens(body) {
+  if (!paiementActif) return { status: 200, data: { moyens: [] } };
+  try {
+    return { status: 200, data: { moyens: await moyensDePaiement(String(body?.pays || "")) } };
+  } catch (error) {
+    console.error(error);
+    return PANNE;
+  }
+}
+
+// Commence un vrai paiement, sans quitter Révizo : la commande (montant et crédits fixés ici),
+// la session DexPay, puis la demande à l'opérateur. Le numéro n'est ni enregistré ni écrit dans les journaux.
 export function routePayer(body, entetes) {
   if (!paiementActif || !comptesActifs) return Promise.resolve({ status: 403, data: { erreur: "Le paiement par mobile money arrive bientôt.", code: "paiement_indisponible" } });
   return avecCompte(entetes, async (qui) => {
     const offre = OFFRES[body?.offre];
     if (!offre) return { status: 400, data: { erreur: "Offre inconnue." } };
-    if (!PAYS_DEXPAY.includes(body?.pays)) return { status: 400, data: { erreur: "Le paiement n'est pas encore disponible dans ton pays.", code: "pays_indisponible" } };
+    const pays = String(body?.pays || "");
+    const moyens = await moyensDePaiement(pays);
+    if (!moyens.length) return { status: 400, data: { erreur: "Le paiement n'est pas encore disponible dans ton pays.", code: "pays_indisponible" } };
+    const moyen = moyens.find((m) => m.code === body?.operateur);
+    if (!moyen) return { status: 400, data: { erreur: "Choisis ton moyen de paiement." } };
+    const telephone = numeroInternational(body?.telephone, pays);
+    if (!telephone) return { status: 400, data: { erreur: "Vérifie ton numéro de téléphone.", code: "numero_invalide" } };
     const reference = nouvelleReference();
     await creerCommande(qui, reference, body.offre, offre.credits, offre.prix);
-    const url = await creerSession(reference, offre);
-    return { status: 200, data: { url, reference } };
+    await creerSession(reference, offre);
+    try {
+      const t = await lancerTentative(reference, { operateur: moyen.code, pays, telephone, nom: String(body?.nom || "Élève Révizo").slice(0, 40) });
+      return { status: 200, data: { reference, lien: t.lien, operateur: moyen.nom } };
+    } catch (error) {
+      console.error(String(error.message).replace(/\+?\d{8,15}/g, "[numéro]"));
+      await echouerCommande(reference).catch(() => {});
+      return { status: 502, data: { erreur: `${moyen.nom} n'a pas accepté la demande. Vérifie ton numéro et réessaie.` } };
+    }
   });
 }
 

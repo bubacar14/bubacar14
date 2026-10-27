@@ -861,3 +861,17 @@ body.immersif main { min-height: calc(100dvh - 64px); }
 .etapes-install { margin: 0; padding-left: var(--espace-5); display: flex; flex-direction: column; gap: var(--espace-2); font-size: 16px; line-height: 24px; }
 .etapes-install li::marker { color: var(--bic); font-weight: 800; }
 .etapes-install .ico { width: 18px; height: 18px; vertical-align: -3px; color: var(--bic); }
+
+/* ---------- Paiement direct (DexPay) ---------- */
+.operateur-logo { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 72px; padding: var(--espace-2); font-size: 14px; }
+.operateur-logo img { width: 28px; height: 28px; border-radius: 8px; object-fit: contain; background: #ffffff; }
+.champ-tel { display: flex; align-items: stretch; border: 1.5px solid var(--ligne); border-radius: var(--rayon-m); background: var(--papier-2); overflow: hidden; }
+.champ-tel:focus-within { border-color: var(--bic); }
+.champ-tel .indicatif { display: grid; place-items: center; padding: 0 var(--espace-3); background: var(--ligne); color: var(--encre); font-weight: 700; font-family: var(--font-calcul); }
+.champ-tel { min-height: 54px; }
+.champ-tel input { flex: 1; min-width: 0; min-height: 52px; padding: 0 var(--espace-3); border: 0; border-radius: 0; background: transparent; color: var(--encre); font-size: 18px; letter-spacing: 0.02em; }
+#zonePaiement { display: flex; flex-direction: column; gap: var(--espace-2); }
+.champ-tel input:focus { outline: none; }
+.attente-paiement h1 { text-align: center; }
+.attente-paiement p { max-width: 34ch; }
+.attente-paiement .btn { width: min(320px, 100%); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
