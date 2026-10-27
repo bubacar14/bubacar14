@@ -376,3 +376,57 @@ Pour un élève de 3e au Sénégal, rattacher les exemples aux thèmes ci-dessus
 - **Conséquence pour l'IA :** au BAC sénégalais, le commentaire se fait par des **questions sur le document**. Il faut répondre question par question, avec le document et ses connaissances, et pas forcément par un commentaire rédigé d'un seul bloc. Aucun croquis n'est demandé dans ce sujet de 2024.
 
 Sources : https://www.sunudaara.com/quatrieme, http://www.sunudaara.com/histoire-terminale, http://www.sunudaara.com/geographie-terminale, https://sunudaara.com/bac/bac-hg-1er-groupe-s-l-2024.
+
+---
+
+## 12. Grilles officielles du BAC 2026 (Office du Bac du Sénégal, lues le 27 octobre 2026)
+
+Deux documents officiels : la grille du BAC général 2026 et celle des séries techniques STEG et STIDD (épreuve « Connaissance du monde contemporain »). Ils sont envoyés aux correcteurs « pour éviter des écarts de notes ». La notation est **critériée** : chaque consigne est notée par critères.
+
+### 12.1 Les critères, les mêmes pour chaque consigne
+
+| Critère | Ce qu'il mesure | Poids habituel |
+|---|---|---|
+| **CM1 Pertinence** | Le contenu attendu est là : faits, exemples, dates, explication | environ la moitié des points (4/7, 4,5/8, 2,5/5, 3,5/7) |
+| **CM2 Outils et concepts** | Les mots de la discipline sont employés à bon escient (guerre froide, décolonisation, TAN, IDE, multipolarité…) | 0,5 à 1 point |
+| **CM3 Cohérence** | Enchaînement logique et **respect de la chronologie** | 0,5 à 1,5 point |
+| **CP Formulation** | Grammaire, syntaxe, écriture lisible **sans ratures**, paragraphes bien délimités | 1 à 2 points |
+
+### 12.2 Structure des sujets
+
+- **Dissertation (histoire ou géographie), sur 20 points :**
+  - une **consigne méthodologique sur 5 points** : introduction avec contextualisation, problématique et plan (1,5) ; développement qui suit le plan, avec transitions (1) ; conclusion qui résume, répond à la question et ouvre des perspectives (1,5) ; formulation (1) ;
+  - puis 2 ou 3 consignes de contenu (7 + 8, ou 5 + 5 + 5).
+- **Commentaire de texte ou de documents, sur 20 points** : 3 consignes (6 + 7 + 7, ou 7 + 6 + 7), sans consigne méthodologique à part.
+- **Les consignes tutoient l'élève** : « explique », « analyse », « évalue », « en t'appuyant sur l'exemple de ton pays ».
+
+### 12.3 Calculs et graphiques demandés en géographie
+
+- **Graphique** (diagramme en barres, en bâtons ou courbes) : titre, repère, **échelle**, légende. Il doit être « sans ratures ni surcharges ». Le graphique et son interprétation valent 3,5 points sur 7 pour la pertinence, plus des points de cohérence entre titre, échelle et légende.
+- **Solde commercial** = exportations − importations, avec le signe (excédent ou déficit). Exemple du corrigé : Chine 2023 = 3 576,7 − 2 587,2 = 989,5 milliards de dollars.
+- **Projection de population** : P_n = P_0 × (1 + TAN)^n, avec TAN = (TN − TM) / 10 en %, où TN et TM sont les taux de natalité et de mortalité en ‰. Exemple : Chine en 2050, TAN = (6,39 − 7,87) / 10 = −0,148 %, n = 27, P_2050 ≈ 1 355 millions d'habitants.
+- **Toujours commenter le résultat** : après le calcul vient l'interprétation (décroissance démographique, vieillissement, Chine dépassée par l'Inde…).
+
+### 12.4 Thèmes des sujets 2026
+
+- **Histoire :**
+  - la Chine dans la guerre froide en Asie et ses stratégies entre 1955 et 1975 (Bandung, bombe en 1964, siège à l'ONU en 1971) ;
+  - la montée du nationalisme africain entre 1939 et 1946, avec un texte d'Ibrahima Thioub ;
+  - en STEG et STIDD, la décolonisation de l'Afrique, ses causes et ses formes (pacifique, comme au Ghana et au Sénégal ; violente, comme en Algérie, en Guinée-Bissau et en Angola).
+- **Géographie :**
+  - les BRICS et leur élargissement ;
+  - la rivalité Chine–États-Unis ;
+  - l'UEMOA face à la mondialisation, avec « l'exemple de ton pays » ;
+  - les inégalités entre régions du monde.
+
+### 12.5 Règles pour l'IA de Révizo
+
+1. **« L'exemple de ton pays »** : prendre le pays de l'élève (fiche pays), pas le Sénégal par défaut.
+2. Rappeler les **4 critères** à l'élève : un contenu juste ne suffit pas, il faut les mots de la discipline, l'ordre chronologique et une copie propre.
+3. En dissertation, l'introduction **contextualise, pose une problématique et annonce le plan** ; la conclusion **ouvre des perspectives**.
+4. En géographie, **poser la formule** avant le calcul, puis **interpréter** le résultat.
+5. Plusieurs exemples sont acceptés (« exemples au choix », « etc. ») : l'IA ne doit pas exiger un exemple unique.
+
+Sources :
+- https://officedubac.sn/wp-content/uploads/2026/07/GRILLES-HG-BAC-2026.docx.pdf
+- https://officedubac.sn/wp-content/uploads/2026/06/CMC-STEG-1er-GR-PROPOSITION-GRILLE-2026-2.docx-1.pdf

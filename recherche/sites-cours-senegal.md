@@ -61,6 +61,23 @@ Visite du 27 octobre 2026 : Sunudaara, SamaBFEM, TopEducationSN et une fiche Scr
   - **SenCampus** : textes réglementaires du CFEE et du BFEM.
 - **Pays encore mal couverts :** Bénin, Togo, Guinée, Niger. On n'a que des articles de presse ; les formats d'épreuves et les coefficients restent introuvables en ligne. Il faudra des profs de ces pays, ou des annales papier.
 
+## Quatrième passage : l'Office du Bac (27 octobre 2026)
+
+- **Ce que le site offre :**
+  - les sujets et corrigés officiels de 2020 à 2026, pour toutes les séries (générales et techniques) et tous les groupes ;
+  - les grilles de correction envoyées aux correcteurs ;
+  - les programmes officiels de Terminale (mis en ligne en janvier 2026) ;
+  - des statistiques.
+- **Lu et ajouté aux guides :**
+  - `maths.md` § 13 : corrigé S2 2026 et programmes L, S1-S3, S2-S4 ;
+  - `pc.md` § 13 : corrigé S2 2026, programmes S et L2, ce qui est hors programme ;
+  - `svt.md` § 12 : corrigé S2 2026 et programmes L2, S1, S2 ;
+  - `philo.md` § 12 : canevas officiel 2026, avec la grille A 7, B 8, C 5 ;
+  - `hg.md` § 12 : grilles critériées 2026, général et STEG ;
+  - `anglais.md` § 12.4 : corrigé LV1 2026.
+- **Ce qui manque encore :** aucune épreuve d'économie dans la liste des corrigés 2026. La série STEG n'a que les maths, le français, l'anglais et la « connaissance du monde contemporain ».
+- **Comment lire ces PDF :** WebFetch ne lit pas leur texte. On les enregistre, puis on extrait le texte avec PDFKit (macOS), ou on les lit page par page.
+
 ## Ce qui reste à faire
 
 - Lire d'autres corrigés de TopEducationSN : maths IA Thiès, PC 2023-2024, SVT 2021-2022.

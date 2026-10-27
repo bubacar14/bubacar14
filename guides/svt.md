@@ -657,3 +657,46 @@ Ce sujet confirme le modèle du 1.2.
 - **Verbes de consigne :** « analyse », « tire une conclusion », « émets une hypothèse », « montre le lien », « établis la relation », « explique ». L'IA doit traiter chaque verbe à part, dans l'ordre.
 
 Sources ajoutées : https://www.sunudaara.com/quatrieme, http://www.sunudaara.com/cours-svt-première, https://sunudaara.com/bac-senegal-svt, https://sunudaara.com/bac/bac-svt-1er-groupe-s2-s2a-s4-s5-2024.
+
+---
+
+## 12. Sources officielles de l'Office du Bac du Sénégal (lues le 27 octobre 2026)
+
+### 12.1 Le corrigé officiel du BAC 2026, S2-S2A-S4-S5 (1er groupe)
+
+**I. Maîtrise des connaissances (5 points) : un exposé**, ici sur la pollinisation et la double fécondation.
+- **Introduction (0,75)** : une phrase de contexte (0,25), le problème posé sous forme de questions (0,25), l'annonce du plan (0,25).
+- **Développement en parties titrées** (I, II) : définition exacte, puis les cas (pollinisation directe et croisée), puis les exemples (« 2 agents » demandés, 0,25 chacun).
+- **Schéma complet et annoté : 1 point.** Un schéma annoté mais incomplet (sans la double fécondation) ne vaut que 0,5.
+- **Conclusion (0,5)** : elle résume et relie les deux parties.
+
+**II. Compétences méthodologiques**
+- **Exercice de génétique (arbre généalogique)** : chaque hypothèse est **retenue ou rejetée avec un individu précis** de l'arbre comme preuve (« le garçon II3 aurait hérité X^M de sa mère I2, qui serait alors malade ; or I2 est saine : l'hypothèse est rejetée »), 0,5 point par hypothèse.
+  - Notation des génotypes : X^a2//X^a2, X^a1//Y.
+  - Le corrigé précise : « accepter la discussion avec échiquier de croisement » et « accepter d'autres raisonnements cohérents et corrects ».
+- **Exercice d'immunologie (4 documents puis une synthèse)** : pour chaque document, toujours **un constat chiffré (0,25), puis une déduction (0,25)**.
+  - Exemple : « Dans le milieu 3 (LB + LT + GRM), on voit une agglutination. » puis « La coopération entre LB et LT a permis l'agglutination. »
+  - La synthèse reprend les déductions pour expliquer le mécanisme.
+- **Communication : 2 points**, soit plan de l'exposé 1, qualité de l'expression 0,5, présentation de la copie 0,5.
+
+**Règles pour l'IA :**
+1. Dans un exposé de SVT, rappeler qu'un **schéma complet et annoté** vaut à lui seul 1 point sur 5.
+2. En exploitation de documents, ne jamais sauter le **constat avec les chiffres** du document : il rapporte autant que la déduction.
+3. En génétique, rejeter ou retenir chaque hypothèse **en citant un individu de l'arbre**.
+
+### 12.2 Programmes officiels de Terminale (Office du Bac, mis en ligne en janvier 2026)
+
+- **Terminale S2 : 122 heures, 6 parties, 13 thèmes, 30 leçons.**
+  1. Relations de l'organisme avec le milieu extérieur (46 h) : système nerveux cérébro-spinal, tissu nerveux, rôle du système nerveux dans le comportement moteur, muscle strié squelettique.
+  2. Activité cardiaque et pression artérielle (10 h).
+  3. Intégrité de l'organisme (26 h) : milieu intérieur, régulation de la glycémie, immunologie.
+  4. Reproduction (22 h) : chez les mammifères et chez les spermaphytes (plantes à fleurs).
+  5. Hérédité (14 h) : génétique, hérédité humaine.
+  6. Biotechnologies (4 h).
+- **Terminale S1** : 19 leçons sur 9 thèmes. Ce sont les mêmes que S2, mais sans la reproduction des plantes ni les biotechnologies d'après le sommaire global. La génétique y comporte les « lois statistiques de la transmission des caractères ».
+- **Terminale L2** : 6 thèmes et 11 leçons. Encéphale et moelle épinière, pression artérielle, glycémie, immunologie (dont le VIH/sida), reproduction des mammifères, hérédité humaine. **Pas de génétique des lois statistiques ni de muscle** en L2 : l'IA ne doit pas les utiliser avec un élève de L2.
+
+### 12.3 Sources
+
+- Corrigé officiel SVT S2 2026 : https://officedubac.sn/wp-content/uploads/2026/07/CORRIGE-SVT-S2.pdf
+- Programmes de Terminale L2, S1 et S2 : https://officedubac.sn/wp-content/uploads/2026/01/Programmes_SVT_Tles_LS.pdf

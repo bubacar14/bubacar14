@@ -825,3 +825,93 @@ La physique-chimie commence en 4e. Il ne faut pas utiliser une notion d'une clas
 Les réponses sont courtes et exactes, avec le mot-clé souligné. C'est le niveau de rédaction à viser en 4e.
 
 Sources ajoutées : https://www.sunudaara.com/quatrieme, https://www.sunudaara.com/cours-pc-seconde, https://www.sunudaara.com/cours-pc-premi%C3%A8re, https://www.sunudaara.com/cours-pc-terminale, https://sunudaara.com/bac-senegal-pc, https://sunudaara.com/bac/corrig%C3%A9-bac-pc-1er-groupe-s2-s2a-s4-s5-2018. [TE4] : correction de l'évaluation n°1 de sciences physiques de 4e, 2022-2023, https://topeducationsn.com/wp-content/uploads/2022/11/Correction-Evaluation-PC-N°1-Semestre1-Classe-4eme-2022-2023-1.pdf.
+
+---
+
+## 13. Sources officielles de l'Office du Bac du Sénégal (lues le 27 octobre 2026)
+
+### 13.1 L'épreuve S2-S2A-S4-S5 du BAC 2026 (1er groupe)
+
+- **4 heures. Coefficient 6 en S2 et S2A, coefficient 5 en S4 et S5.**
+- **5 exercices de 4 points :**
+  1. chimie organique : chlorure d'acyle, anhydride, amide, ester ; oxydation ménagée ; estérification (lente, réversible ou limitée, athermique) et rendement ;
+  2. dosage pH-métrique de l'aspirine : courbe pH = f(V_b), point d'équivalence, masse de principe actif, écart relatif, diagramme de prédominance, solution tampon ;
+  3. satellite : mouvement circulaire uniforme, vitesse, période, 3e loi de Kepler, orbite géostationnaire, énergie de transfert d'orbite ;
+  4. circuit RLC série en régime forcé : résonance d'intensité, bande passante, facteur de qualité, surtension ;
+  5. niveaux d'énergie de l'atome d'hydrogène, longueurs d'onde, interférences de Young (interfrange).
+
+### 13.2 Comment le corrigé officiel rédige et note
+
+- **Mécanique, toujours dans le même ordre :** système, référentiel (« géocentrique, galiléen »), bilan des forces, 2e loi de Newton, projection dans la base de Frenet, conclusion (« a_t = 0, donc v est constante : le mouvement est uniforme »).
+- **Expression littérale, puis application numérique, puis unité.** Le résultat est encadré.
+- **Courbe tracée par l'élève :** 0,25 point pour des axes bien gradués, 0,25 pour les points bien placés, 0,25 pour l'allure (avec le saut de pH). Une courbe soignée rapporte des points même avant tout calcul.
+- **Point d'équivalence :** méthode des tangentes parallèles. Le corrigé accepte une lecture approchée (pH_E ≈ 7,1 ou 7,2).
+- **Écart relatif :** E_r = |valeur attendue − valeur trouvée| / valeur attendue × 100, puis une **phrase de conclusion** qui compare à la marge acceptée (« 1 % < 3 % : le résultat est conforme »).
+- **Plusieurs réponses acceptées** : par exemple « les autres réactifs comme PCl5 et PCl3 peuvent être utilisés » à la place de SOCl2. L'IA ne doit pas dire « faux » quand l'élève choisit une autre voie correcte.
+- **Définitions demandées mot pour mot** : période de révolution, conditions d'un satellite géostationnaire (orbite circulaire dans le plan de l'équateur, même sens de rotation que la Terre, période égale à la rotation propre de la Terre), solution tampon, résonance d'intensité.
+
+**Erreur de frappe dans le corrigé officiel (à ne pas reproduire) :** l'accélération normale y est écrite v²/dt. C'est **v²/r**.
+
+### 13.3 Programmes officiels de Terminale (Office du Bac, mis en ligne en janvier 2026)
+
+**Terminales S1 et S2**
+
+- **Physique :**
+  - P1 cinématique ;
+  - P2 bases de la dynamique ;
+  - P3 applications de la dynamique ;
+  - P4 gravitation ;
+  - P5 champs magnétiques ;
+  - P6 particule chargée dans un champ magnétique ;
+  - P7 loi de Laplace ;
+  - P8 induction et dipôle RL ;
+  - P9 dipôle RC ;
+  - P10 oscillations électriques libres et forcées ;
+  - P11 oscillations mécaniques libres ;
+  - P12 interférences lumineuses ;
+  - P13 effet photoélectrique ;
+  - P14 niveaux d'énergie de l'atome ;
+  - P15 réactions nucléaires.
+- **Chimie :**
+  - C1 alcools ;
+  - C2 amines ;
+  - C3 acides carboxyliques et dérivés ;
+  - C4 cinétique ;
+  - C5 pH et indicateurs colorés ;
+  - C6 acide fort et base forte, dosage ;
+  - C7 acides et bases faibles, Ka ;
+  - C8 acide faible et base forte, effet tampon, dosage ;
+  - C9 acides aminés.
+- **Hors programme** (ne pas les utiliser) :
+  - loi de composition des accélérations, hodographes ;
+  - roulement avec glissement ;
+  - loi de Biot et Savart ;
+  - effet Compton ;
+  - mécanique relativiste ;
+  - mécanismes réactionnels en chimie ;
+  - étude systématique de la catalyse.
+
+  Le mouvement circulaire sinusoïdal est réservé à TS1 et TS3. Pour les amides, seul le passage de l'acide à l'amide est au programme.
+
+**Terminale L2** : épreuve de 2 heures, coefficient 2, en 4 parties de 5 points :
+1. définitions ;
+2. phrases à trous, QCM ou questions à réponse courte, phrases à rectifier ;
+3. schémas à compléter ou exercice d'application ;
+4. texte scientifique avec questions.
+
+Au programme : énergie électrique, énergie nucléaire, ondes, lumière, puis en chimie les plastiques, les textiles et les savons.
+- **Pas d'exercice au BAC sur :**
+  - l'induction ;
+  - la réfraction ;
+  - l'effet photoélectrique ;
+  - les chapitres lessives et pollution.
+- **Exercices possibles :**
+  - défaut de masse et énergie libérée ;
+  - période radioactive ;
+  - polymérisation ;
+  - saponification.
+
+### 13.4 Sources
+
+- Corrigé officiel S2-S2A-S4-S5 2026 : https://officedubac.sn/wp-content/uploads/2026/06/Corrige_epreuve_S2_1-ergroupe_2026_stabilise.pdf
+- Programmes de Terminale L2, S1 et S2 : https://officedubac.sn/wp-content/uploads/2026/01/Programme_Sciences-Physiques_Tle_LS.pdf

@@ -434,3 +434,14 @@ Pour une rédaction ou un texte du BFEM, prévoir le vocabulaire de ces 7 thème
 Sources :
 - https://officedubac.sn/wp-content/uploads/2024/10/CORRIGE-AANGLAIS-LV1-REMPL-24.pdf
 - https://samabac.sn/bfem-2024-proposition-de-correction-de-lepreuve-anglais-1er-groupe
+
+### 12.4 Confirmé par le corrigé officiel du BAC 2026 (LV1, séries L, 1er groupe)
+
+- **Même barème qu'en 2024 : 8 + 6 + 6.** Les types d'exercices changent d'une année à l'autre.
+  - Comprehension : synonyms, table completion, true statements with justifications, sentence completion, references.
+  - Language : prepositions, word derivation (*reliance*, *digitally*, *strengthen*, *technological*), dialogue completion avec **question tags** (*can't it?*).
+  - Writing : 6 critères à 1 point chacun (presentation, topic understanding, coherence, relevance, accuracy, originality).
+- **Thème du texte 2026** : le plan numérique du Sénégal à l'horizon 2034 (12 programmes, 50 projets). Ce sont des thèmes d'actualité nationale.
+- **Plusieurs réponses acceptées** : « improve / enhance / modernise / boost or any other relevant answer ». L'IA ne doit pas refuser une réponse juste qui n'est pas celle du corrigé.
+
+Source : https://officedubac.sn/wp-content/uploads/2026/06/CORRIGE-ANG-LV1-1ER-GR-26.pdf

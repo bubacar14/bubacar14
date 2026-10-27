@@ -33,7 +33,7 @@
 - **Les hypothèses de chaque théorème vérifiées** : continuité et stricte monotonie pour la bijection, initialisation et hérédité pour la récurrence, épreuves identiques et indépendantes pour la loi binomiale.
 - **Les contenus varient selon la série.**
   - **Séries à maths renforcées** (S1 au Sénégal, C en Côte d'Ivoire et ailleurs) : arithmétique (Bézout, congruences), similitudes, coniques. Le sujet S1 2023 contient une similitude liée à une conique ; le S1 2021 contient une équation de Bézout et des congruences ([S1 2023](https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/bac/senegal/sujet-bac-s1-s1a-s3-maths-2023-senegal.pdf) ; [S1 2021](https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/bac/senegal/sujet-bac-s1-s1a-s3-maths-2021-senegal.pdf)). La géométrie dans l'espace (produit vectoriel, plans, droites) est aussi probable **[ajout non sourcé]**.
-  - **Séries scientifiques expérimentales** (S2, D, TSExp) : nombres complexes, probabilités, suites et un problème d'analyse (étude de fonction ln ou exp, intégrales). Deux thèmes manquaient au brouillon et sont **fréquents d'après ma connaissance générale** : les **statistiques à deux variables** (nuage de points, point moyen, covariance, droite de régression, coefficient de corrélation) et les **équations différentielles** (y' = ay + b, y'' + ω²y = 0, y'' + ay' + by = 0 selon les séries) **[ajout non sourcé, à confirmer sur annales et programmes]**.
+  - **Séries scientifiques expérimentales** (S2, D, TSExp) : nombres complexes, probabilités, suites et un problème d'analyse (étude de fonction ln ou exp, intégrales). Deux thèmes manquaient au brouillon et sont **fréquents d'après ma connaissance générale** : les **statistiques à deux variables** (nuage de points, point moyen, covariance, droite de régression, coefficient de corrélation) et les **équations différentielles** (y' = ay + b, y'' + ω²y = 0, y'' + ay' + by = 0 selon les séries) **[confirmé pour le Sénégal par le programme officiel de Terminale S2-S4 : voir 13.4 ; ailleurs, non vérifié]**.
   - **Séries littéraires et économiques** (L, A, TSECO…) : épreuve plus courte, centrée sur les suites, les statistiques, les fonctions simples et les mathématiques financières. Au Mali, le sujet TSECO de septembre 2020 dure 3 h, coefficient 3, et parle de « capitaux en progression arithmétique » ([sigmaths Mali](https://www.sigmaths.net/docEtranger/mali/1441_1628762670.pdf)).
 
 ---
@@ -144,7 +144,7 @@ Pyramide, cône, cylindre, sphère. Volumes et aires latérales. Section par un 
    - si a ≠ 1, c'est une similitude directe de centre le point fixe d'affixe b/(1 − a), de rapport |a| et d'angle arg(a) ;
    - si de plus |a| = 1, c'est une rotation.
 
-   Les similitudes sont attestées en S1 ([corrigé S1 2021](https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/bac/senegal/corrige-bac-s1-s1a-s3-maths-2021-senegal.pdf)). Leur place dans le programme de S2 ou de D est **[non vérifiée]**.
+   Les similitudes sont attestées en S1 ([corrigé S1 2021](https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/bac/senegal/corrige-bac-s1-s1a-s3-maths-2021-senegal.pdf)). Elles sont au programme officiel de Terminale S2-S4 au Sénégal (voir 13.4). Pour la série D, **[non vérifié]**.
 6. Le BAC S2 Sénégal 2025 s'ouvrait sur les complexes, d'après le titre d'une vidéo de correction ([YouTube](https://www.youtube.com/watch?v=XaiHE7UlF0A)).
 
 **E. Probabilités** (présentes dans les sujets S2 du Sénégal vus en 2019, 2021, 2022 et 2025)
@@ -1197,3 +1197,66 @@ Ces listes servent à **rester au niveau de l'élève** : ne pas utiliser une no
 - Le même corrigé donne « 32 » comme partie décimale de 1 056 479,32. En général, on écrit **0,32**. L'IA doit accepter la réponse de l'élève si son prof a cette convention, mais signaler l'écriture usuelle.
 
 Sources ajoutées : Sunudaara (cours de la 6e à la Terminale et BAC), https://www.sunudaara.com/sixieme, https://www.sunudaara.com/cinquieme, https://www.sunudaara.com/quatrieme, https://www.sunudaara.com/seconde, https://www.sunudaara.com/premiere, https://www.sunudaara.com/terminale, https://sunudaara.com/bac-senegal-math. [TE6] : correction du devoir n°1 de maths de 6e, 2020-2021, TopEducationSN, https://topeducationsn.com/wp-content/uploads/2021/01/correction-devoir-N°1-maths-semestre-1-6eme-2020-2021.pdf.
+
+---
+
+## 13. Sources officielles de l'Office du Bac du Sénégal (lues le 27 octobre 2026)
+
+C'est la source la plus sûre de ce guide : le corrigé officiel du BAC 2026 et les programmes officiels de Terminale, publiés sur officedubac.sn.
+
+### 13.1 L'épreuve S2-S2A-S4-S5 du BAC 2026 (1er groupe)
+
+- **4 heures, coefficient 5.**
+- **Calculatrice :** seules les calculatrices non imprimantes à entrée unique par clavier sont autorisées. Celles qui affichent des formulaires ou tracent des courbes sont interdites, et leur usage compte comme une fraude (circulaire n° 5990/OB/DIR du 12 août 1998).
+- **Structure :**
+  - Exercice 1 (6 points), nombres complexes : racine évidente P(3i) = 0, division par Horner, discriminant réduit Δ' et racine carrée δ, distances et nature d'un triangle, barycentre, quotient (z_A − z_D)/(z_C − z_D), points cocycliques, forme trigonométrique pour trouver cos(−7π/12) et sin(−7π/12) ;
+  - Exercice 2 (4 points), probabilités sous forme de **situation à résoudre** (voir 13.2) ;
+  - Problème (10 points) : partie A (1,5) fonction auxiliaire g et son signe ; partie B (7,5) étude d'une fonction définie par morceaux avec ln et exp ; partie C (1) bijection réciproque.
+
+### 13.2 Nouveau type d'exercice : la « situation » sans questions guidées
+
+L'exercice 2 donne un texte (un sondage avant une élection municipale), puis une seule consigne : « confirme ou infirme les propos de l'agent ». L'élève doit trouver seul les outils.
+
+**Barème officiel :**
+- traduction correcte des données : 1,5 point ;
+- formule des probabilités totales ou arbre pondéré : 1,5 point ;
+- interprétation correcte du résultat : 1 point.
+
+**Règle pour l'IA :** sur ce type d'exercice, guider l'élève en trois temps :
+1. **Traduire** : nommer chaque événement par une lettre et une phrase, puis écrire chaque pourcentage comme une probabilité, conditionnelle ou non (p(A2/A1) = 0,9…).
+2. **Calculer** : arbre pondéré, puis probabilités totales.
+3. **Conclure par une phrase** qui répond à la consigne : « L'agent a raison : il y a 529 chances sur 1 000 que… ». Sans cette phrase, l'élève perd 1 point sur 4.
+
+### 13.3 Comment le corrigé officiel rédige
+
+- **Division par Horner** présentée en tableau (coefficients en ligne, racine à gauche).
+- « Δ' = … = (1 − 2i)². Ainsi, δ = 1 − 2i est une racine carrée de Δ'. »
+- **Interpréter module et argument** : |q| = 1 « signifie que DA = DC » ; arg q = π/2 (2π) « signifie que (DC→, DA→) = π/2 (2π) » ; donc le triangle est rectangle et isocèle. Les angles s'écrivent avec « (2π) ».
+- **Chaque limite est interprétée** : « La droite d'équation y = 0 est asymptote horizontale à (C_f) en +∞ » ; asymptote verticale x = −1 ; asymptote oblique y = x + ln 3, montrée en écrivant f(x) − (x + ln 3) et en prouvant que cette différence tend vers 0.
+- **Valeur absolue** : réécrire f(x) sans valeur absolue, intervalle par intervalle, avant de dériver.
+- **Dérivabilité en un point** : limite du taux d'accroissement, puis interprétation (« demi-tangente à gauche de coefficient directeur −1 »). Dérivées à gauche et à droite différentes : f n'est pas dérivable en 0.
+- **Bijection** : « h est continue et strictement croissante sur ]−∞, −1[, donc h est une bijection de ]−∞, −1[ sur h(]−∞, −1[) = ℝ. »
+- **Consigne aux correcteurs pour le problème :** « tenir compte de la démarche, du raisonnement et de la justesse des résultats ». Une démarche juste rapporte des points même si le résultat final est faux : l'IA doit le dire à l'élève.
+
+**Erreur de frappe dans le corrigé officiel (à ne pas reproduire) :** pour f(x) = e^(−2x) ln(1 + 2e^x), le corrigé écrit f'(x) = 2e^(−2x)[2e^x/(1 + 2e^x) − ln(1 + 2e^x)]. Le bon facteur est e^x/(1 + 2e^x), sans le 2, puisque le 2 a déjà été mis en facteur. Le résultat final, f'(x) = 2e^(−2x) g(x), est juste.
+
+### 13.4 Programmes officiels de Terminale (Office du Bac, programmes de 2006 mis en ligne en janvier 2026)
+
+| Série | Horaire | Ce qui est au programme |
+|---|---|---|
+| **Terminale L** | 3 h par semaine | Composition d'applications ; division de polynômes et méthode de Horner (degré 4 au plus) ; dénombrement et probabilités simples ; ajustement linéaire (corrélation, moindres carrés, **aucune démonstration de formule**) ; limites et continuité **sans théorie** ; dérivées, tangente, bijection ; études de fonctions (polynômes, rationnelles, √(ax + b), valeur absolue) ; ln, exp ; suites arithmétiques et géométriques, récurrence ; primitives usuelles, intégrales, aires |
+| **Terminales S1 et S3** | 9 h par semaine | Probabilités (variables aléatoires, loi binomiale) ; complexes (Moivre, Euler, racines n-ièmes, linéarisation jusqu'au degré 5, équation de degré 3 connaissant une racine) ; **arithmétique** (PGCD, Bézout, Gauss, congruences, bases 2, 5 et 16, petit théorème de Fermat) ; suites ; accroissements finis ; intégration par parties (seuls les changements de variable **affines** sont exigibles à l'examen) ; équations différentielles ; barycentres et lignes de niveau ; similitudes ; produit vectoriel et produit mixte ; transformations de l'espace ; courbes paramétrées ; coniques |
+| **Terminales S2 et S4** | 5 h par semaine | Fonctions (valeurs intermédiaires, réciproque, branches infinies, points d'inflexion, primitives) ; ln, exp, puissances et leurs limites usuelles ; suites récurrentes u(n+1) = f(u(n)) ; intégrales, aires, volumes V = ∫ πf²(x) dx ; **équations différentielles** du 1er et du 2nd ordre avec second membre (« on donnera toujours une indication » pour la solution particulière) ; **statistiques à deux variables** (moindres carrés, corrélation) ; probabilités (conditionnelles, probabilités totales, variable aléatoire, fonction de répartition, loi binomiale) ; complexes (similitudes planes directes, Moivre, Euler, linéarisation, équations du 2nd degré à coefficients complexes) |
+
+**Règles pour l'IA tirées des programmes :**
+1. **Pas d'arithmétique en S2** : congruences, Bézout et Gauss sont réservés à S1 et S3. Ne pas les utiliser pour un élève de S2.
+2. **En série L, pas de théorie** : les limites se calculent sans définition formelle, et les formules de statistique ne se démontrent pas.
+3. **Équation différentielle avec second membre en S2** : l'énoncé donne toujours une piste pour la solution particulière. Chercher cette indication avant de proposer une méthode.
+4. Les programmes demandent des exercices « pris dans le domaine socioculturel de l'élève » : les exemples de l'IA peuvent parler de marché, de transport, de récolte ou d'élection locale.
+
+### 13.5 Sources
+
+- Corrigé officiel du BAC 2026, S2-S2A-S4-S5 : https://officedubac.sn/wp-content/uploads/2026/07/BAC-S2-2026-Esquisse-de-corrige.pdf
+- Corrigé S1 2026 (non lu) : https://officedubac.sn/wp-content/uploads/2026/07/Esquisse_Corrige_S1_2026.pdf
+- Programmes de Terminale L, S1-S3 et S2-S4 : https://officedubac.sn/wp-content/uploads/2026/01/Programme_Maths-LS.pdf
+- Liste de tous les corrigés 2026 : https://officedubac.sn/2026/06/30/corriges-bac-gen-2026/

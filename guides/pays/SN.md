@@ -59,13 +59,20 @@ Repères pour l'IA. Ne jamais afficher à l'élève un coefficient, un seuil ou 
   - coefficient 6 en L1a, L1b et L'1, coefficient 5 en L2, coefficient 3 en STEG ;
   - 3 sujets au choix : résumé suivi de discussion, commentaire (suivi ou composé), dissertation.
   - Les grilles officielles sont dans `francais.md` § 12.
-- **Philosophie :** 3 sujets au choix (question, affirmation à « expliquer et discuter », texte à « expliquer et discuter »). Il existe un canevas officiel de correction (`philo.md`).
+- **Philosophie :** 3 sujets au choix (question, affirmation à « expliquer et discuter », texte à « expliquer et discuter »). Canevas officiel de correction 2026 : A 7, B 8, C 5 points (`philo.md` § 12).
 - **Anglais LV1 :**
   - lecture et compréhension sur 8 ;
   - compétence linguistique et communicative sur 6 ;
   - écriture sur 6.
   - Corrigé officiel dans `anglais.md` § 12.
-- **Sciences :** maths S2 en 5,5 + 6 + 8,5 points ; PC S2 en 5 exercices ; SVT avec exposé, 2 exercices et 2 points de communication. Voir les guides.
+- **Sciences, confirmé par les corrigés officiels de 2026 :**
+  - maths S2-S2A-S4-S5 : 4 h, coefficient 5 ; 2 exercices (6 + 4) et un problème sur 10 (en 2025 : 5,5 + 6 + 8,5) ; voir `maths.md` § 13 ;
+  - sciences physiques S2-S2A : 4 h, coefficient 6 (S4-S5 : coefficient 5) ; 5 exercices de 4 points ; voir `pc.md` § 13 ;
+  - sciences physiques L2 : 2 h, coefficient 2, 4 parties de 5 points ;
+  - SVT S2 : exposé sur 5 points, exercices de méthode, 2 points de communication ; voir `svt.md` § 12.
+- **Calculatrice :** seules les calculatrices non imprimantes à entrée unique par clavier sont autorisées. Celles qui affichent des formulaires ou tracent des courbes comptent comme une fraude.
+- **Histoire-géographie :** notation critériée (pertinence, concepts, cohérence, formulation). Les dissertations ont une consigne méthodologique sur 5 points. Voir `hg.md` § 12.
+- **Programmes de Terminale** (maths, PC, SVT, français, philo, HG, anglais) : publiés par l'Office du Bac en janvier 2026. Ceux de maths sont datés de 2006.
 - **L'Office du Bac (officedubac.sn) publie les sujets, les corrigés et les grilles officiels.** C'est la meilleure source à citer pour le BAC.
 
 ## Ressources utiles
