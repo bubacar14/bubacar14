@@ -12,7 +12,7 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
   3. l'élève confirme l'énoncé, ce qui coûte 1 crédit ;
   4. l'IA explique la méthode pas à pas (`/api/resoudre`).
 - **La correction se dévoile progressivement :** question de départ, indices (« Je bloque »), méthode, étapes une à une. On ne donne pas la réponse d'emblée : une étude sur environ 1 000 lycéens montre que les réponses directes font baisser les notes à l'examen.
-- **Premier lancement :** un écran de bienvenue en 3 étapes demande d'abord la classe, puis le pays, puis le prénom (obligatoire, 2 lettres minimum). La classe choisit le niveau des quiz, le pays sert à l'IA pour corriger comme l'examen du pays, le prénom sert à l'accueil et aux duels. Rien n'est redemandé ensuite ; la matière se choisit par exercice.
+- **Premier lancement :** un écran de bienvenue en 3 étapes demande d'abord la classe, puis le pays, puis le prénom (obligatoire, 2 lettres minimum). La classe choisit le niveau des quiz, le pays sert à l'IA pour corriger comme l'examen du pays, le prénom sert à l'accueil et aux duels. Rien n'est redemandé ensuite ; la matière se choisit par exercice. Ensuite vient le **premier contact** (`renderPremierContact`, `state.decouverte`) : un seul écran avec l'appareil photo, ou un exercice d'essai déjà corrigé (`essais.js`) ; Lumi lit le cahier, l'énoncé s'écrit lettre par lettre, l'élève trouve lui-même la première étape, puis « Exercice compris » et le rendez-vous du lendemain (l'exercice revient en révision).
 - **Gratuit :** quiz, révision des erreurs en répétition espacée, duels, série de jours (avec jours de repos), et 1 exercice offert par jour.
 - **Crédits :** 1 crédit = 1 exercice. Pas d'abonnement ni de prélèvement automatique. Le paiement mobile money est encore **simulé**.
 - **Lumi, la mascotte** (de « lumière », ancien nom Sanko changé le 27 octobre 2026 ; le code garde les noms `sanko.js`, `sanko()`, `.sanko`) : un oiseau jaune soleil en forme d'œuf, avec une huppe en deux gouttes d'encre bleue. Dessin du 27 octobre 2026 : volume par ombrage, grands yeux à reflets, sourcils et ailes qui changent selon l'humeur (ailes levées pour la joie, une aile qui salue pour encourager). Il vient de Sankofa, l'oiseau adinkra : « il n'est jamais interdit de revenir chercher ce que tu as oublié ». Il « ramène » les erreurs à l'élève et a six humeurs : content, joie, réfléchit, encourage, dort, fier.
@@ -24,7 +24,13 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
 | `index.html`, `styles.css`, `app.js` | L'interface, en JavaScript sans framework. Tout l'état est dans `localStorage` (clé `revizo:v2`) |
 | `sanko.js` | La mascotte et le logo (`LOGO_REVIZO`) |
 | `questions.js` | La banque de questions de quiz, à faire valider par des profs |
-| `server.js` | Serveur Node : fichiers statiques, `/api/lire` et `/api/resoudre` (SDK `@anthropic-ai/sdk`) |
+| `ia.js` | Tout ce qui parle à l'IA : lecture de la photo, correction, guides envoyés (SDK `@anthropic-ai/sdk`) |
+| `server.js` | Serveur local (`npm run dev`) : sert l'appli et `/api/lire`, `/api/resoudre` en appelant `ia.js` |
+| `routes.js` | Les routes de l'API (lire, resoudre, compte, signaler, achat-demo), communes au serveur local et à Vercel |
+| `comptes.js` | Crédits gardés dans Supabase : un élève = un appareil, reconnu par la clé aléatoire `state.cle` (en-tête `X-Revizo-Cle`, seule son empreinte est stockée) |
+| `supabase/migrations/` | Tables `eleves` et `mouvements`, fonctions `revizo_eleve`, `revizo_debiter`, `revizo_rendre`, `revizo_crediter` (accessibles seulement avec la clé secrète) |
+| `api/*.js` | Une fonction Vercel par route, qui appelle `routes.js` |
+| `fichiers-publics.js`, `build.mjs`, `vercel.json`, `.vercelignore` | Seuls les fichiers de `fichiers-publics.js` sont servis ; `build.mjs` les copie dans `public/` pour Vercel. Les guides, notes et recherches restent privés. Un nouveau fichier chargé par `index.html` doit être ajouté à `fichiers-publics.js` |
 | `guides/` | Guides de correction par matière, envoyés à l'IA selon la matière. Maths et PC sont enrichis de vidéos YouTube ; les guides ont aussi des sections tirées de sources officielles (Office du Bac, corrigés de profs, annales). Le reste est encore à vérifier |
 | `guides/pays/` | Une fiche par pays (SN, CI, ML, BF, GN, BJ, TG, NE) : examens, épreuves, barèmes, vocabulaire. Seule la fiche du pays de l'élève est envoyée à l'IA (`server.js`) |
 | `recherche/` | Études : concurrents, design, acquisition, pays |
@@ -36,6 +42,9 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
 - **La clé** `ANTHROPIC_API_KEY` va dans `.env`, jamais dans le code ni dans une conversation.
 - **Le modèle** est `claude-haiku-5-5` par défaut (choisi le 27 octobre 2026 après un test sur 8 pages du BAC 2026 : aussi juste qu'Opus, environ 7 FCFA par exercice contre 190). `REVIZO_MODEL=claude-opus-5-5` reste possible. Haiku n'a pas de bascule automatique si l'IA refuse une demande. **Garder chaque appel sous 100 000 tokens** : au-delà, Haiku coûte 5 fois plus cher (une correction de maths en envoie déjà environ 68 000).
 - **La branche de travail** est `claude/phone-control-l2egop`.
+- **Supabase :** projet `revizo` (réf. `ynwiifbtykaotbjlasmi`, région Paris), organisation de bubacar14. Les réglages `SUPABASE_URL` et `SUPABASE_SECRET_KEY` sont dans Vercel ; `vercel env pull .env.local --environment=development` les copie pour `npm run dev`. Le mot de passe de la base est dans `~/.revizo/supabase-motdepasse.txt`, sur le Mac du fondateur.
+- **Crédits :** le serveur retire 1 crédit avant la correction et le rend si elle échoue ; « Signaler une erreur » le rend une seule fois. Le paiement simulé ne marche qu'en local ; en ligne, l'appli annonce « bientôt ».
+- **En ligne :** projet Vercel `revizo` (compte bubacar14, équipe bouba-devs-projects), adresse https://revizo-three.vercel.app. Déployer : `vercel deploy` (aperçu) ou `vercel deploy --prod`. La clé `ANTHROPIC_API_KEY` se met dans les réglages Vercel, jamais dans le code.
 
 ## Règles de design (charte Révizo)
 

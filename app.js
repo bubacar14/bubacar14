@@ -82,9 +82,28 @@ function dateCourte(day) {
   return new Date(day).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" });
 }
 
+// Le pays se devine d'après la langue du téléphone (fr-SN…), sinon d'après son fuseau horaire.
+const FUSEAUX = {
+  "Africa/Dakar": "SN", "Africa/Abidjan": "CI", "Africa/Bamako": "ML", "Africa/Ouagadougou": "BF",
+  "Africa/Conakry": "GN", "Africa/Porto-Novo": "BJ", "Africa/Lome": "TG", "Africa/Niamey": "NE",
+};
 function paysParDefaut() {
   const region = (navigator.language || "").split("-")[1];
-  return COUNTRIES[region] ? region : null;
+  if (COUNTRIES[region]) return region;
+  try { return FUSEAUX[Intl.DateTimeFormat().resolvedOptions().timeZone] || null; } catch { return null; }
+}
+function auPays(code) {
+  return `${["CI", "GN"].includes(code) ? "en" : "au"} ${COUNTRIES[code].nom}`;
+}
+
+// Clé aléatoire de l'appareil : le serveur s'en sert pour retrouver les crédits de l'élève.
+function nouvelleCle() {
+  if (crypto.randomUUID) return crypto.randomUUID();
+  const o = crypto.getRandomValues(new Uint8Array(16));
+  o[6] = (o[6] & 0x0f) | 0x40;
+  o[8] = (o[8] & 0x3f) | 0x80;
+  const h = [...o].map((x) => x.toString(16).padStart(2, "0")).join("");
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
 }
 
 function loadState() {
@@ -94,6 +113,8 @@ function loadState() {
     streak: 0, lastActive: null, gels: 0, jours: [],
     cards: {}, exos: [], answered: 0, good: 0, studio: "",
     sons: true, objectif: { date: today(), exo: false, revision: false },
+    decouverte: "", // "en_cours" de la fin de l'accueil au premier exercice compris, puis "faite"
+    cle: nouvelleCle(),
   };
   try {
     const s = JSON.parse(localStorage.getItem(STORE_KEY));
@@ -283,8 +304,8 @@ function exosDus() {
 }
 
 function messageSanko(dues) {
-  if (state.exosFaits === 0) return ["content", "Moi c'est Lumi, ton prof de poche."];
-  if (dues) return ["reflechit", `J'ai ramené ${pluriel(dues, "chose")} que tu avais oubliée${dues > 1 ? "s" : ""}. On les revoit ? Ça prend 2 minutes.`];
+  if (state.exosFaits === 0 && !dues) return ["content", "Moi c'est Lumi, ton prof de poche."];
+  if (dues) return ["reflechit", `J'ai ramené ${pluriel(dues, "chose")} que tu avais oubliée${dues > 1 ? "s" : ""}. On ${dues > 1 ? "les" : "la"} revoit ? Ça prend 2 minutes.`];
   if (state.streak >= 2) return ["joie", `${state.streak} jours d'affilée ! On continue ?`];
   return ["content", "On attaque quel exercice aujourd'hui ?"];
 }
@@ -411,6 +432,100 @@ function renderHome() {
   view.querySelectorAll("[data-quiz-matiere]").forEach((b) => b.addEventListener("click", () => demarrerQuiz("quiz", null, b.dataset.quizMatiere)));
 }
 
+// ---------- Premier contact : un seul geste, son exercice ----------
+
+// Le premier écran après l'accueil : rien d'autre que l'exercice. Ni quiz, ni crédits, ni onglets.
+function renderPremierContact() {
+  afficher(`
+    <div class="premier">
+      ${sankoDit("joie", `${esc(state.pseudo || "Salut")}, montre-moi l'exercice qui te bloque. Je t'explique comment le faire.`, 88, "sanko-flotte")}
+      <button class="viseur-premier" id="premierePhoto">
+        <span class="viseur-coins" aria-hidden="true"></span>
+        ${icone("photo")}
+        <span class="viseur-titre">Prendre la photo</span>
+        <span class="petit">Ton cahier, une feuille ou un sujet</span>
+      </button>
+      <button class="btn btn-large" id="premierEcrire">${icone("crayon")}Écrire l'exercice</button>
+      <div class="sans-exo">
+        <span class="petit">Pas d'exercice sous la main ?</span>
+        <button class="btn btn-principal btn-large" id="essai">${icone("etincelle")}Essaie un exercice de ton niveau</button>
+      </div>
+      <p class="petit centre">Offert, sans inscription</p>
+      <button class="lien-discret" id="plusTard">Découvrir l'appli d'abord</button>
+    </div>`, "", true);
+  $("#premierePhoto").addEventListener("click", () => $("#photoInput").click());
+  $("#premierEcrire").addEventListener("click", () => { exo = { photo: null, texte: "" }; renderSaisie(); });
+  $("#essai").addEventListener("click", lancerEssai);
+  $("#plusTard").addEventListener("click", () => { state.decouverte = "faite"; save(); render("home"); });
+}
+
+// Exercice d'essai (essais.js) adapté à la classe : corrigé d'avance, donc gratuit et instantané.
+function cleEssai() {
+  return { "Primaire": "primaire", "6e – 5e": "college", "4e – 3e": "brevet", "Seconde": "lycee", "Première": "lycee", "Terminale": "bac" }[state.classe] || "brevet";
+}
+function lancerEssai() {
+  const essai = ESSAIS[cleEssai()];
+  exo = { photo: null, texte: essai.texte, essai, lecture: { enonce: essai.texte, doutes: [] } };
+  renderLecture();
+  setTimeout(renderEnonceLu, 1800);
+}
+
+// Lumi « lit » : la photo (ou la feuille d'essai) balayée par un trait de lumière.
+function renderLecture() {
+  const visuel = exo.photo ? `<img src="${exo.photo}" alt="Ta photo">` : `<div class="cahier-essai">${multiligne(exo.texte)}</div>`;
+  afficher(`
+    <div class="lecture" role="status" aria-live="polite">
+      <div class="lecture-visuel">${visuel}<i class="scan" aria-hidden="true"></i></div>
+      ${sankoDit("reflechit", exo.photo ? "Je lis ton cahier…" : "Je lis l'exercice…", 64)}
+    </div>`, "", true);
+}
+
+// Fait apparaître un texte lettre par lettre, en 1,5 s environ quelle que soit sa longueur.
+function ecrireLettreALettre(ecrire, texte) {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { ecrire(texte); return; }
+  const pas = Math.max(1, Math.ceil(texte.length / 60));
+  let n = 0;
+  const t = setInterval(() => {
+    n = Math.min(texte.length, n + pas);
+    if (ecrire(texte.slice(0, n)) === false || n >= texte.length) clearInterval(t);
+  }, 25);
+}
+
+// L'exercice revient en révision le lendemain : c'est la promesse faite à la fin du premier contact.
+function planifierRetour() {
+  if (state.exos.some((e) => e.id === exo.id)) return;
+  const d = exo.correction;
+  const fiche = { id: `exo-${Date.now()}`, date: today(), titre: d.enonce.slice(0, 90), matiere: d.matiere, box: 0, due: addDays(today(), 1), correction: d };
+  exo.id = fiche.id;
+  state.exos = [fiche, ...state.exos].slice(0, 50);
+  save();
+}
+
+// L'invitation du navigateur à installer l'appli, gardée pour le bon moment : juste après le premier exercice compris.
+let invitationInstall = null;
+window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); invitationInstall = e; });
+
+function blocVictoire(d) {
+  const motDuProf = d.etapes.map((e) => e.marge).find(Boolean);
+  return `
+    <section class="carte victoire apparait">
+      ${sanko("fier", 96, "sanko-saute")}
+      <h2 class="victoire-titre">Exercice compris</h2>
+      <p>Bravo ${esc(state.pseudo)}, tu as la méthode. C'est elle qui compte le jour de l'examen.</p>
+      ${motDuProf ? `<p class="mot-prof"><span class="etiquette">Le petit mot du prof</span><span class="annotation">${esc(motDuProf)}</span></p>` : ""}
+    </section>
+    <section class="carte rendezvous">
+      ${sankoDit("content", "Demain, je te ramène cet exercice. Si tu retrouves la méthode tout seul, c'est gagné : tu sais le refaire.", 56)}
+      ${calendrierSemaine(true)}
+      <span class="petit centre">${state.streak > 1 ? `${state.streak} jours de série` : "Jour 1 de ta série"}</span>
+      ${invitationInstall ? `<button class="btn btn-soleil btn-large" id="installer">${icone("etincelle")}Mettre Lumi sur mon écran d'accueil</button>` : ""}
+      <div class="actions-ligne">
+        <button class="btn" id="defier">${icone("duel")}Défier un ami</button>
+        <button class="btn btn-principal" id="continuer">Continuer</button>
+      </div>
+    </section>`;
+}
+
 // ---------- Mon exercice : photo, énoncé lu, correction ----------
 
 // Réduit la photo avant l'envoi : moins de données mobiles, envoi plus rapide.
@@ -467,7 +582,7 @@ function enteteFlux(titre, retour) {
 
 async function appelApi(route, body) {
   try {
-    const res = await fetch(route, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const res = await fetch(route, { method: "POST", headers: { "Content-Type": "application/json", "X-Revizo-Cle": state.cle }, body: JSON.stringify(body) });
     return await res.json();
   } catch {
     return { erreur: navigator.onLine ? "Le service ne répond pas. Réessaie dans un instant." : "Pas de connexion internet. Réessaie quand le réseau revient." };
@@ -482,7 +597,7 @@ function renderSaisie() {
     <button class="lien-photo" id="plutotPhoto">${icone("photo")}Plutôt prendre une photo</button>
     ${blocMatiere()}
     <div class="cta-fixe">
-      <button class="btn btn-principal btn-large" id="suite">Explique-moi · 1 crédit</button>
+      <button class="btn btn-principal btn-large" id="suite">Explique-moi · ${state.decouverte === "en_cours" ? "offert" : "1 crédit"}</button>
     </div>`, "", true);
 
   $("#retour").addEventListener("click", () => render("home"));
@@ -536,10 +651,8 @@ function renderAttente(etapes, duree) {
 }
 
 async function lireEnonce() {
-  const etape = renderAttente(["Je lis ta photo", "Je recopie l'énoncé"], 8);
-  const timer = setTimeout(() => etape(1), 2500);
+  renderLecture();
   const data = await appelApi("api/lire", { image: exo.photo.split(",")[1], mediaType: "image/jpeg" });
-  clearTimeout(timer);
   if (data.erreur || data.lisible === false) {
     renderErreur(data.erreur || data.probleme || "La photo n'est pas lisible.", true);
     return;
@@ -560,11 +673,17 @@ function surlignerDoutes(texte, doutes) {
 
 function renderEnonceLu() {
   const l = exo.lecture;
+  const decouverte = state.decouverte === "en_cours";
+  const visuel = exo.photo ? `<img src="${exo.photo}" alt="Ta photo">` : `<div class="cahier-essai mini" aria-hidden="true">${multiligne(exo.texte)}</div>`;
+  const bulle = l.doutes?.length ? "J'ai un doute sur un passage. Vérifie-le, puis corrige si besoin."
+    : exo.essai ? "Voici l'exercice. On le fait ensemble ?"
+    : decouverte ? "Voici ce que j'ai lu. C'est bien ça ?"
+    : "Voici ce que j'ai lu. Corrige si je me suis trompé.";
   afficher(`
     ${enteteFlux("Vérifie l'énoncé", "Annuler")}
     <div class="lu-photo">
-      <img src="${exo.photo}" alt="Ta photo">
-      ${sankoDit("content", l.doutes?.length ? "J'ai un doute sur un passage. Vérifie-le, puis corrige si besoin." : "Voici ce que j'ai lu. Corrige si je me suis trompé.", 52)}
+      ${visuel}
+      ${sankoDit("content", bulle, 52)}
     </div>
     ${l.doutes?.length ? `
       <section class="carte carte-doutes" aria-label="Passages à vérifier">
@@ -572,22 +691,47 @@ function renderEnonceLu() {
       </section>` : ""}
     ${l.a_interpreter ? `<span class="annotation annotation-attention">Énoncé à interpréter, vérifie bien.</span>` : ""}
     <label class="champ-label" for="enonceCorrige">L'énoncé</label>
-    <textarea id="enonceCorrige" rows="6" maxlength="8000">${esc(l.enonce)}</textarea>
-    ${blocMatiere()}
+    <textarea id="enonceCorrige" rows="6" maxlength="8000" ${exo.essai ? "readonly" : ""}>${esc(l.enonce)}</textarea>
+    ${exo.essai ? "" : blocMatiere()}
     <div class="cta-fixe">
-      <button class="btn btn-principal btn-large" id="confirmer">C'est bon, explique-moi · 1 crédit</button>
-      <button class="btn btn-discret" id="reprendre">${icone("photo")}Reprendre la photo</button>
+      <button class="btn btn-principal btn-large" id="confirmer">${decouverte ? "C'est bien ça, explique-moi · offert" : "C'est bon, explique-moi · 1 crédit"}</button>
+      ${exo.essai ? "" : `<button class="btn btn-discret" id="reprendre">${icone("photo")}Reprendre la photo</button>`}
     </div>`, "", true);
   $("#retour").addEventListener("click", () => render("home"));
-  $("#reprendre").addEventListener("click", () => $("#photoInput").click());
+  $("#reprendre")?.addEventListener("click", () => $("#photoInput").click());
   lierMatiere();
   const zone = $("#enonceCorrige");
   zone.style.height = `${Math.max(zone.scrollHeight + 4, 120)}px`;
+  // La première fois, l'énoncé s'écrit sous les yeux de l'élève : son cahier devient du texte.
+  let ecritureFinie = !decouverte;
+  if (decouverte) {
+    zone.value = "";
+    ecrireLettreALettre((t) => {
+      if (!zone.isConnected) return false;
+      zone.value = t;
+      ecritureFinie = t === l.enonce;
+    }, l.enonce);
+  }
   $("#confirmer").addEventListener("click", () => {
-    exo.texte = zone.value.trim();
+    if (exo.essai) { expliquerEssai(); return; }
+    exo.texte = (ecritureFinie ? zone.value : l.enonce).trim(); // un appui pendant l'écriture garde l'énoncé entier
     if (!exo.texte) { toast("L'énoncé est vide."); return; }
     expliquer();
   });
+}
+
+// L'essai est corrigé d'avance : une courte attente pour le suivre, sans crédit ni appel à l'IA.
+function expliquerEssai() {
+  const etape = renderAttente(["Je relis l'énoncé", "Je cherche la méthode", "J'écris les étapes"], 3);
+  setTimeout(() => etape(1), 900);
+  setTimeout(() => etape(2), 1800);
+  setTimeout(() => {
+    marquerActif();
+    cocherObjectif("exo");
+    save();
+    majBarre();
+    ouvrirCorrection(exo.essai.correction);
+  }, 2700);
 }
 
 async function expliquer() {
@@ -605,13 +749,24 @@ async function expliquer() {
   const data = await appelApi("api/resoudre", body);
   clearInterval(timer);
 
-  if (data.erreur || data.lisible === false) {
-    state.credits += 1; // pas de correction utilisable : le crédit est rendu
+  // En ligne, le serveur tient le solde : il renvoie le nombre de crédits restant.
+  if (data.code === "plus_de_credit") {
+    state.credits = 0;
     save();
     majBarre();
-    renderErreur(data.erreur || data.probleme || "Je n'ai pas pu traiter cet exercice.", Boolean(exo.photo), true);
+    renderRecharge("epuise");
     return;
   }
+  if (data.erreur || data.lisible === false) {
+    if (typeof data.credits === "number") state.credits = data.credits;
+    else state.credits += 1; // pas de correction utilisable : le crédit est rendu
+    save();
+    majBarre();
+    renderErreur(data.erreur || data.probleme || "Je n'ai pas pu traiter cet exercice.", Boolean(exo.photo), data.rendu !== false);
+    return;
+  }
+  if (typeof data.credits === "number") state.credits = data.credits;
+  exo.mouvement = data.mouvement;
   state.exosFaits += 1;
   marquerActif();
   if (cocherObjectif("exo")) setTimeout(() => { son("fin"); confettis(); toast("Objectif du jour atteint !"); }, 400);
@@ -638,8 +793,21 @@ function ouvrirCorrection(data, depuisRevision) {
     toutVoir: false,
     signale: false,
     depuisRevision: Boolean(depuisRevision),
+    decouverte: state.decouverte === "en_cours" && !depuisRevision,
   });
   renderCorrection();
+}
+
+// Après le choix de démarrage. Le tout premier bon choix est fêté par Lumi, avec le prénom de l'élève.
+function retourDemarrage(choix) {
+  if (choix.juste && exo.decouverte) {
+    return `<div class="retour apparait">${sankoDit("joie", `Bien vu ${esc(state.pseudo)} ! Tu as trouvé tout seul par où commencer.`, 64, "sanko-saute")}<p>${esc(choix.retour)}</p></div>`;
+  }
+  return `
+    <div class="retour apparait">
+      <span class="annotation ${choix.juste ? "annotation-bravo" : "annotation-attention"}">${choix.juste ? "Bien vu !" : "Pas tout à fait."}</span>
+      <p>${esc(choix.retour)}</p>
+    </div>`;
 }
 
 function renderCorrection() {
@@ -679,11 +847,7 @@ function renderCorrection() {
             </button>`;
           }).join("")}
         </div>
-        ${exo.choixDemarrage !== undefined ? `
-        <div class="retour apparait">
-          <span class="annotation ${demarrage.choix[exo.choixDemarrage].juste ? "annotation-bravo" : "annotation-attention"}">${demarrage.choix[exo.choixDemarrage].juste ? "Bien vu !" : "Pas tout à fait."}</span>
-          <p>${esc(demarrage.choix[exo.choixDemarrage].retour)}</p>
-        </div>` : ""}
+        ${exo.choixDemarrage !== undefined ? retourDemarrage(demarrage.choix[exo.choixDemarrage]) : ""}
       </section>` : ""}
 
       ${methodeVisible ? `
@@ -709,7 +873,7 @@ function renderCorrection() {
       </section>` : ""}
 
       ${fini ? `
-      ${sankoDit("joie", "Et voilà ! Tu as la méthode. Essaie maintenant l'exercice « À toi de jouer ».", 72, "sanko-saute")}
+      ${exo.decouverte ? blocVictoire(d) : sankoDit("joie", "Et voilà ! Tu as la méthode. Essaie maintenant l'exercice « À toi de jouer ».", 72, "sanko-saute")}
       <section class="carte carte-reponse apparait">
         <h2 class="carte-titre">${icone("juste")}Réponse</h2>
         <p class="reponse-finale">${multiligne(d.reponse)}</p>
@@ -761,6 +925,8 @@ function renderCorrection() {
     exo.demarrageRepondu = true;
     son(exo.correction.demarrage.choix[exo.choixDemarrage].juste ? "juste" : "erreur");
     renderCorrection();
+    // Le retour de Lumi passerait sous la barre d'aide : on le montre.
+    view.querySelector(".retour")?.scrollIntoView({ block: "center", behavior: "smooth" });
   }));
   $("#bloque")?.addEventListener("click", () => {
     if (!methodeVisible) { exo.palier = exo.palier >= 1 ? 2 : 1; exo.demarrageRepondu = exo.palier >= 2 || exo.demarrageRepondu; }
@@ -773,6 +939,25 @@ function renderCorrection() {
   $("#partager")?.addEventListener("click", partagerMethode);
   $("#nouvel")?.addEventListener("click", () => $("#photoInput").click());
   $("#signaler")?.addEventListener("click", signalerErreur);
+
+  // Premier exercice compris : on fête une seule fois, et l'exercice reviendra demain comme promis.
+  if (fini && exo.decouverte) {
+    if (!exo.fete) {
+      exo.fete = true;
+      planifierRetour();
+      state.decouverte = "faite";
+      save();
+      setTimeout(() => { son("fin"); confettis(); $(".victoire")?.scrollIntoView({ block: "center", behavior: "smooth" }); }, 250);
+    }
+    $("#installer")?.addEventListener("click", () => {
+      const invitation = invitationInstall;
+      invitationInstall = null;
+      $("#installer").remove();
+      invitation?.prompt();
+    });
+    $("#defier").addEventListener("click", () => demarrerQuiz("duel"));
+    $("#continuer").addEventListener("click", () => render("home"));
+  }
 }
 
 // Un exercice raté revient en révision ; réussi, il revient plus tard.
@@ -797,14 +982,16 @@ function partagerMethode() {
   window.open(`https://wa.me/?text=${encodeURIComponent(texte)}`, "_blank", "noopener");
 }
 
-function signalerErreur() {
+async function signalerErreur() {
   if (exo.signale) return;
   exo.signale = true;
-  state.credits += 1;
+  renderCorrection();
+  const r = exo.mouvement ? await appelApi("api/signaler", { mouvement: exo.mouvement }) : { local: true };
+  if (r.local) state.credits += 1;
+  else if (typeof r.credits === "number") state.credits = r.credits;
   save();
   majBarre();
-  renderCorrection();
-  toast("Merci. Ton crédit a été rendu pour réessayer.");
+  toast(r.local || r.rendu ? "Merci. Ton crédit a été rendu pour réessayer." : "Merci, c'est noté.");
 }
 
 // ---------- Quiz ----------
@@ -1089,6 +1276,13 @@ function renderRecharge(contexte) {
 }
 
 function payer(offre, operateur) {
+  if (paiement === "bientot") {
+    afficher(`
+      ${sankoDit("encourage", `Le paiement par ${esc(operateur)} arrive très bientôt. En attendant, ton exercice offert revient chaque jour.`, 100)}
+      <button class="btn btn-large" id="accueil">Retour à l'accueil</button>`);
+    $("#accueil").addEventListener("click", () => render("home"));
+    return;
+  }
   let reste = 60;
   afficher(`
     <div class="attente" role="status" aria-live="polite">
@@ -1111,9 +1305,11 @@ function payer(offre, operateur) {
   }, 1000);
   $("#annuler").addEventListener("click", () => { arreter(); son("tap"); renderRecharge(); });
   // Démo : la confirmation de l'opérateur arrive au bout de 3 secondes.
-  const confirmation = setTimeout(() => {
+  const confirmation = setTimeout(async () => {
     arreter();
-    state.credits += offre.credits;
+    const r = await appelApi("api/achat-demo", { offre: offre.id });
+    if (typeof r.credits === "number") state.credits = r.credits;
+    else state.credits += offre.credits;
     save();
     majBarre();
     const ref = `RZ-${Date.now().toString(36).toUpperCase()}`;
@@ -1240,7 +1436,7 @@ function renderProfil() {
 // ---------- Bienvenue (premier lancement) ----------
 
 // Trois petites étapes : la classe, le pays, puis le prénom.
-function renderBienvenue(etape = 1) {
+function renderBienvenue(etape = 1, choisirPays = false) {
   const points = `<div class="points-etapes" aria-label="Étape ${etape} sur 3">${[1, 2, 3].map((k) => `<span class="${k <= etape ? "fait" : ""}"></span>`).join("")}</div>`;
   const entete = etape === 1 ? points : `
     <div class="entete-flux">
@@ -1261,6 +1457,25 @@ function renderBienvenue(etape = 1) {
         ${CLASSES.map((c) => `<button class="puce" data-classe="${esc(c)}" aria-pressed="${state.classe === c}">${esc(c)}</button>`).join("")}
       </div>`, "", true);
     lierPuces("classe", (v) => { state.classe = v; save(); son("tap"); suivante(); });
+    return;
+  }
+
+  // Le pays deviné se confirme d'un geste ; sinon, ou si l'élève veut changer, la liste des 8 pays.
+  if (etape === 2 && pays() && !choisirPays) {
+    afficher(`
+      ${entete}
+      <div class="bienvenue">
+        ${sanko("joie", 96, "sanko-flotte")}
+        <h1 class="display-l">Tu es ${esc(auPays(state.country))} ?</h1>
+        <p class="salut-message">Je corrigerai comme ton correcteur d'examen.</p>
+      </div>
+      <div class="cta-fixe">
+        <button class="btn btn-soleil btn-large" id="paysOui">Oui, ${esc(pays().nom)}</button>
+        <button class="btn btn-large" id="paysNon">Non, je change</button>
+      </div>`, "", true);
+    $("#retour").addEventListener("click", () => renderBienvenue(1));
+    $("#paysOui").addEventListener("click", () => { son("tap"); suivante(); });
+    $("#paysNon").addEventListener("click", () => renderBienvenue(2, true));
     return;
   }
 
@@ -1299,6 +1514,8 @@ function renderBienvenue(etape = 1) {
     if (!pret()) return;
     state.pseudo = champ.value.trim();
     state.bienvenue = true;
+    // Un nouvel élève passe d'abord par le premier contact : un seul geste, son exercice.
+    if (state.exosFaits === 0 && !state.decouverte) state.decouverte = "en_cours";
     save();
     son("tap");
     render("home");
@@ -1319,6 +1536,7 @@ function render(name) {
   if (!state.bienvenue && !(state.country && state.classe && state.pseudo)) renderBienvenue();
   else if (name === "reviser") renderReviser();
   else if (name === "profil") renderProfil();
+  else if (state.decouverte === "en_cours") renderPremierContact();
   else renderHome();
 }
 
@@ -1334,8 +1552,20 @@ window.addEventListener("offline", majBarre);
 
 document.querySelector(".logo").innerHTML = LOGO_REVIZO;
 appliquerTheme();
+// « demo » sur l'ordinateur du développeur, « bientot » en ligne tant que le vrai paiement n'est pas branché.
+let paiement = "demo";
+async function syncCompte() {
+  const r = await appelApi("api/compte", {});
+  if (r.paiement) paiement = r.paiement;
+  if (typeof r.credits !== "number") return;
+  state.credits = r.credits;
+  save();
+  majBarre();
+}
+
 refillDaily();
 majBarre();
+syncCompte();
 const duelRecu = lireDuel();
 if (duelRecu) demarrerQuiz("duel", duelRecu);
 else render("home");

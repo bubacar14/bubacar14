@@ -809,3 +809,46 @@ body.immersif main { min-height: calc(100dvh - 64px); }
 .interrupteur[aria-checked="true"] { background: var(--juste); }
 .interrupteur[aria-checked="true"] span { transform: translateX(20px); }
 @media (prefers-reduced-motion: reduce) { .interrupteur, .interrupteur span, .reglage .chevron { transition: none; } }
+
+/* Premier contact : le premier lancement d'un nouvel élève, centré sur un seul geste. */
+.premier { display: flex; flex-direction: column; gap: var(--espace-4); padding-top: var(--espace-3); }
+.viseur-premier {
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--espace-1);
+  min-height: 190px; padding: var(--espace-5); border: 2.5px dashed var(--bic); border-radius: var(--rayon-l);
+  background: var(--bic-doux); color: var(--encre); font: inherit; cursor: pointer; transition: transform 120ms ease;
+}
+.viseur-premier:active { transform: scale(0.98); }
+.viseur-premier > .ico { width: 44px; height: 44px; color: var(--bic); stroke-width: 1.8; }
+.viseur-titre { font-family: var(--font-display); font-size: 24px; line-height: 28px; font-weight: 800; color: var(--bic); }
+.viseur-coins { position: absolute; inset: 12px; border-radius: 12px; pointer-events: none;
+  background:
+    linear-gradient(var(--bic), var(--bic)) top left / 22px 3px no-repeat, linear-gradient(var(--bic), var(--bic)) top left / 3px 22px no-repeat,
+    linear-gradient(var(--bic), var(--bic)) top right / 22px 3px no-repeat, linear-gradient(var(--bic), var(--bic)) top right / 3px 22px no-repeat,
+    linear-gradient(var(--bic), var(--bic)) bottom left / 22px 3px no-repeat, linear-gradient(var(--bic), var(--bic)) bottom left / 3px 22px no-repeat,
+    linear-gradient(var(--bic), var(--bic)) bottom right / 22px 3px no-repeat, linear-gradient(var(--bic), var(--bic)) bottom right / 3px 22px no-repeat; }
+.sans-exo { display: flex; flex-direction: column; gap: var(--espace-2); align-items: stretch; padding-top: var(--espace-2); border-top: 2px dashed var(--ligne); }
+.sans-exo .petit { text-align: center; }
+.centre { text-align: center; }
+.lien-discret { align-self: center; background: none; border: 0; padding: var(--espace-2); color: var(--encre-2); font: inherit; font-size: 15px; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+/* Lumi lit le cahier : la photo (ou la feuille d'essai) balayée par un trait de lumière. */
+.lecture { display: flex; flex-direction: column; gap: var(--espace-4); padding-top: var(--espace-4); }
+.lecture-visuel { position: relative; overflow: hidden; border-radius: var(--rayon-l); border: 2px solid var(--ligne); background: var(--papier-2); }
+.lecture-visuel img { display: block; width: 100%; max-height: 50vh; object-fit: contain; }
+.lecture-visuel .scan { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #ffd23f; box-shadow: 0 0 14px 5px rgba(255, 210, 63, 0.7); animation: scan 1.6s ease-in-out infinite alternate; }
+.cahier-essai {
+  position: relative; padding: 14px 16px 14px 30px; white-space: normal;
+  background: repeating-linear-gradient(to bottom, #ffffff 0 29px, #dfe7fb 29px 30px);
+  color: #1a47b8; font-family: var(--font-annotation); font-size: 24px; line-height: 30px; font-weight: 600;
+}
+.cahier-essai::before { content: ""; position: absolute; top: 0; bottom: 0; left: 18px; width: 2px; background: #ffb4b4; }
+.cahier-essai.mini { flex: none; width: 72px; height: 72px; overflow: hidden; padding: 6px 6px 6px 12px; border-radius: var(--rayon-m); border: 2px solid var(--ligne); font-size: 10px; line-height: 12px; background: repeating-linear-gradient(to bottom, #ffffff 0 11px, #dfe7fb 11px 12px); }
+.cahier-essai.mini::before { left: 7px; width: 1px; }
+
+/* Fin du premier exercice : la victoire, puis le rendez-vous du lendemain. */
+.victoire { display: flex; flex-direction: column; align-items: center; gap: var(--espace-2); text-align: center; background: var(--soleil-doux); border: 2px solid var(--soleil); }
+.victoire-titre { font-family: var(--font-display); font-size: 30px; line-height: 34px; font-weight: 800; }
+.mot-prof { display: flex; flex-direction: column; gap: var(--espace-1); margin: 0; }
+.mot-prof .annotation { color: var(--bic); }
+.rendezvous { display: flex; flex-direction: column; gap: var(--espace-3); }
+@media (prefers-reduced-motion: reduce) { .lecture-visuel .scan, .viseur-premier { animation: none !important; transition: none; } }

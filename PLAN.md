@@ -45,9 +45,9 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 
 ## Phase 3 : prêt pour de vrais élèves ⬜
 
-- ⬜ Vrais comptes : numéro de téléphone après le 1er exercice, sauvegarde en ligne (Supabase)
+- 🔄 Vrais comptes : crédits sur Supabase par appareil (fait le 27 octobre 2026). Reste : numéro de téléphone pour retrouver ses crédits sur un autre téléphone, sauvegarde de la progression
 - ⬜ Vrai paiement mobile money (CinetPay, PayDunya ou FedaPay), avec Wave et Orange Money
-- 🔄 Hébergement en ligne (Render ou Railway) et nom de domaine : **revizo.click acheté** (27 octobre 2026), reste à le relier à l'hébergeur
+- 🔄 Hébergement en ligne : **Vercel** (projet revizo, https://revizo-three.vercel.app, déployé le 27 octobre 2026). Crédits protégés par Supabase. Reste : clé de l'IA dans Vercel, domaine revizo.click
 - ⬜ Banque de 1 500 questions validées par des profs, par pays et par examen
 - ⬜ Mode hors ligne : file d'attente des photos quand le réseau manque
 - ⬜ Mesures d'usage (PostHog) : rétention à J1, J7 et J30, conversion en payant, coût par exercice
@@ -97,3 +97,6 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | 27 octobre 2026 | Sanko redessiné, même personnage (oiseau Sankofa jaune, huppe en goutte d'encre) en plus moderne : corps en œuf avec ombrage, huppe à deux gouttes, grands yeux à reflets, bec arrondi, sourcils et ailes selon l'humeur, « zz » quand il dort. La tête du logo dans l'appli suit le nouveau dessin. Reste à mettre à jour les fichiers du logo dans marque/ |
 | 27 octobre 2026 | La mascotte s'appelle désormais **Lumi** (de « lumière » : il éclaire ce que l'élève n'a pas compris). Même dessin ; son histoire garde l'inspiration Sankofa. Vérifier que « Lumi » n'a pas de sens gênant dans les langues locales |
 | 27 octobre 2026 | Bienvenue en 3 étapes, dans cet ordre : classe, pays, prénom. Le prénom devient obligatoire (2 lettres minimum) |
+| 27 octobre 2026 | Hébergement sur Vercel (au lieu de Render ou Railway) et comptes sur Supabase. Code de l'IA séparé dans ia.js, deux fonctions Vercel (api/lire, api/resoudre, jusqu'à 300 s). Seuls les fichiers de l'appli sont publics. Premier déploiement en ligne, sans clé de l'IA pour l'instant |
+| 27 octobre 2026 | **Premier contact** construit : pays deviné (« Tu es au Sénégal ? »), un seul écran centré sur la photo, 5 exercices d'essai corrigés d'avance par niveau (gratuits, sans IA), lecture animée de la photo, énoncé écrit lettre par lettre, « Bien vu [prénom] » au premier bon choix, écran « Exercice compris » avec confettis, petit mot du prof et rendez-vous du lendemain (l'exercice revient en révision), proposition d'installer l'appli. Testé au format téléphone, en clair et en sombre, avec l'essai et avec une vraie photo |
+| 27 octobre 2026 | Crédits gardés sur le serveur (Supabase, projet revizo à Paris) : un élève = un appareil, 1 exercice offert par jour compté par le serveur, crédit retiré avant la correction et rendu si elle échoue, signalement remboursé une seule fois, 10 nouveaux comptes au plus par réseau et par jour. Paiement simulé désactivé en ligne (« bientôt ») tant que le vrai mobile money n'est pas branché |
