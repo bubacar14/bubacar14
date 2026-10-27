@@ -26,7 +26,6 @@ const MATIERES = [
   ["", "Je ne sais pas"], ["maths", "Maths"], ["pc", "PC"], ["svt", "SVT"], ["philo", "Philo"],
   ["francais", "Français"], ["hg", "Histoire-Géo"], ["anglais", "Anglais"], ["eco", "Économie"],
 ];
-const MATIERES_QUIZ = [["", "Toutes"], ["Maths", "Maths"], ["PC", "PC"], ["SVT", "SVT"], ["Philo", "Philo"], ["Français", "Français"], ["Histoire-Géo", "Histoire-Géo"]];
 
 // Icônes au trait de la charte (grille 24, trait 2, currentColor).
 const ICONES = {
@@ -49,6 +48,15 @@ const ICONES = {
   fermer: "M6 6l12 12M18 6 6 18",
   quiz: "M9 9a3 3 0 1 1 4 2.8c-.6.3-1 .8-1 1.5V14M12 18h.01M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z",
   whatsapp: "M4 20l1.3-4A8 8 0 1 1 8 18.7zM9 9c0 3 3 6 6 6l1-1.5-2-1-1 1c-1-.5-2-1.5-2.5-2.5l1-1-1-2z",
+  maths: "M7 4v6M4 7h6M14 7h6M14 15l5 5M19 15l-5 5M4 16h6M4 19.5h6",
+  pc: "M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3M7.5 14h9",
+  svt: "M5 19c0-8 5-14 15-14 0 10-6 15-14 15M5 19l8-8",
+  philo: "M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z",
+  livre: "M4 5c3-1 6-1 8 1 2-2 5-2 8-1v14c-3-1-6-1-8 1-2-2-5-2-8-1zM12 6v14",
+  globe: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
+  etincelle: "M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7-4.7-1.8 4.7-1.8zM19 15l.8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8z",
+  cadenas: "M7 11V8a5 5 0 0 1 10 0v3M5 11h14v10H5zM12 15v2",
+  flamme: "M12 3c.5 3.5 5 5.5 5 10.5a5 5 0 0 1-10 0c0-2.4 1.3-4 2.5-5 .2 1.5.9 2.5 2 3 .2-3-1-5.5.5-8.5z",
 };
 function icone(nom, cls = "ico") {
   return `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONES[nom]}"/></svg>`;
@@ -81,7 +89,7 @@ function paysParDefaut() {
 
 function loadState() {
   const vide = {
-    country: paysParDefaut(), classe: "", matiere: "", pseudo: "", theme: "auto",
+    country: paysParDefaut(), classe: "", matiere: "", pseudo: "", theme: "cahier", themeChoisi: false,
     credits: CREDIT_OFFERT_PAR_JOUR, lastRefill: today(), exosFaits: 0,
     streak: 0, lastActive: null, gels: 0, jours: [],
     cards: {}, exos: [], answered: 0, good: 0, studio: "",
@@ -89,6 +97,8 @@ function loadState() {
   };
   try {
     const s = JSON.parse(localStorage.getItem(STORE_KEY));
+    // Le thème clair devient le défaut : « auto » n'est gardé que si l'élève l'a choisi lui-même.
+    if (s && !s.themeChoisi && s.theme === "auto") s.theme = "cahier";
     if (s) return Object.assign(vide, s);
     // Reprend la progression des quiz de l'ancienne version.
     const v1 = JSON.parse(localStorage.getItem("revizo:v1"));
@@ -168,7 +178,7 @@ function sankoDit(humeur, html, taille = 88, extra = "") {
 
 function confettis() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const couleurs = ["#f5b301", "#2340a8", "#0b6f80", "#e5484d", "#8fa8ff"];
+  const couleurs = ["#ffc21a", "#2563eb", "#12893f", "#7c3aed", "#ea6a0a"];
   const box = document.createElement("div");
   box.className = "confettis";
   box.innerHTML = Array.from({ length: 40 }, (_, i) => `<i style="left:${(i * 37) % 100}%;background:${couleurs[i % couleurs.length]};animation-delay:${(i % 10) * 0.06}s"></i>`).join("");
@@ -210,6 +220,18 @@ function shuffle(arr) {
   return a;
 }
 function matiereLabel(m) { return m === "PC" ? "Physique-Chimie" : m; }
+
+// L'IA écrit parfois une phrase entière pour la matière ou le niveau : on garde deux mots.
+const MATIERES_COURTES = [["math", "Maths"], ["géom", "Maths"], ["phys", "PC"], ["chim", "PC"], ["svt", "SVT"], ["vie et de la terre", "SVT"], ["philo", "Philo"], ["fran", "Français"], ["hist", "Histoire-Géo"], ["géographie", "Histoire-Géo"], ["angl", "Anglais"], ["économ", "Économie"], ["compta", "Économie"]];
+function court(t = "") { return t.split(/[.,;:(·]/)[0].trim(); }
+function matiereCourte(m = "") {
+  const t = m.toLowerCase();
+  return MATIERES_COURTES.find(([k]) => t.includes(k))?.[1] || court(m).slice(0, 20);
+}
+function etiquetteExo(d) {
+  const niveau = court(d.niveau);
+  return [matiereCourte(d.matiere), niveau && niveau.length <= 20 ? niveau : state.classe].filter(Boolean).join(" · ");
+}
 function puces(liste, actif, attr) {
   return `<div class="puces">${liste.map(([k, nom]) => `<button class="puce" data-${attr}="${esc(k)}" aria-pressed="${actif === k}">${esc(nom)}</button>`).join("")}</div>`;
 }
@@ -226,7 +248,8 @@ function appliquerTheme() {
 }
 
 function majBarre() {
-  $("#serie").innerHTML = `${icone("serie")}${state.streak}`;
+  $("#serie").innerHTML = `${icone("flamme")}${pluriel(state.streak, "jour")}`;
+  $("#serie").classList.toggle("eteinte", !state.streak);
   $("#serie").setAttribute("aria-label", `Série : ${pluriel(state.streak, "jour")}`);
   $("#credits").innerHTML = `${icone("piece")}${pluriel(state.credits, "crédit")}`;
   $("#horsLigne").hidden = navigator.onLine;
@@ -260,17 +283,53 @@ function exosDus() {
 }
 
 function messageSanko(dues) {
-  const nom = state.pseudo ? `, ${esc(state.pseudo)}` : "";
-  if (state.exosFaits === 0) return ["content", `Salut${nom} ! Moi c'est Sanko. Prends ton exercice en photo : je t'explique comment le faire, étape par étape.`];
+  if (state.exosFaits === 0) return ["content", "Moi c'est Sanko, ton prof de poche."];
   if (dues) return ["reflechit", `J'ai ramené ${pluriel(dues, "chose")} que tu avais oubliée${dues > 1 ? "s" : ""}. On les revoit ? Ça prend 2 minutes.`];
-  if (state.streak >= 2) return ["joie", `${state.streak} jours d'affilée${nom} ! On continue ?`];
-  return ["content", `On attaque quel exercice aujourd'hui${nom} ?`];
+  if (state.streak >= 2) return ["joie", `${state.streak} jours d'affilée ! On continue ?`];
+  return ["content", "On attaque quel exercice aujourd'hui ?"];
 }
 
-function anneauObjectif(o) {
+// Carrousel « Révise par matière » de l'accueil : un quiz en un geste.
+const MATIERES_ACCUEIL = [
+  ["Maths", "Maths", "maths"], ["PC", "Physique-Chimie", "pc"], ["SVT", "SVT", "svt"],
+  ["Philo", "Philo", "philo"], ["Français", "Français", "livre"], ["Histoire-Géo", "Histoire-Géo", "globe"],
+];
+function carrouselMatieres() {
+  const melange = `<button class="matiere melange" data-quiz-matiere="">
+      <span class="matiere-ico">${icone("quiz")}</span>
+      <span class="matiere-nom">Tout mélangé</span>
+      <span class="matiere-info">${QUIZ_LEN} questions</span>
+    </button>`;
+  return melange + MATIERES_ACCUEIL.map(([cle, nom, ico], i) => {
+    const n = QUESTIONS.filter((q) => q.matiere === cle).length;
+    return n ? `<button class="matiere m${i}" data-quiz-matiere="${esc(cle)}">
+      <span class="matiere-ico">${icone(ico)}</span>
+      <span class="matiere-nom">${esc(nom)}</span>
+      <span class="matiere-info">${pluriel(n, "question")}</span>
+    </button>` : "";
+  }).join("");
+}
+
+// Objectif du jour et série réunis : une barre en deux étapes et la flamme de la série.
+function carteObjectif(o) {
   const fait = (o.exo ? 1 : 0) + (o.revision ? 1 : 0);
-  const c = 2 * Math.PI * 20;
-  return `<svg class="objectif-anneau" viewBox="0 0 52 52" aria-hidden="true"><circle class="fond" cx="26" cy="26" r="20"/><circle class="plein" cx="26" cy="26" r="20" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - fait / 2)}"/></svg>`;
+  const sousTitre = fait === 2 ? "Objectif atteint, ta série est sauvée !"
+    : fait === 1 ? "Plus qu'une étape pour garder ta série."
+    : "2 petites étapes pour garder ta série.";
+  return `
+    <button class="objectif ${fait === 2 ? "atteint" : ""}" id="carteObjectif">
+      <span class="objectif-haut">
+        <span class="objectif-titre">Objectif du jour</span>
+        <span class="objectif-compte">${fait}/2</span>
+      </span>
+      <span class="objectif-sous">${sousTitre}</span>
+      <span class="objectif-barre" role="progressbar" aria-label="Objectif du jour" aria-valuemin="0" aria-valuemax="2" aria-valuenow="${fait}"><span style="width:${fait * 50}%"></span></span>
+      <span class="objectif-taches">
+        <span class="tache ${o.exo ? "fait" : ""}">${icone(o.exo ? "juste" : "photo")}1 exercice</span>
+        <span class="tache ${o.revision ? "fait" : ""}">${icone(o.revision ? "juste" : "quiz")}1 quiz ou révision</span>
+      </span>
+      ${state.gels ? `<span class="petit">${pluriel(state.gels, "jour")} de repos en réserve</span>` : ""}
+    </button>`;
 }
 
 function renderHome() {
@@ -279,62 +338,77 @@ function renderHome() {
   const o = objectif();
   const [humeur, message] = messageSanko(dues);
   afficher(`
-    <div class="accueil-haut">
-      ${sankoDit(humeur, message, 92, "sanko-flotte")}
-      <div class="objectif" aria-label="Objectif du jour">
-        ${anneauObjectif(o)}
-        <div>
-          <span class="etiquette">Objectif du jour</span>
-          <ul>
-            <li class="${o.exo ? "fait" : ""}">${icone(o.exo ? "juste" : "crayon")}Comprendre 1 exercice</li>
-            <li class="${o.revision ? "fait" : ""}">${icone(o.revision ? "juste" : "crayon")}Faire 1 révision ou 1 quiz</li>
-          </ul>
-        </div>
-      </div>
+    <div class="salut">
+      <h1 class="display-l">Salut${state.pseudo ? ` ${esc(state.pseudo)}` : ""} !</h1>
+      <p class="salut-message">${message}</p>
     </div>
 
-    <section class="cahier bloc-exo" aria-labelledby="titreExo">
-      <span class="etiquette">${premier ? "Ton 1er exercice est offert" : "Toutes les matières"}</span>
-      <h1 class="display-xl" id="titreExo">Mon exercice</h1>
-      <p>Prends ton exercice en photo. Sanko t'explique la méthode, étape par étape.</p>
-      <button class="btn btn-principal" id="prendrePhoto">${icone("photo")}Prendre la photo</button>
-      <div class="bloc-exo-pied">
-        <button class="btn btn-discret" id="ecrire">ou écris-le</button>
-        <span class="petit">1 crédit par exercice · il t'en reste ${state.credits}</span>
+    <section class="hero" aria-labelledby="titreExo">
+      <div class="hero-texte">
+        <span class="hero-etiquette">${icone("etincelle")}${premier ? "1er exercice offert" : "Toutes les matières"}</span>
+        <h2 class="hero-titre" id="titreExo">Mon <span class="hero-titre-accent">exercice</span></h2>
+        <p>Une photo, et Sanko t'explique la méthode pas à pas.</p>
+      </div>
+      <div class="hero-scene" aria-hidden="true">
+        <div class="hero-viseur">
+          <div class="hero-feuille">
+            <span class="hero-feuille-titre">Exercice 2</span>
+            <span class="hero-feuille-eq">x² − 5x + 6 = 0</span>
+            <span class="hero-feuille-ligne"></span>
+            <span class="hero-feuille-ligne court"></span>
+            <i class="hero-scan"></i>
+          </div>
+        </div>
+        <span class="hero-badge badge-methode"><span class="badge-coche">${icone("juste")}</span>Méthode trouvée</span>
+        <span class="hero-badge badge-calcul">Δ = 1</span>
+        <span class="hero-badge badge-etapes">${icone("etincelle")}3 étapes</span>
+        ${sanko(humeur, 76, "hero-sanko")}
+      </div>
+      <div class="hero-actions">
+        <div class="hero-boutons">
+          <button class="btn btn-soleil" id="prendrePhoto">${icone("photo")}Photo</button>
+          <button class="btn hero-ecrire" id="ecrire">${icone("crayon")}Écrire</button>
+        </div>
+        <span class="hero-prix">1 crédit par exercice</span>
       </div>
     </section>
 
+    ${carteObjectif(o)}
+
+    <section class="matieres-bloc" aria-labelledby="titreMatieres">
+      <div class="section-entete">
+        <h2 class="titre" id="titreMatieres">Quiz par matière</h2>
+        <span class="petit">Gratuit · 2 min</span>
+      </div>
+      <div class="matieres">${carrouselMatieres()}</div>
+    </section>
+
     <div class="tuiles">
-      <button class="tuile" id="carteRevoir">
-        <span class="tuile-ico rouge">${icone("reviser")}</span>
+      <button class="tuile orange" id="carteRevoir">
+        ${icone("reviser", "ico tuile-filigrane")}
+        <span class="tuile-ico">${icone("reviser")}</span>
         <span class="titre">Mes erreurs ${dues ? `<span class="badge-nombre">${dues}</span>` : ""}</span>
         <span class="petit">${dues ? "Sanko les a ramenées" : "Rien à revoir"}</span>
-        <span class="gratuit">gratuit</span>
       </button>
-      <button class="tuile" id="carteQuiz">
-        <span class="tuile-ico bic">${icone("quiz")}</span>
-        <span class="titre">Quiz du jour</span>
-        <span class="petit">5 questions · 2 min</span>
-        <span class="gratuit">gratuit</span>
-      </button>
-      <button class="tuile" id="carteDuel">
-        <span class="tuile-ico soleil">${icone("duel")}</span>
+      <button class="tuile violet" id="carteDuel">
+        ${icone("duel", "ico tuile-filigrane")}
+        <span class="tuile-ico">${icone("duel")}</span>
         <span class="titre">Duel</span>
-        <span class="petit">Défie un ami de ta classe</span>
-      </button>
-      <button class="tuile" id="carteSerie">
-        <span class="tuile-ico juste">${icone("serie")}</span>
-        <span class="titre">${pluriel(state.streak, "jour")}</span>
-        <span class="petit">de série${state.gels ? ` · ${pluriel(state.gels, "jour")} de repos` : ""}</span>
+        <span class="petit">Défie un ami</span>
       </button>
     </div>`, "home");
 
   $("#prendrePhoto").addEventListener("click", () => $("#photoInput").click());
   $("#ecrire").addEventListener("click", () => { exo = { photo: null, texte: "" }; renderSaisie(); });
+  $("#carteObjectif").addEventListener("click", () => {
+    const o = objectif();
+    if (!o.revision) demarrerQuiz(cartesDues().length ? "revoir" : "quiz");
+    else if (!o.exo) $(".hero").scrollIntoView({ behavior: "smooth", block: "center" });
+    else render("profil");
+  });
   $("#carteRevoir").addEventListener("click", () => (cartesDues().length ? demarrerQuiz("revoir") : render("reviser")));
-  $("#carteQuiz").addEventListener("click", () => demarrerQuiz("quiz"));
   $("#carteDuel").addEventListener("click", () => demarrerQuiz("duel"));
-  $("#carteSerie").addEventListener("click", () => render("profil"));
+  view.querySelectorAll("[data-quiz-matiere]").forEach((b) => b.addEventListener("click", () => demarrerQuiz("quiz", null, b.dataset.quizMatiere)));
 }
 
 // ---------- Mon exercice : photo, énoncé lu, correction ----------
@@ -368,22 +442,27 @@ $("#photoInput").addEventListener("change", async (e) => {
   if (!file) return;
   try {
     exo = { photo: await compressImage(file), texte: "" };
-    renderSaisie();
+    lireEnonce();
   } catch {
     toast("Impossible de lire cette photo. Réessaie.");
   }
 });
 
-function blocContexte() {
+// La classe vient de l'écran de bienvenue : on ne demande que la matière, pour cet exercice seulement.
+function blocMatiere() {
   return `
-    <span class="champ-label">Ta classe</span>
-    ${puces(CLASSES.map((c) => [c, c]), state.classe, "classe")}
-    <span class="champ-label">La matière</span>
-    ${puces(MATIERES, state.matiere || "", "matiere")}`;
+    <span class="champ-label">La matière <span class="petit">(sinon je la devine)</span></span>
+    ${puces(MATIERES, exo.matiere ?? exo.matiereDetectee ?? "", "matiere")}`;
 }
-function lierContexte() {
-  lierPuces("classe", (v) => { state.classe = v; save(); });
-  lierPuces("matiere", (v) => { state.matiere = v; save(); });
+function lierMatiere() {
+  lierPuces("matiere", (v) => { exo.matiere = v; });
+}
+function enteteFlux(titre, retour) {
+  return `
+    <div class="entete-flux">
+      <button class="btn btn-discret" id="retour" aria-label="${retour}">${icone("fermer")}</button>
+      <h1 class="titre-flux">${titre}</h1>
+    </div>`;
 }
 
 async function appelApi(route, body) {
@@ -396,49 +475,69 @@ async function appelApi(route, body) {
 }
 
 function renderSaisie() {
-  const avecPhoto = Boolean(exo.photo);
   afficher(`
-    <button class="btn btn-discret" id="retour" style="align-self:flex-start">${icone("retour")}Accueil</button>
-    <h1 class="display-l">Mon exercice</h1>
-    ${avecPhoto ? `
-      <img class="apercu-photo" src="${exo.photo}" alt="Ta photo d'exercice">
-      <p class="petit">Photo prête · ${poidsPhoto(exo.photo)}. On l'utilise seulement pour lire ton exercice.</p>
-      <div class="actions-ligne"><button class="btn" id="reprendre">${icone("photo")}Reprendre la photo</button></div>
-    ` : `
-      <label class="champ-label" for="texteExo">Ton exercice</label>
-      <textarea id="texteExo" rows="6" maxlength="8000" placeholder="Ex. Résoudre 2x² − 3x − 2 = 0">${esc(exo.texte)}</textarea>
-    `}
-    ${blocContexte()}
-    <button class="btn btn-principal btn-large" id="suite">${avecPhoto ? "Lire mon exercice" : `Explique-moi · 1 crédit`}</button>
-    ${avecPhoto ? `<p class="petit">La lecture est gratuite. Le crédit n'est utilisé que quand tu confirmes l'énoncé.</p>` : ""}`);
+    ${enteteFlux("Mon exercice", "Retour à l'accueil")}
+    <label class="champ-label" for="texteExo">Écris ou colle ton exercice</label>
+    <textarea id="texteExo" rows="7" maxlength="8000" placeholder="Ex. Résoudre 2x² − 3x − 2 = 0">${esc(exo.texte)}</textarea>
+    <button class="lien-photo" id="plutotPhoto">${icone("photo")}Plutôt prendre une photo</button>
+    ${blocMatiere()}
+    <div class="cta-fixe">
+      <button class="btn btn-principal btn-large" id="suite">Explique-moi · 1 crédit</button>
+    </div>`, "", true);
 
   $("#retour").addEventListener("click", () => render("home"));
-  lierContexte();
-  if (avecPhoto) {
-    $("#reprendre").addEventListener("click", () => $("#photoInput").click());
-    $("#suite").addEventListener("click", lireEnonce);
-  } else {
-    $("#suite").addEventListener("click", () => {
-      exo.texte = $("#texteExo").value.trim();
-      if (!exo.texte) { toast("Écris ton exercice d'abord."); return; }
-      expliquer();
-    });
-  }
+  $("#plutotPhoto").addEventListener("click", () => $("#photoInput").click());
+  lierMatiere();
+  const zone = $("#texteExo");
+  if (!exo.texte) zone.focus({ preventScroll: true });
+  $("#suite").addEventListener("click", () => {
+    exo.texte = zone.value.trim();
+    if (!exo.texte) { toast("Écris ton exercice d'abord."); zone.focus(); return; }
+    expliquer();
+  });
 }
 
-function renderAttente(etapes, courante) {
+const ASTUCES = [
+  "Pendant ce temps, relis la question : que cherche-t-on exactement ?",
+  "Astuce : souligne les données de l'énoncé avant de calculer.",
+  "Au BAC, la méthode rapporte souvent plus de points que le résultat.",
+  "Une erreur, c'est une question que Sanko te ramènera. Rien de grave.",
+  "Écris chaque étape : le correcteur doit pouvoir te suivre.",
+];
+
+// Affiche l'attente une seule fois et renvoie une fonction pour passer à l'étape suivante.
+function renderAttente(etapes, duree) {
   afficher(`
     <div class="attente" role="status" aria-live="polite">
-      ${sankoDit("reflechit", `${esc(etapes[courante])}…`, 110, "sanko-flotte")}
+      ${sanko("reflechit", 120, "sanko-flotte")}
+      <p class="attente-titre" id="attenteTitre">${esc(etapes[0])}…</p>
+      <div class="attente-jauge" aria-hidden="true"><span style="animation-duration:${duree}s"></span></div>
       <ul class="attente-etapes">
-        ${etapes.map((t, i) => `<li class="${i < courante ? "fait" : i === courante ? "encours" : ""}">${i < courante ? icone("juste") : icone("crayon")}${esc(t)}</li>`).join("")}
+        ${etapes.map((t, i) => `<li data-etape="${i}" class="${i === 0 ? "encours" : ""}">${icone("crayon")}${esc(t)}</li>`).join("")}
       </ul>
+      <p class="attente-astuce" id="astuce">${ASTUCES[Math.floor(Math.random() * ASTUCES.length)]}</p>
     </div>`, "", true);
+  let n = ASTUCES.indexOf($("#astuce").textContent);
+  const rotation = setInterval(() => {
+    const el = $("#astuce");
+    if (!el) { clearInterval(rotation); return; }
+    n = (n + 1) % ASTUCES.length;
+    el.textContent = ASTUCES[n];
+  }, 6000);
+  return (courante) => {
+    if (!$("#attenteTitre")) return;
+    $("#attenteTitre").textContent = `${etapes[courante]}…`;
+    view.querySelectorAll("[data-etape]").forEach((li) => {
+      const k = Number(li.dataset.etape);
+      li.className = k < courante ? "fait" : k === courante ? "encours" : "";
+      li.querySelector(".ico").outerHTML = icone(k < courante ? "juste" : "crayon");
+    });
+  };
 }
 
 async function lireEnonce() {
-  renderAttente(["Je lis ta photo", "Je recopie l'énoncé"], 0);
-  const timer = setTimeout(() => renderAttente(["Je lis ta photo", "Je recopie l'énoncé"], 1), 2500);
+  const etape = renderAttente(["Je lis ta photo", "Je recopie l'énoncé"], 8);
+  const timer = setTimeout(() => etape(1), 2500);
   const data = await appelApi("api/lire", { image: exo.photo.split(",")[1], mediaType: "image/jpeg" });
   clearTimeout(timer);
   if (data.erreur || data.lisible === false) {
@@ -446,7 +545,7 @@ async function lireEnonce() {
     return;
   }
   exo.lecture = data;
-  if (!state.matiere && data.matiere && data.matiere !== "autre") exo.matiereDetectee = data.matiere;
+  if (data.matiere && data.matiere !== "autre") exo.matiereDetectee = data.matiere;
   renderEnonceLu();
 }
 
@@ -462,25 +561,30 @@ function surlignerDoutes(texte, doutes) {
 function renderEnonceLu() {
   const l = exo.lecture;
   afficher(`
-    <button class="btn btn-discret" id="retour" style="align-self:flex-start">${icone("retour")}Retour</button>
-    <h1 class="display-l">Voici ce que j'ai lu</h1>
-    <section class="cahier carte">
-      <p>${surlignerDoutes(l.enonce, l.doutes)}</p>
-      ${l.a_interpreter ? `<span class="annotation annotation-attention">Énoncé à interpréter, vérifie bien.</span>` : ""}
-    </section>
+    ${enteteFlux("Vérifie l'énoncé", "Annuler")}
+    <div class="lu-photo">
+      <img src="${exo.photo}" alt="Ta photo">
+      ${sankoDit("content", l.doutes?.length ? "J'ai un doute sur un passage. Vérifie-le, puis corrige si besoin." : "Voici ce que j'ai lu. Corrige si je me suis trompé.", 52)}
+    </div>
     ${l.doutes?.length ? `
-      <section class="carte" aria-label="Passages à vérifier">
-        <span class="etiquette">À vérifier</span>
+      <section class="carte carte-doutes" aria-label="Passages à vérifier">
         <ul class="liste-doutes">${l.doutes.map((d) => `<li><mark class="doute">${esc(d.extrait)}</mark><span>${esc(d.question)}</span></li>`).join("")}</ul>
       </section>` : ""}
-    <label class="champ-label" for="enonceCorrige">Corrige si besoin</label>
+    ${l.a_interpreter ? `<span class="annotation annotation-attention">Énoncé à interpréter, vérifie bien.</span>` : ""}
+    <label class="champ-label" for="enonceCorrige">L'énoncé</label>
     <textarea id="enonceCorrige" rows="6" maxlength="8000">${esc(l.enonce)}</textarea>
-    <button class="btn btn-principal btn-large" id="confirmer">C'est bien ça, explique-moi · 1 crédit</button>
-    <button class="btn btn-large" id="reprendre">${icone("photo")}Reprendre la photo</button>`);
-  $("#retour").addEventListener("click", renderSaisie);
+    ${blocMatiere()}
+    <div class="cta-fixe">
+      <button class="btn btn-principal btn-large" id="confirmer">C'est bon, explique-moi · 1 crédit</button>
+      <button class="btn btn-discret" id="reprendre">${icone("photo")}Reprendre la photo</button>
+    </div>`, "", true);
+  $("#retour").addEventListener("click", () => render("home"));
   $("#reprendre").addEventListener("click", () => $("#photoInput").click());
+  lierMatiere();
+  const zone = $("#enonceCorrige");
+  zone.style.height = `${Math.max(zone.scrollHeight + 4, 120)}px`;
   $("#confirmer").addEventListener("click", () => {
-    exo.texte = $("#enonceCorrige").value.trim();
+    exo.texte = zone.value.trim();
     if (!exo.texte) { toast("L'énoncé est vide."); return; }
     expliquer();
   });
@@ -493,10 +597,10 @@ async function expliquer() {
   majBarre();
   const etapes = ["Je relis l'énoncé", "Je cherche la méthode", "J'écris les étapes"];
   let i = 0;
-  renderAttente(etapes, 0);
-  const timer = setInterval(() => { i = Math.min(i + 1, etapes.length - 1); renderAttente(etapes, i); }, 4000);
+  const etape = renderAttente(etapes, 45);
+  const timer = setInterval(() => { i = Math.min(i + 1, etapes.length - 1); etape(i); }, 6000);
 
-  const body = { texte: exo.texte, pays: pays()?.nom || "", classe: state.classe || "", matiere: state.matiere || exo.matiereDetectee || "" };
+  const body = { texte: exo.texte, pays: pays()?.nom || "", classe: state.classe || "", matiere: exo.matiere || exo.matiereDetectee || "" };
   if (exo.photo) { body.image = exo.photo.split(",")[1]; body.mediaType = "image/jpeg"; }
   const data = await appelApi("api/resoudre", body);
   clearInterval(timer);
@@ -545,12 +649,18 @@ function renderCorrection() {
   const visibles = exo.toutVoir ? n : Math.min(exo.etapesVisibles, n);
   const fini = visibles >= n;
   const demarrage = d.demarrage;
+  // Progression : la méthode compte pour une étape, puis chaque étape dévoilée.
+  const y = window.scrollY;
+  const avance = fini ? n + 1 : methodeVisible ? visibles : exo.palier >= 1 ? 0.5 : 0;
 
   afficher(`
-    <button class="btn btn-discret" id="retour" style="align-self:flex-start">${icone("retour")}${exo.depuisRevision ? "Réviser" : "Accueil"}</button>
-    <span class="etiquette">${esc(d.matiere)} · ${esc(d.niveau)}</span>
+    <div class="barre-lecon">
+      <button class="btn btn-discret" id="retour" aria-label="${exo.depuisRevision ? "Retour aux révisions" : "Retour à l'accueil"}">${icone("fermer")}</button>
+      <div class="jauge" role="progressbar" aria-label="Avancement de la correction" aria-valuemin="0" aria-valuemax="${n + 1}" aria-valuenow="${avance}"><span style="width:${(avance / (n + 1)) * 100}%"></span></div>
+    </div>
+    <span class="puce-matiere">${esc(etiquetteExo(d))}</span>
     <div class="correction">
-      <section class="carte">
+      <section class="carte carte-cible">
         <h2 class="carte-titre">${icone("cible")}Ce qu'on cherche</h2>
         <p>${multiligne(d.enonce)}</p>
       </section>
@@ -579,7 +689,7 @@ function renderCorrection() {
       ${methodeVisible ? `
       <section class="carte carte-methode apparait">
         <h2 class="carte-titre">${icone("methode")}La méthode à retenir</h2>
-        <ol>${d.methode.map((m) => `<li>${multiligne(m)}</li>`).join("")}</ol>
+        <ol class="liste-num">${d.methode.map((m) => `<li>${multiligne(m)}</li>`).join("")}</ol>
       </section>
 
       <section class="carte">
@@ -593,7 +703,7 @@ function renderCorrection() {
               ${e.calcul ? `<pre class="calcul">${esc(e.calcul)}</pre>` : ""}
               ${e.marge ? `<span class="annotation">${esc(e.marge)}</span>` : ""}
             </div>`).join("")}
-          ${d.etapes.slice(visibles).map(() => `<div class="etape-cachee" aria-hidden="true"><span></span><span></span></div>`).join("")}
+          ${d.etapes.slice(visibles).map((_, j) => `<div class="etape-cachee" aria-hidden="true">${icone("cadenas")}Étape ${visibles + j + 1}</div>`).join("")}
         </div>
         ${!fini ? `<p class="petit">Essaie l'étape suivante sur ton cahier avant de la dévoiler.</p>` : ""}
       </section>` : ""}
@@ -609,20 +719,20 @@ function renderCorrection() {
         <h2 class="carte-titre">${icone("erreur")}Pièges à éviter</h2>
         <ul>${d.pieges.map((p) => `<li>${multiligne(p)}</li>`).join("")}</ul>
       </section>` : ""}
-      <section class="carte">
+      <section class="carte carte-defi">
         <h2 class="carte-titre">${icone("quiz")}À toi de jouer</h2>
         <p>${multiligne(d.entrainement.enonce)}</p>
         <details><summary class="btn btn-discret">Voir la solution</summary><p>${multiligne(d.entrainement.solution)}</p></details>
         <span class="petit">Tu l'as fait ?</span>
         <div class="actions-ligne">
-          <button class="btn" data-bilan="reussi">${icone("juste")}Je l'ai réussi</button>
+          <button class="btn btn-juste" data-bilan="reussi">${icone("juste")}Je l'ai réussi</button>
           <button class="btn" data-bilan="trompe">${icone("erreur")}Je me suis trompé</button>
         </div>
       </section>
       <div class="actions">
         <button class="btn" id="partager">${icone("whatsapp")}Partager la méthode sur WhatsApp</button>
         <button class="btn btn-principal" id="nouvel">${icone("photo")}Nouvel exercice</button>
-        <button class="btn btn-discret" id="signaler" ${exo.signale ? "disabled" : ""}>${icone("signaler")}${exo.signale ? "Merci, c'est signalé" : "Une erreur dans la correction ? Signaler"}</button>
+        <button class="btn btn-discret" id="signaler" ${exo.signale ? "disabled" : ""}>${icone("signaler")}${exo.signale ? "Merci, c'est signalé" : "Signaler une erreur"}</button>
       </div>
       <p class="petit">Révizo peut se tromper. En cas de doute, vérifie avec ton professeur.</p>` : ""}
     </div>
@@ -635,11 +745,15 @@ function renderCorrection() {
         <span class="palier ${methodeVisible && visibles > 1 ? "atteint" : ""}">Étapes ${methodeVisible ? `${visibles}/${n}` : ""}</span>
       </div>
       <div class="actions-ligne">
-        <button class="btn" id="bloque">Je bloque</button>
+        <button class="btn btn-soleil" id="bloque">Je bloque</button>
         ${methodeVisible ? `<button class="btn btn-principal" id="suivante">Étape suivante</button>` : ""}
       </div>
       <button class="btn btn-discret" id="toutVoir">Tout afficher d'un coup</button>
-    </div>` : ""}`);
+    </div>` : ""}`, "", true);
+
+  // afficher() remonte en haut : on revient où était l'élève, puis on montre ce qui vient d'apparaître.
+  window.scrollTo(0, y);
+  if (y) [...view.querySelectorAll(".apparait")].pop()?.scrollIntoView({ block: "center", behavior: "smooth" });
 
   $("#retour").addEventListener("click", () => render(exo.depuisRevision ? "reviser" : "home"));
   view.querySelectorAll("[data-demarrage]").forEach((b) => b.addEventListener("click", () => {
@@ -695,8 +809,17 @@ function signalerErreur() {
 
 // ---------- Quiz ----------
 
+// Brevet jusqu'en 3e, BAC à partir de la Seconde. Sans classe connue, on mélange.
+function niveauEleve() {
+  if (["Seconde", "Première", "Terminale"].includes(state.classe)) return "bac";
+  return state.classe ? "brevet" : null;
+}
+
 function pickQuestions(mode, matiere) {
-  const pool = QUESTIONS.filter((q) => !matiere || q.matiere === matiere);
+  const tout = QUESTIONS.filter((q) => !matiere || q.matiere === matiere);
+  const auNiveau = tout.filter((q) => q.niveau === niveauEleve());
+  // La banque est encore petite : si le niveau a trop peu de questions, on garde tout.
+  const pool = mode !== "revoir" && auNiveau.length >= 3 ? auNiveau : tout;
   const due = new Set(cartesDues());
   if (mode === "revoir") return shuffle(pool.filter((q) => due.has(q.id))).slice(0, QUIZ_LEN);
   const dueQs = shuffle(pool.filter((q) => due.has(q.id)));
@@ -705,10 +828,10 @@ function pickQuestions(mode, matiere) {
   return [...dueQs, ...fresh, ...rest].slice(0, QUIZ_LEN);
 }
 
-function demarrerQuiz(mode, duel, matiere = state.studio) {
+function demarrerQuiz(mode, duel, matiere = "") {
   const qs = duel ? duel.ids.map((id) => QUESTIONS.find((q) => q.id === id)).filter(Boolean) : pickQuestions(mode, matiere);
   if (!qs.length) { toast(mode === "revoir" ? "Rien à revoir aujourd'hui." : "Pas de question pour cette matière."); return; }
-  session = { mode, qs, i: 0, score: 0, resultats: [], duel: duel || null };
+  session = { mode, matiere, qs, i: 0, score: 0, resultats: [], duel: duel || null };
   renderQuestion();
 }
 
@@ -718,6 +841,7 @@ function renderQuestion() {
   session.ordre = shuffle(q.choix.map((_, k) => k));
   const combo = session.combo >= 2 ? `<span class="serie-combo">${session.combo} d'affilée !</span>` : "";
   afficher(`
+    <div class="quiz">
     <div class="barre-lecon">
       <button class="btn btn-discret" id="quitter" aria-label="Quitter le quiz">${icone("fermer")}</button>
       <div class="jauge" role="progressbar" aria-valuemin="0" aria-valuemax="${qs.length}" aria-valuenow="${i}"><span style="width:${(i / qs.length) * 100}%"></span></div>
@@ -727,6 +851,7 @@ function renderQuestion() {
     <p class="question">${esc(q.q)}</p>
     <div class="actions" id="choix">
       ${session.ordre.map((k, n) => `<button class="choix" data-k="${k}"><span class="choix-lettre">${"ABCD"[n]}</span><span class="choix-texte">${esc(q.choix[k])}</span></button>`).join("")}
+    </div>
     </div>
     <div class="espace-feuille" aria-hidden="true"></div>`, "", true);
   $("#quitter").addEventListener("click", () => { session = null; render("home"); });
@@ -768,9 +893,11 @@ function repondre(k) {
   feuille.innerHTML = `
     <div class="feuille-titre">${sanko(ok ? "joie" : "encourage", 64, ok ? "sanko-saute" : "")}<h2>${ok ? bravo : "Pas tout à fait"}</h2></div>
     ${ok ? `<p>${esc(q.explication)}</p>` : `<p><b>Bonne réponse : ${esc(q.choix[q.bonne])}</b></p><p>${esc(q.explication)}</p><p class="petit">Pas grave : Sanko te la ramènera demain.</p>`}
-    <button class="btn ${ok ? "btn-juste" : "btn-rouge"} btn-large" id="suivante">${dernier ? "Voir mon bilan" : "Continuer"}</button>`;
+    <button class="btn ${ok ? "btn-juste" : "btn-principal"} btn-large" id="suivante">${dernier ? "Voir mon bilan" : "Continuer"}</button>`;
   document.body.appendChild(feuille);
-  $("#suivante").focus();
+  // Les réponses restent visibles au-dessus du panneau.
+  requestAnimationFrame(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" }));
+  $("#suivante").focus({ preventScroll: true });
   $("#suivante").addEventListener("click", () => {
     if (dernier) finSeance();
     else { session.i += 1; renderQuestion(); }
@@ -778,7 +905,7 @@ function repondre(k) {
 }
 
 function finSeance() {
-  const { score, qs, duel, mode, resultats } = session;
+  const { score, qs, duel, mode, matiere, resultats } = session;
   const nouveauJour = marquerActif();
   const objectifAtteint = cocherObjectif("revision");
   let gelGagne = false;
@@ -786,7 +913,8 @@ function finSeance() {
   majBarre();
   const ratees = qs.filter((_, k) => !resultats[k]);
   const pct = Math.round((score / qs.length) * 100);
-  const semaine = Array.from({ length: 7 }, (_, k) => addDays(today(), k - 6));
+  const lundi = addDays(today(), -((new Date(`${today()}T00:00:00Z`).getUTCDay() + 6) % 7));
+  const semaine = Array.from({ length: 7 }, (_, k) => addDays(lundi, k));
   const titre = pct === 100 ? "Parfait !" : pct >= 60 ? "Bien joué !" : "Séance terminée";
   const humeur = pct >= 60 ? "fier" : "encourage";
 
@@ -805,7 +933,7 @@ function finSeance() {
       <div class="chiffres">
         <div class="chiffre soleil"><span>Score</span><b>${score}/${qs.length}</b></div>
         <div class="chiffre juste"><span>Précision</span><b>${pct} %</b></div>
-        <div class="chiffre bic"><span>Série</span><b>${state.streak} j</b></div>
+        <div class="chiffre bic"><span>Série</span><b>${pluriel(state.streak, "jour")}</b></div>
       </div>
     </div>
     ${ratees.length ? `
@@ -818,7 +946,8 @@ function finSeance() {
       <div class="calendrier" aria-label="Série : ${pluriel(state.streak, "jour")}">
         ${semaine.map((j) => {
           const fait = (state.jours || []).includes(j);
-          return `<span class="${fait ? "fait" : ""} ${fait && j === today() && nouveauJour ? "aujourdhui" : ""}">${fait ? icone("juste") : new Date(j).toLocaleDateString("fr-FR", { weekday: "narrow", timeZone: "UTC" })}</span>`;
+          const lettre = new Date(j).toLocaleDateString("fr-FR", { weekday: "narrow", timeZone: "UTC" });
+          return `<span class="${fait ? "fait" : ""} ${j === today() ? "jour-j" : ""} ${j > today() ? "a-venir" : ""} ${fait && j === today() && nouveauJour ? "aujourdhui" : ""}"><small>${lettre}</small>${fait ? icone("juste") : ""}</span>`;
         }).join("")}
       </div>
       ${gelGagne ? `<span class="annotation annotation-bravo">Tu as gagné 1 jour de repos pour ta série !</span>` : ""}
@@ -831,7 +960,7 @@ function finSeance() {
     </div>`, "", true);
   son("fin");
   if (pct >= 60 || objectifAtteint) confettis();
-  $("#encore").addEventListener("click", () => demarrerQuiz(cartesDues().length ? "revoir" : "quiz"));
+  $("#encore").addEventListener("click", () => demarrerQuiz(cartesDues().length ? "revoir" : "quiz", null, matiere));
   $("#defier").addEventListener("click", () => partagerDuel(qs, score));
   $("#accueil").addEventListener("click", () => render("home"));
   session = null;
@@ -878,16 +1007,12 @@ function renderReviser() {
       <button class="carte carte-action" data-exo="${esc(e.id)}">
         ${icone("crayon")}
         <span class="grow">
-          <span class="etiquette">${esc(e.matiere)}${e.due && e.due <= today() ? " · à refaire aujourd'hui" : ""}</span>
+          <span class="etiquette">${esc(matiereCourte(e.matiere))}${e.due && e.due <= today() ? " · à refaire aujourd'hui" : ""}</span>
           <span>${esc(e.titre)}</span>
         </span>
         ${icone("chevron", "ico chevron")}
       </button>`).join("") : `
-      ${sankoDit("dort", "Rien ici pour l'instant. Après une correction, dis-moi si tu as réussi « À toi de jouer » : je rangerai l'exercice ici pour te le ramener au bon moment.", 64)}`}
-
-    <h2 class="titre section-titre">Quiz par matière</h2>
-    ${puces(MATIERES_QUIZ, state.studio || "", "studio")}
-    <button class="btn btn-principal btn-large" id="lancerQuiz">Lancer 5 questions · gratuit</button>`, "reviser");
+      ${sankoDit("dort", "Rien ici pour l'instant. Après une correction, dis-moi si tu as réussi « À toi de jouer » : je rangerai l'exercice ici pour te le ramener au bon moment.", 64)}`}`, "reviser");
 
   $("#revoirQuiz").addEventListener("click", () => demarrerQuiz("revoir"));
   view.querySelectorAll("[data-exo]").forEach((b) => b.addEventListener("click", () => {
@@ -896,8 +1021,6 @@ function renderReviser() {
     exo = { id: fiche.id, photo: null, texte: fiche.correction.enonce };
     ouvrirCorrection(fiche.correction, true);
   }));
-  lierPuces("studio", (v) => { state.studio = v; save(); });
-  $("#lancerQuiz").addEventListener("click", () => demarrerQuiz("quiz", null, state.studio));
 }
 
 // ---------- Recharge (paiement simulé) ----------
@@ -914,49 +1037,37 @@ function renderRecharge(contexte) {
   const dessiner = () => {
     const o = OFFRES.find((x) => x.id === choisie);
     afficher(`
-      <button class="btn btn-discret" id="retour" style="align-self:flex-start">${icone("retour")}Retour</button>
-      <h1 class="display-l">${titre}</h1>
-      ${sankoDit("content", sousTitre, 64)}
+      ${enteteFlux(titre, "Retour")}
+      ${sankoDit("content", sousTitre, 56)}
 
       <div class="offres" role="radiogroup" aria-label="Offres">
         ${OFFRES.map((x) => `
-          <button class="offre" role="radio" data-offre="${x.id}" aria-pressed="${x.id === choisie}" aria-checked="${x.id === choisie}">
-            ${x.badge ? `<span class="offre-badge">${x.badge}</span>` : ""}
-            <span class="offre-credits">${x.credits}</span>
-            <span>crédits</span>
-            <span class="mono">${prix(x.prix)}</span>
-            <span class="petit">soit ${prix(Math.round(x.prix / x.credits))} l'exercice</span>
+          <button class="offre" role="radio" data-offre="${x.id}" aria-checked="${x.id === choisie}" aria-pressed="${x.id === choisie}">
+            <span class="offre-radio" aria-hidden="true"></span>
+            <span class="offre-gauche">
+              <span class="offre-credits">${x.credits} crédits</span>
+              ${x.badge ? `<span class="offre-badge">${x.badge}</span>` : ""}
+            </span>
+            <span class="offre-droite">
+              <b class="offre-prix">${prix(x.prix)}</b>
+              <span class="petit">${prix(Math.round(x.prix / x.credits))} l'exercice</span>
+            </span>
           </button>`).join("")}
       </div>
-
-      <section class="carte">
-        <p class="frise">Tu paies <b class="mono">${prix(o.prix)}</b> ${icone("chevron")} tu reçois <b>${o.credits} crédits</b> ${icone("chevron")} valables toute l'année scolaire.</p>
-        <p><b>Aucun prélèvement automatique.</b></p>
-      </section>
-
-      <table class="tableau">
-        <thead><tr><th>Ce que tu fais</th><th>Prix</th></tr></thead>
-        <tbody>
-          <tr><td>Quiz et quiz du jour</td><td><span class="gratuit">${icone("juste")} Gratuit</span></td></tr>
-          <tr><td>Revoir mes erreurs</td><td><span class="gratuit">${icone("juste")} Gratuit</span></td></tr>
-          <tr><td>Duels et série</td><td><span class="gratuit">${icone("juste")} Gratuit</span></td></tr>
-          <tr><td>1 exercice expliqué par jour</td><td><span class="gratuit">${icone("juste")} Gratuit</span></td></tr>
-          <tr><td>Exercices en plus</td><td class="mono">1 crédit</td></tr>
-        </tbody>
-      </table>
+      <p class="rassure">${icone("juste")}<span>Valables toute l'année. <b>Aucun prélèvement automatique.</b> Quiz, révisions, duels et 1 exercice par jour restent gratuits.</span></p>
 
       ${c ? `
         <span class="champ-label">Payer avec</span>
         <div class="operateurs">
           ${c.paiement.map((m) => `<button class="operateur" data-operateur="${esc(m)}" aria-pressed="${m === operateur}">${esc(m)}</button>`).join("")}
         </div>
-        <button class="btn btn-principal btn-large" id="payer">Payer ${prix(o.prix)} avec ${esc(operateur)}</button>
       ` : `
         <span class="champ-label">Ton pays, pour afficher tes moyens de paiement</span>
         ${puces(Object.entries(COUNTRIES).map(([k, v]) => [k, v.nom]), "", "pays")}
       `}
-      <button class="btn btn-large" id="parent">${icone("whatsapp")}Demander à un parent de payer</button>
-      <p class="demo">Démo : aucun paiement réel. Les crédits sont ajoutés directement.</p>`);
+      <button class="btn btn-discret" id="parent">${icone("whatsapp")}Demander à un parent de payer</button>
+      <p class="demo">Démo : aucun paiement réel. Les crédits sont ajoutés directement.</p>
+      ${c ? `<div class="cta-fixe"><button class="btn btn-principal btn-large" id="payer">Payer ${prix(o.prix)} avec ${esc(operateur)}</button></div>` : ""}`, "", true);
 
     $("#retour").addEventListener("click", () => render("home"));
     view.querySelectorAll("[data-offre]").forEach((b) => b.addEventListener("click", () => { choisie = b.dataset.offre; dessiner(); }));
@@ -978,11 +1089,24 @@ function payer(offre, operateur) {
       <h1 class="display-l">Confirme sur ton téléphone</h1>
       <p>Tu vas recevoir une demande ${esc(operateur)} de <b class="mono">${prix(offre.prix)}</b>. Valide-la avec ton code secret.</p>
       <p class="petit" id="decompte">Temps restant : ${reste} s</p>
-    </div>`);
-  const tick = setInterval(() => { reste -= 1; const el = $("#decompte"); if (el) el.textContent = `Temps restant : ${reste} s`; }, 1000);
+    </div>
+    <button class="btn btn-large" id="annuler">Annuler</button>`, "", true);
+  const arreter = () => { clearInterval(tick); clearTimeout(confirmation); };
+  const tick = setInterval(() => {
+    reste -= 1;
+    if (reste > 0) { $("#decompte").textContent = `Temps restant : ${reste} s`; return; }
+    arreter();
+    afficher(`
+      ${sankoDit("encourage", "Le temps est écoulé et rien n'a été payé. Tu peux réessayer quand tu veux.", 100)}
+      <button class="btn btn-principal btn-large" id="reessayer">Réessayer</button>
+      <button class="btn btn-large" id="accueil">Retour à l'accueil</button>`);
+    $("#reessayer").addEventListener("click", () => renderRecharge());
+    $("#accueil").addEventListener("click", () => render("home"));
+  }, 1000);
+  $("#annuler").addEventListener("click", () => { arreter(); son("tap"); renderRecharge(); });
   // Démo : la confirmation de l'opérateur arrive au bout de 3 secondes.
-  setTimeout(() => {
-    clearInterval(tick);
+  const confirmation = setTimeout(() => {
+    arreter();
     state.credits += offre.credits;
     save();
     majBarre();
@@ -1019,7 +1143,7 @@ function renderProfil() {
     <span class="champ-label">Ma classe</span>
     ${puces(CLASSES.map((c) => [c, c]), state.classe, "classe")}
     <span class="champ-label">Affichage</span>
-    ${puces([["auto", "Comme mon téléphone"], ["cahier", "Cahier (clair)"], ["ardoise", "Ardoise (sombre)"]], state.theme, "theme")}
+    ${puces([["cahier", "Cahier (clair)"], ["ardoise", "Ardoise (sombre)"], ["auto", "Comme mon téléphone"]], state.theme, "theme")}
     <span class="champ-label">Sons et vibrations</span>
     ${puces([["oui", "Activés"], ["non", "Coupés"]], state.sons ? "oui" : "non", "sons")}
     <section class="carte histoire">
@@ -1035,16 +1159,65 @@ function renderProfil() {
   $("#pseudo").addEventListener("change", (e) => { state.pseudo = e.target.value.trim(); save(); toast("Prénom enregistré"); });
   lierPuces("pays", (v) => { state.country = v; save(); });
   lierPuces("classe", (v) => { state.classe = v; save(); });
-  lierPuces("theme", (v) => { state.theme = v; save(); appliquerTheme(); });
+  lierPuces("theme", (v) => { state.theme = v; state.themeChoisi = true; save(); appliquerTheme(); });
   lierPuces("sons", (v) => { state.sons = v === "oui"; save(); son("tap"); });
   $("#recharger").addEventListener("click", () => renderRecharge());
+}
+
+// ---------- Bienvenue (premier lancement) ----------
+
+function renderBienvenue(etape = 1) {
+  const points = `<div class="points-etapes" aria-label="Étape ${etape} sur 2"><span class="fait"></span><span class="${etape === 2 ? "fait" : ""}"></span></div>`;
+  if (etape === 1) {
+    afficher(`
+      ${points}
+      <div class="bienvenue">
+        ${sanko("joie", 104, "sanko-flotte")}
+        <h1 class="display-l">Bienvenue sur Révizo !</h1>
+        <p class="salut-message">Tu es dans quel pays ? Je corrigerai comme ton correcteur d'examen.</p>
+      </div>
+      <div class="grille-choix">
+        ${Object.entries(COUNTRIES).map(([k, v]) => `<button class="puce" data-pays="${k}" aria-pressed="${state.country === k}">${esc(v.nom)}</button>`).join("")}
+      </div>`, "", true);
+    lierPuces("pays", (v) => { state.country = v; save(); son("tap"); setTimeout(() => renderBienvenue(2), 180); });
+    return;
+  }
+  afficher(`
+    <div class="entete-flux">
+      <button class="btn btn-discret" id="retour" aria-label="Changer de pays">${icone("retour")}</button>
+      ${points}
+    </div>
+    <div class="bienvenue">
+      ${sanko("content", 80)}
+      <h1 class="display-l">En quelle classe ?</h1>
+      <p class="salut-message">Tes quiz seront à ton niveau.</p>
+    </div>
+    <div class="grille-choix">
+      ${CLASSES.map((c) => `<button class="puce" data-classe="${esc(c)}" aria-pressed="${state.classe === c}">${esc(c)}</button>`).join("")}
+    </div>
+    <label class="champ-label" for="pseudoBienvenue">Ton prénom <span class="petit">(facultatif, pour les duels)</span></label>
+    <input type="text" id="pseudoBienvenue" maxlength="20" placeholder="Ex. Awa" value="${esc(state.pseudo)}">
+    <div class="cta-fixe">
+      <button class="btn btn-soleil btn-large" id="cestParti" ${state.classe ? "" : "disabled"}>C'est parti !</button>
+    </div>`, "", true);
+  $("#retour").addEventListener("click", () => renderBienvenue(1));
+  lierPuces("classe", (v) => { state.classe = v; save(); $("#cestParti").disabled = false; });
+  $("#cestParti").addEventListener("click", () => {
+    state.pseudo = $("#pseudoBienvenue").value.trim();
+    state.bienvenue = true;
+    save();
+    son("tap");
+    render("home");
+  });
 }
 
 // ---------- Navigation ----------
 
 function render(name) {
   session = null;
-  if (name === "reviser") renderReviser();
+  // Un élève arrivé par un lien de duel n'a pas encore vu l'accueil : on lui demande d'abord pays et classe.
+  if (!state.bienvenue && !(state.country && state.classe)) renderBienvenue();
+  else if (name === "reviser") renderReviser();
   else if (name === "profil") renderProfil();
   else renderHome();
 }
