@@ -1,14 +1,24 @@
 {
-  "name": "Révizo — Réviser le BAC en jouant",
+  "id": "/",
+  "name": "Révizo : réviser avec Lumi",
   "short_name": "Révizo",
-  "description": "Révise le BAC, le BFEM, le BEPC et le DEF en jouant. Pour toute l'Afrique de l'Ouest.",
+  "description": "Photographie ton exercice : Lumi t'explique la méthode pas à pas. Quiz, révisions et duels pour le BAC, le BFEM, le BEPC et le DEF, dans toute l'Afrique de l'Ouest.",
   "lang": "fr",
-  "start_url": "./",
-  "scope": "./",
+  "dir": "ltr",
+  "start_url": "/?source=appli",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0b0b0f",
-  "theme_color": "#0b0b0f",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "categories": ["education"],
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Mon exercice en photo", "short_name": "Photo", "url": "/?source=raccourci", "icons": [{ "src": "icon-192.png", "sizes": "192x192" }] }
   ]
 }

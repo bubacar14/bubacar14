@@ -504,6 +504,41 @@ function planifierRetour() {
 // L'invitation du navigateur à installer l'appli, gardée pour le bon moment : juste après le premier exercice compris.
 let invitationInstall = null;
 window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); invitationInstall = e; });
+window.addEventListener("appinstalled", () => { invitationInstall = null; toast("Révizo est sur ton écran d'accueil !"); });
+
+const appliInstallee = () => window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+const surIphone = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+// Le bouton d'installation a du sens si le navigateur propose l'installation, ou sur iPhone (étapes à suivre).
+const installationPossible = () => !appliInstallee() && (Boolean(invitationInstall) || surIphone());
+
+// Installer l'appli : la fenêtre du navigateur quand il en donne une (Android, Chrome),
+// sinon les étapes à suivre, sur iPhone (Safari) ou dans les autres navigateurs.
+async function installerAppli() {
+  if (appliInstallee()) { toast("Révizo est déjà installée sur ce téléphone."); return; }
+  if (invitationInstall) {
+    const invitation = invitationInstall;
+    invitationInstall = null;
+    invitation.prompt();
+    return;
+  }
+  const etapes = surIphone()
+    ? [`Touche le bouton <b>Partager</b> ${icone("partager")} en bas de Safari.`, "Fais défiler et choisis <b>Sur l'écran d'accueil</b>.", "Touche <b>Ajouter</b> en haut à droite."]
+    : ["Ouvre le <b>menu</b> du navigateur (les trois points ⋮ en haut à droite).", "Choisis <b>Installer l'application</b> ou <b>Ajouter à l'écran d'accueil</b>.", "Confirme : Lumi apparaît à côté de tes autres applis."];
+  document.querySelector(".feuille")?.remove();
+  const feuille = document.createElement("div");
+  feuille.className = "feuille feuille-install";
+  feuille.setAttribute("role", "dialog");
+  feuille.setAttribute("aria-label", "Installer Révizo");
+  feuille.innerHTML = `
+    <div class="feuille-titre">${sanko("joie", 64)}<h2>Mets Lumi sur ton écran d'accueil</h2></div>
+    <ol class="etapes-install">${etapes.map((t) => `<li>${t}</li>`).join("")}</ol>
+    ${surIphone() ? `<p class="petit">Ça marche dans <b>Safari</b>. Si tu es dans une autre appli (WhatsApp, Facebook…), ouvre d'abord revizo.click dans Safari.</p>` : ""}
+    <p class="petit">Gratuit, sans Play Store, et elle prend très peu de place.</p>
+    <button class="btn btn-principal btn-large" id="compris">J'ai compris</button>`;
+  document.body.appendChild(feuille);
+  $("#compris").focus();
+  $("#compris").addEventListener("click", () => feuille.remove());
+}
 
 function blocVictoire(d) {
   const motDuProf = d.etapes.map((e) => e.marge).find(Boolean);
@@ -518,7 +553,7 @@ function blocVictoire(d) {
       ${sankoDit("content", "Demain, je te ramène cet exercice. Si tu retrouves la méthode tout seul, c'est gagné : tu sais le refaire.", 56)}
       ${calendrierSemaine(true)}
       <span class="petit centre">${state.streak > 1 ? `${state.streak} jours de série` : "Jour 1 de ta série"}</span>
-      ${invitationInstall ? `<button class="btn btn-soleil btn-large" id="installer">${icone("etincelle")}Mettre Lumi sur mon écran d'accueil</button>` : ""}
+      ${installationPossible() ? `<button class="btn btn-soleil btn-large" id="installer">${icone("etincelle")}Mettre Lumi sur mon écran d'accueil</button>` : ""}
       <div class="actions-ligne">
         <button class="btn" id="defier">${icone("duel")}Défier un ami</button>
         <button class="btn btn-principal" id="continuer">Continuer</button>
@@ -949,12 +984,7 @@ function renderCorrection() {
       save();
       setTimeout(() => { son("fin"); confettis(); $(".victoire")?.scrollIntoView({ block: "center", behavior: "smooth" }); }, 250);
     }
-    $("#installer")?.addEventListener("click", () => {
-      const invitation = invitationInstall;
-      invitationInstall = null;
-      $("#installer").remove();
-      invitation?.prompt();
-    });
+    $("#installer")?.addEventListener("click", () => { $("#installer").remove(); installerAppli(); });
     $("#defier").addEventListener("click", () => demarrerQuiz("duel"));
     $("#continuer").addEventListener("click", () => render("home"));
   }
@@ -1472,6 +1502,10 @@ function renderProfil() {
         <span class="reglage-nom">Sons et vibrations</span>
         <button class="interrupteur" id="sons" role="switch" aria-checked="${state.sons}" aria-label="Sons et vibrations"><span></span></button>
       </div>
+      ${appliInstallee() ? "" : `
+      <button class="reglage-ligne reglage-bouton" id="installerProfil">
+        <span class="reglage-nom">Installer l'appli sur mon téléphone</span>${icone("chevron", "ico chevron")}
+      </button>`}
     </div>
 
     <details class="reglage reglage-seul">
@@ -1509,6 +1543,7 @@ function renderProfil() {
     son("tap");
   });
   $("#recharger").addEventListener("click", () => renderRecharge());
+  $("#installerProfil")?.addEventListener("click", installerAppli);
 }
 
 // ---------- Bienvenue (premier lancement) ----------
@@ -1644,11 +1679,15 @@ async function syncCompte() {
 refillDaily();
 majBarre();
 syncCompte();
+const demandeInstall = new URLSearchParams(location.search).has("installer");
+if (demandeInstall) history.replaceState(null, "", location.pathname);
 const retourPaiement = lireRetourPaiement();
 const duelRecu = lireDuel();
 if (retourPaiement) renderRetourPaiement(retourPaiement);
 else if (duelRecu) demarrerQuiz("duel", duelRecu);
 else render("home");
+// Laisse au navigateur le temps de proposer son invitation (Android) avant d'ouvrir les étapes.
+if (demandeInstall) setTimeout(installerAppli, 1200);
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js").catch(() => {});

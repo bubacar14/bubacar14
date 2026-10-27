@@ -852,3 +852,12 @@ body.immersif main { min-height: calc(100dvh - 64px); }
 .mot-prof .annotation { color: var(--bic); }
 .rendezvous { display: flex; flex-direction: column; gap: var(--espace-3); }
 @media (prefers-reduced-motion: reduce) { .lecture-visuel .scan, .viseur-premier { animation: none !important; transition: none; } }
+
+/* ---------- Installer l'appli ---------- */
+.reglage-bouton { width: 100%; background: none; border: 0; text-align: left; color: var(--bic); font: inherit; cursor: pointer; }
+.reglage-bouton .reglage-nom { color: var(--bic); }
+.reglage-bouton .chevron { width: 20px; height: 20px; color: var(--bic); }
+.feuille-install { background: var(--papier-2); }
+.etapes-install { margin: 0; padding-left: var(--espace-5); display: flex; flex-direction: column; gap: var(--espace-2); font-size: 16px; line-height: 24px; }
+.etapes-install li::marker { color: var(--bic); font-weight: 800; }
+.etapes-install .ico { width: 18px; height: 18px; vertical-align: -3px; color: var(--bic); }
