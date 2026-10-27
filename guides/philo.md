@@ -111,7 +111,7 @@ Exemple relayé : Côte d'Ivoire 2025, « La fin de l'État, c'est la liberté d
 
 **Consignes rencontrées**
 - Burkina, Côte d'Ivoire, très probablement aussi le Sénégal, le Togo, le Bénin et le Niger : « Dégagez l'intérêt philosophique de ce texte à partir de son étude ordonnée ». En Côte d'Ivoire, la consigne est au tutoiement : « Fais l'étude ordonnée de ce texte et dégage son intérêt philosophique ».
-- Le brouillon indiquait « texte à expliquer et discuter » pour le Sénégal. **[À VÉRIFIER : la consigne exacte du texte au BAC sénégalais. La formule « intérêt philosophique… étude ordonnée » y est, à ma connaissance, aussi utilisée.]**
+- Le brouillon indiquait « texte à expliquer et discuter » pour le Sénégal. **Confirmé pour la série S en 2024 (voir 11.1). Pour la série L et les autres années, à vérifier.**
 - **Pour l'IA :** toujours **reprendre mot pour mot la consigne** fournie par l'élève, au lieu de supposer celle de son pays.
 
 **Méthode pas à pas**
@@ -474,3 +474,57 @@ Elle comporte, dans l'ordre :
 10. **Oral du second groupe** dans les pays autres que le Bénin.
 11. **Énoncés exacts des sujets cités en exemple**, et l'attribution de « La fin de l'État, c'est la liberté » (Spinoza).
 12. **Contenu réel des vidéos citées.** Elles n'ont pas été regardées.
+---
+
+## 11. Ce que montrent les sites de cours sénégalais (BAC)
+
+Sources lues le 27 octobre 2026 sur Sunudaara : le sujet du BAC 2024, les fiches de méthode et la liste des cours.
+
+### 11.1 Format du BAC sénégalais : sujet de 2024, série S, 1er groupe
+
+- **3 sujets au choix**, l'élève en traite un :
+  1. une **question** (dissertation) : « Suffit-il à l'homme de dominer la nature pour s'épanouir ? » ;
+  2. une **affirmation à expliquer et discuter** (dissertation) : « L'art nous permet de mieux percevoir la réalité » ;
+  3. un **texte à expliquer et discuter** (André Comte-Sponville, sur la philosophie et les sciences).
+- Cela **règle le point « à vérifier » du type 3** pour la série S en 2024 : la consigne du texte est « expliquer et discuter ». La formule « intérêt philosophique… étude ordonnée » n'apparaît pas sur ce sujet.
+
+### 11.2 Méthode de dissertation enseignée (fiche de Sunudaara)
+
+- **Avant d'écrire :**
+  - analyser le sujet, sans le réduire à une définition ni en sortir ;
+  - **conceptualiser** les mots-clés, c'est-à-dire les définir en lien avec le sujet ;
+  - poser les questions connexes, qui forment la problématique.
+- **Introduction (la fiche lui attribue 3 points) :**
+  - amorce (un constat) ;
+  - pose du problème, de la question la plus large à la plus précise ;
+  - annonce du plan.
+- **Plan dialectique :**
+  - thèse (2 ou 3 idées argumentées) ;
+  - antithèse (qui part de l'objection de la fin de la thèse) ;
+  - synthèse (qui dépasse ou nuance).
+- **Citations et exemples :** ils illustrent un argument mais ne le remplacent jamais.
+- **Conclusion :** répondre à la problématique, puis ouvrir.
+
+### 11.3 Méthode du commentaire enseignée (fiche de Sunudaara)
+
+- **Au brouillon :** se demander « de quoi parle le texte ? » (thème, problème) et « comment l'auteur procède-t-il ? » (thèse, enchaînement des arguments). Rédiger l'introduction **après** ce travail.
+- **Introduction :** problème, structure du texte et thèse, annonce du plan. Pas de résumé, pas de biographie de l'auteur.
+- **Développement en deux temps :**
+  - une **partie explicative** fidèle : connecteurs, idée principale et idées secondaires, concepts expliqués, sans paraphrase ;
+  - une **partie critique** : la thèse est-elle recevable, quelles sont ses limites ? On s'appuie sur d'autres auteurs, en restant dans le problème du texte.
+- **Conclusion :** rappeler la démarche, dégager l'intérêt philosophique et faire le bilan de sa réflexion.
+
+### 11.4 Notions au programme (liste des cours de Terminale de Sunudaara)
+
+- **Domaine 1, la réflexion philosophique :** origines et spécificité de la philosophie (face aux mythes, aux religions et aux sciences), grandes interrogations (métaphysique), enjeux et finalités.
+- **Domaine 2, la vie sociale :** individu et société, État, travail.
+- **Autres notions :**
+  - liberté ;
+  - conscient et inconscient ;
+  - nature et culture ;
+  - langage et communication ;
+  - l'art et le réel.
+
+Ces deux domaines semblent structurer le programme sénégalais. **[À vérifier avec le programme officiel.]**
+
+Sources : https://sunudaara.com/bac/bac-philo-1er-groupe-s-2024, https://sunudaara.com/bac-senegal-philo, https://www.sunudaara.com/philo/la-dissertation-philosophique-cas-pratique-savoir-faire-0, https://www.sunudaara.com/technique-de-commentaire-philosophique, http://www.sunudaara.com/cours-philo.

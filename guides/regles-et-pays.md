@@ -11,6 +11,8 @@
 
 # Partie A : Fiche pays
 
+> **Mise à jour du 27 octobre 2026 :** chaque pays a maintenant une fiche détaillée et sourcée dans `guides/pays/`. Seule celle du pays de l'élève est envoyée avec l'exercice. **En cas de contradiction, la fiche pays fait foi.** Les tableaux ci-dessous restent un résumé de repli.
+
 **Règle générale pour l'IA.** Toutes les données de cette partie servent de **repères internes** pour comprendre l'élève. Elles ne sont **pas des faits à affirmer**. L'IA ne doit jamais présenter comme certains, dans l'appli :
 - un coefficient ;
 - un nombre de candidats ;
@@ -32,7 +34,7 @@ Elle renvoie à l'établissement, au professeur ou à l'organisme officiel.
 
 | Élément | Contenu | Fiabilité |
 |---|---|---|
-| Examens | **CFEE** et entrée en 6e en fin de CM2 ; **BFEM** en fin de 3e ; **BAC** en fin de Terminale | Probable |
+| Examens | **CFEE** en fin de CM2 (concours d'entrée en 6e **supprimé en 2026**) ; **BFEM** en fin de 3e ; **BAC** en fin de Terminale | Sourcé (voir pays/SN.md) |
 | Organismes | DEXCO (CFEE, BFEM) ; **Office du Bac** rattaché à l'UCAD (BAC) | ⚠️ |
 | Séries du BAC | L1a, L1b, L2, L'1, L-AR ; S1, S2, S3, S4/S5 ; T1, T2 ; G/STEG | ⚠️ liste à valider |
 | Calendrier | BFEM en juillet ; EPS avant les écrits ; écrits du BAC début juillet ; 2nd groupe juste après les résultats | ⚠️ |
@@ -46,7 +48,7 @@ Elle renvoie à l'établissement, au professeur ou à l'organisme officiel.
 | Élément | Contenu | Fiabilité |
 |---|---|---|
 | Examens | **CEPE** et entrée en 6e ; **BEPC** ; **BAC** | Probable |
-| Organisme | **DECO** (ministère de l'Éducation nationale et de l'Alphabétisation) | ⚠️ |
+| Organisme | **DECO** (ministère de l'Éducation nationale et de l'Alphabétisation) | Sourcé (voir pays/CI.md) |
 | Séries | Général : A1, A2, C, D ; technique : B, E, F, G1, G2, H | ⚠️ |
 | Calendrier | CEPE et BEPC en mai–juin ; BAC en juin–juillet | ⚠️ |
 | Rattrapage | Existence actuelle d'un 2nd groupe ❓ (**à vérifier en priorité**) | ❓ |
@@ -109,7 +111,7 @@ Elle renvoie à l'établissement, au professeur ou à l'organisme officiel.
 
 | Élément | Contenu | Fiabilité |
 |---|---|---|
-| Examens | **CEPD** ; **BEPC** ; **BAC I** en 1ère (statut actuel ❓, suppression évoquée) ; **BAC II** en Terminale | BAC I ⚠️ |
+| Examens | **CEPD** ; **BEPC** ; **BAC I** en 1ère (**session encore organisée en mai 2025**) ; **BAC II** en Terminale | Sourcé (voir pays/TG.md) |
 | Organisme | DECC (direction des examens, concours et certifications) ; rôle exact pour le BAC II ❓ | ⚠️ |
 | Séries | A4, C, D ; E, F1 à F4, G1 à G3 | Séries techniques ⚠️ |
 | Calendrier | Mai–juillet | ⚠️ |
@@ -122,7 +124,7 @@ Elle renvoie à l'établissement, au professeur ou à l'organisme officiel.
 | Élément | Contenu | Fiabilité |
 |---|---|---|
 | Examens | **CFEPD** et entrée en 6e ; **BEPC** ; **BAC** | Probable |
-| Organisme | Historiquement l'**Office du Bac** (Université Abdou Moumouni) ; rattachement actuel ❓ | ⚠️ |
+| Organisme | **OBEECS** (Office nigérien du baccalauréat, des équivalences et des examens et concours du supérieur) | Source secondaire (voir pays/NE.md) |
 | Séries | A (dont A4), C, D, E, F, G ; **BAC franco-arabe** (médersas) | ⚠️ |
 | Calendrier | Juin–juillet | ⚠️ |
 | Rattrapage, mentions, coefficients | ❓ | — |

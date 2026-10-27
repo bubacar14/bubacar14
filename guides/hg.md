@@ -315,3 +315,64 @@ La légende organisée, les figurés justes, la nomenclature et le titre, puis l
 8. **Titres apparents dans la dissertation** : quelle est la consigne réelle des correcteurs dans chaque pays ?
 9. **Chiffres d'actualité** (population, PIB, IDH) : à prendre dans le manuel national ou dans une source officielle récente, jamais de mémoire.
 10. **Techniques de chaînes YouTube de professeurs africains** : non identifiées, à documenter lors d'une session avec accès au web.
+---
+
+## 11. Ce que montrent les sites de cours sénégalais (BFEM)
+
+Sources lues le 27 octobre 2026 : les titres des leçons de SamaBFEM (https://www.samabfem.com/subject/histoire). Le contenu détaillé et la structure de l'épreuve n'étaient pas lisibles. **[À VÉRIFIER sur des annales officielles.]**
+
+### 11.1 Histoire au programme de 3e (Sénégal)
+
+- Révolution industrielle : découvertes scientifiques, mutations économiques, capitalisme et mutations sociales.
+- Missions et explorations ; rivalités coloniales et **Conférence de Berlin** (1884-1885).
+- **Résistances africaines** : formes, exemples et bilans.
+- Systèmes coloniaux français et britannique.
+- Impérialismes japonais, européen en Asie (y compris russe) et américain.
+- Révolutions chinoises (de Sun Yat-sen à Mao Zedong) ; révolution russe (jusqu'en 1928).
+- Première Guerre mondiale ; crise des années 1930 ; Seconde Guerre mondiale.
+- **Tirailleurs sénégalais** entre les deux guerres.
+- Relations Est-Ouest (de 1949 aux années 1990).
+- Décolonisation : causes et formes ; **vie politique du Sénégal de 1944 à l'indépendance** ; Bandung et le tiers-monde.
+
+### 11.2 Géographie au programme de 3e (Sénégal)
+
+- La Terre dans le système solaire et l'influence du Soleil.
+- Les potentiels et les équilibres de la planète.
+- Une planète menacée : surexploitation des ressources, conséquences climatiques.
+- Une planète divisée : inégalités de développement, systèmes économiques.
+
+### 11.3 Éducation civique : une matière à part au BFEM sénégalais
+
+SamaBFEM la présente comme une matière distincte (13 leçons), ce qui va dans le sens du 1.1. Thèmes :
+- patrimoine naturel, historique et culturel ;
+- reboisement, déforestation et feux de brousse ;
+- culture de la paix ;
+- UA, CEDEAO, OMVS ;
+- solidarité et intégration africaine ;
+- lutte contre la pauvreté, contre le paludisme et le sida, contre la drogue ;
+- système des Nations unies ;
+- scolarisation et maintien des filles à l'école ;
+- incivisme.
+
+### 11.4 Règle pour l'IA de Révizo
+
+Pour un élève de 3e au Sénégal, rattacher les exemples aux thèmes ci-dessus : Berlin, résistances (Lat Dior, Samory, El Hadji Omar…), tirailleurs, Sénégal de 1944 à 1960. Pour une question d'éducation civique, utiliser ces thèmes et non le programme d'histoire. Les noms cités en exemple de résistants sont des connaissances générales, pas tirées de ces pages.
+
+### 11.5 Programme d'histoire-géographie par classe au Sénégal (Sunudaara)
+
+- **4e :**
+  - histoire : traite négrière (mécanismes, conséquences, cas du Sénégal), abolitionnisme, révolution française, naissance des États-Unis, première révolution industrielle, Empire ottoman, Madagascar, Chaka et les Zoulous, empires peuls du Sokoto et du Macina, empire toucouleur d'El Hadji Omar Tall ;
+  - géographie : Afrique de l'Ouest (diversité physique et humaine, relief et climat, pauvreté et dépendance, problèmes de développement), coopération et aide au développement, population de l'Europe.
+- **3e :** voir 11.1 et 11.2.
+- **Terminale :**
+  - histoire : relations Est-Ouest et guerre froide (avec le règlement de la Seconde Guerre mondiale), causes et formes de la décolonisation, Inde et Indochine, Algérie, question palestinienne, Chine de 1975 aux années 1990 ;
+  - géographie : système-monde, États-Unis, Canada et Mexique, Japon, Chine (démographie, modèle économique), Asie-Pacifique, Brésil, Amérique latine, construction européenne, France, Afrique (problèmes et perspectives), Sénégal (développement).
+
+### 11.6 Le BAC d'histoire-géographie au Sénégal : sujet S et L 2024 [Sunudaara]
+
+- **4 sujets, l'élève en traite un seul :**
+  - histoire : une **dissertation** (les sociétés traditionnelles ouest-africaines et leur transformation par la colonisation) ou un **commentaire de texte** guidé par des questions (deux textes sur la fin de la politique coloniale française, à comparer avec la politique britannique) ;
+  - géographie : une **dissertation** (les trajectoires de l'Afrique subsaharienne et de l'Asie depuis 1990) ou un **commentaire de documents** guidé par des questions (trois documents sur l'Union européenne).
+- **Conséquence pour l'IA :** au BAC sénégalais, le commentaire se fait par des **questions sur le document**. Il faut répondre question par question, avec le document et ses connaissances, et pas forcément par un commentaire rédigé d'un seul bloc. Aucun croquis n'est demandé dans ce sujet de 2024.
+
+Sources : https://www.sunudaara.com/quatrieme, http://www.sunudaara.com/histoire-terminale, http://www.sunudaara.com/geographie-terminale, https://sunudaara.com/bac/bac-hg-1er-groupe-s-l-2024.

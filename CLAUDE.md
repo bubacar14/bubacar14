@@ -12,6 +12,7 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
   3. l'élève confirme l'énoncé, ce qui coûte 1 crédit ;
   4. l'IA explique la méthode pas à pas (`/api/resoudre`).
 - **La correction se dévoile progressivement :** question de départ, indices (« Je bloque »), méthode, étapes une à une. On ne donne pas la réponse d'emblée : une étude sur environ 1 000 lycéens montre que les réponses directes font baisser les notes à l'examen.
+- **Premier lancement :** un écran de bienvenue en 2 étapes demande le pays, puis la classe (prénom facultatif). La classe n'est plus redemandée ensuite ; la matière se choisit par exercice. Le pays sert à l'IA pour corriger comme l'examen du pays, la classe choisit le niveau des quiz (brevet ou BAC).
 - **Gratuit :** quiz, révision des erreurs en répétition espacée, duels, série de jours (avec jours de repos), et 1 exercice offert par jour.
 - **Crédits :** 1 crédit = 1 exercice. Pas d'abonnement ni de prélèvement automatique. Le paiement mobile money est encore **simulé**.
 - **Sanko, la mascotte** (`sanko.js`) : un oiseau jaune soleil avec une huppe en goutte d'encre bleue. Il vient de Sankofa, l'oiseau adinkra : « il n'est jamais interdit de revenir chercher ce que tu as oublié ». Il « ramène » les erreurs à l'élève et a six humeurs : content, joie, réfléchit, encourage, dort, fier.
@@ -24,7 +25,8 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
 | `sanko.js` | La mascotte et le logo (`LOGO_REVIZO`) |
 | `questions.js` | La banque de questions de quiz, à faire valider par des profs |
 | `server.js` | Serveur Node : fichiers statiques, `/api/lire` et `/api/resoudre` (SDK `@anthropic-ai/sdk`) |
-| `guides/` | Guides de correction par matière, envoyés à l'IA selon la matière. Seul `maths.md` est enrichi de vidéos YouTube de profs ; les autres sont des **brouillons non vérifiés** |
+| `guides/` | Guides de correction par matière, envoyés à l'IA selon la matière. Maths et PC sont enrichis de vidéos YouTube ; les guides ont aussi des sections tirées de sources officielles (Office du Bac, corrigés de profs, annales). Le reste est encore à vérifier |
+| `guides/pays/` | Une fiche par pays (SN, CI, ML, BF, GN, BJ, TG, NE) : examens, épreuves, barèmes, vocabulaire. Seule la fiche du pays de l'élève est envoyée à l'IA (`server.js`) |
 | `recherche/` | Études : concurrents, design, acquisition, pays |
 | `youtube/` | Transcriptions de vidéos de profs (maths seulement pour l'instant) |
 | `marque/` | Les fichiers du logo et son guide |
@@ -37,7 +39,8 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
 
 ## Règles de design (charte Révizo)
 
-- **Deux thèmes :** « Cahier » (clair) et « Ardoise » (sombre). Les couleurs sont des variables CSS dans `styles.css` : `--papier`, `--encre`, `--bic`, `--soleil`, `--rouge`, `--juste`, etc.
+- **Clair et coloré :** fond blanc, bleu vif, soleil, vert, violet et orange (façon Duolingo). L'élève n'a pas aimé l'ancien design sombre.
+- **Deux thèmes :** « Cahier » (clair, **par défaut**) et « Ardoise » (sombre, au choix dans le profil). Les couleurs sont des variables CSS dans `styles.css` : `--papier`, `--encre`, `--bic`, `--soleil`, `--juste`, `--violet`, `--orange`, `--rouge`, chacune avec `-doux` (fond) et `-fonce` (relief).
 - **Polices :**
   - Bricolage Grotesque pour les titres ;
   - Atkinson Hyperlegible pour le texte ;

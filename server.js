@@ -32,6 +32,28 @@ const GUIDES = Object.fromEntries(
   ),
 );
 const REGLES = await fs.readFile(path.join(ROOT, "guides", "regles-et-pays.md"), "utf8");
+
+// Fiches pays (dossier guides/pays/) : seule celle du pays de l'élève est envoyée.
+// L'appli envoie le nom du pays ; on accepte aussi le code.
+const PAYS = {
+  SN: "Sénégal",
+  CI: "Côte d'Ivoire",
+  ML: "Mali",
+  BF: "Burkina Faso",
+  GN: "Guinée",
+  BJ: "Bénin",
+  TG: "Togo",
+  NE: "Niger",
+};
+const FICHES_PAYS = Object.fromEntries(
+  await Promise.all(
+    Object.keys(PAYS).map(async (k) => [k, await fs.readFile(path.join(ROOT, "guides", "pays", `${k}.md`), "utf8")]),
+  ),
+);
+function codePays(pays) {
+  if (PAYS[pays]) return pays;
+  return Object.keys(PAYS).find((k) => PAYS[k] === pays) || null;
+}
 const AVERTISSEMENT = "Les points marqués « non vérifié » ou « non sourcé » sont moins sûrs : ne les présente jamais comme des certitudes.";
 
 const SYSTEM = `Tu es Révizo, un professeur particulier bienveillant pour les élèves d'Afrique de l'Ouest francophone (Sénégal, Côte d'Ivoire, Mali, Burkina Faso, Guinée, Bénin, Togo, Niger), du primaire au BAC.
@@ -57,8 +79,8 @@ const SCHEMA = {
   properties: {
     lisible: { type: "boolean" },
     probleme: { type: "string", description: "Vide si lisible est true." },
-    matiere: { type: "string" },
-    niveau: { type: "string", description: "Classe ou examen estimé, ex. Terminale S, 3e / BFEM." },
+    matiere: { type: "string", description: "Nom court de la matière, un ou deux mots, ex. Maths, PC, SVT, Philo." },
+    niveau: { type: "string", description: "Classe estimée en un à trois mots, ex. Terminale S, 3e. Jamais de phrase ni de remarque." },
     enonce: { type: "string", description: "Ce qu'on demande à l'élève, reformulé simplement." },
     indice: { type: "string", description: "Un coup de pouce pour démarrer seul, sans donner la méthode ni la réponse." },
     demarrage: {
@@ -223,6 +245,14 @@ async function resoudre({ texte, image, mediaType, pays, classe, matiere }) {
     system.push({
       type: "text",
       text: `Guide de correction de Révizo pour la matière ${MATIERES[cle]}. Applique-le : méthodes attendues, rédaction, ordre des étapes, façon d'expliquer, erreurs fréquentes. ${AVERTISSEMENT}\n\n${GUIDES[cle]}`,
+      cache_control: { type: "ephemeral" },
+    });
+  }
+  const code = codePays(pays);
+  if (code) {
+    system.push({
+      type: "text",
+      text: `Fiche pays de l'élève (${PAYS[code]}) : examens, épreuves, barèmes et vocabulaire. En cas de contradiction avec la partie A des règles communes, cette fiche fait foi. ${AVERTISSEMENT}\n\n${FICHES_PAYS[code]}`,
       cache_control: { type: "ephemeral" },
     });
   }

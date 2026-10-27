@@ -368,3 +368,69 @@ Ce sont des erreurs classiques des francophones. Aucun rapport de jury ouest-afr
 10. **Conventions tolérées** par les correcteurs : présentation des lettres, orthographe britannique ou américaine, recul des temps facultatif.
 11. **Chaînes YouTube et ressources de profs africains** : à identifier et à vérifier lors d'une session avec accès au web.
 12. **Prochaine étape** : relancer une session avec accès web, au moins 30 à 50 recherches, et au moins un sujet officiel avec son corrigé par pays et par niveau. Remplacer ensuite chaque **[À VÉRIFIER]** par l'information sourcée.
+---
+
+## 11. Ce que montrent les sites de cours sénégalais (BFEM)
+
+Sources lues le 27 octobre 2026 : les titres des leçons de SamaBFEM (https://www.samabfem.com/subject/anglais). Le format de l'épreuve n'y est pas décrit. **[À VÉRIFIER sur des annales officielles.]**
+
+### 11.1 Grammaire au programme du BFEM
+
+- Le système des temps.
+- La voix passive.
+- Le discours indirect et les phrases conditionnelles.
+- Les pronoms relatifs.
+- Les modaux (*must, should, can, may*).
+- Comparatifs et superlatifs.
+- Mots de liaison (*link words / connectors*).
+- Verbes irréguliers.
+
+### 11.2 Thèmes de vocabulaire (souvent ceux des textes et des rédactions)
+
+- Environnement et pollution.
+- Santé : hygiène, paludisme.
+- Problèmes sociaux : mariage précoce, travail des enfants.
+- Éducation, et notamment celle des filles.
+- TIC.
+- Migration irrégulière.
+- Culture et traditions.
+
+### 11.3 Règle pour l'IA de Révizo
+
+Pour une rédaction ou un texte du BFEM, prévoir le vocabulaire de ces 7 thèmes. Pour une question de langue, nommer la règle : *passive voice* = *be* au temps du verbe actif + participe passé. Une fiche Scribd ajoute « écrire une lettre ou un dialogue simple » et des questions *Who? What? Where?* : c'est plausible, mais **non vérifié** (fiabilité faible).
+
+---
+
+## 12. Corrigé officiel du BAC Sénégal (LV1, séries L, 2024) et rédaction au BFEM
+
+### 12.1 Structure et barème officiels (Office du Bac, corrigé de 2024)
+
+- **I. Reading comprehension (8 points)**
+  - A. Chart completion : 4 × 0,5.
+  - B. Cloze passage : 4 × 0,5.
+  - C. False statements and justifications : 2 × 1. Il faut **citer la phrase du texte** qui prouve que l'affirmation est fausse.
+  - D. Finding equivalent : 1 point, retrouver dans le texte la phrase de même sens.
+  - E. References : 2 × 0,5, dire à quoi renvoie un mot souligné (*that*, *it*…).
+- **II. Linguistic and communicative competence (6 points)**
+  - F. Word derivation : 4 × 0,5 (*religion* → *religious*, *popular* → *popularity*, *disapprove* → *disapproval*).
+  - G. Dialogue completion : 4 × 0,5. « Any relevant answer » est accepté quand plusieurs réponses conviennent.
+  - H. Combining items : 4 × 0,5.
+- **III. Writing (6 points)** : présentation, compréhension du sujet, cohérence, pertinence, exactitude de la langue, originalité. **1 point chacun.**
+- Thème du texte de 2024 : les paris sportifs chez les jeunes Sénégalais. Ce sont des thèmes de société proches des élèves.
+
+### 12.2 BFEM (Sénégal)
+
+- **Production écrite :** un sujet au choix, **de 80 à 120 mots** (correction 2024 publiée par samabac.sn, non officielle).
+- **Exercices de langue :** choix de mots et association de débuts et de fins de phrases.
+- **Coefficients :** anglais écrit 2, oral 1 (voir `pays/SN.md`).
+
+### 12.3 Règles pour l'IA de Révizo
+
+1. **« False statement » :** recopier la phrase exacte du texte entre guillemets. Une reformulation ne suffit pas.
+2. **« References » :** remplacer le mot par ce qu'il désigne et vérifier que la phrase garde son sens.
+3. **Writing :** les 6 critères valent chacun 1 point. Rappeler la présentation (paragraphes, titre si c'est une lettre), traiter exactement le sujet et compter les mots demandés.
+4. **Word derivation :** donner la règle du suffixe (-ous, -ity, -al, -ing) et la catégorie du mot attendu d'après la phrase.
+
+Sources :
+- https://officedubac.sn/wp-content/uploads/2024/10/CORRIGE-AANGLAIS-LV1-REMPL-24.pdf
+- https://samabac.sn/bfem-2024-proposition-de-correction-de-lepreuve-anglais-1er-groupe
