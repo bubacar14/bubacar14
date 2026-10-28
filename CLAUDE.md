@@ -2,7 +2,7 @@
 
 Révizo est une appli web (PWA) de renforcement scolaire pour les élèves d'Afrique de l'Ouest francophone : Sénégal, Côte d'Ivoire, Mali, Burkina Faso, Guinée, Bénin, Togo et Niger, du primaire au BAC (BFEM, BEPC, DEF). Le fondateur est bubacar14. Il n'est pas développeur : explique simplement, en français, et donne les commandes exactes.
 
-Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de chaque session et tiens-le à jour.
+Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de chaque session et tiens-le à jour. L'histoire du projet, le modèle économique, les calculs, le plan de pub et les problèmes déjà rencontrés sont dans `docs/historique.md`.
 
 ## Le produit
 
@@ -27,7 +27,8 @@ Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de 
 | `guides/` | Guides de correction par matière, envoyés à l'IA selon la matière. Seul `maths.md` est enrichi de vidéos YouTube de profs ; les autres sont des **brouillons non vérifiés** |
 | `recherche/` | Études : concurrents, design, acquisition, pays |
 | `youtube/` | Transcriptions de vidéos de profs (maths seulement pour l'instant) |
-| `marque/` | Les fichiers du logo et son guide |
+| `marque/` | Les fichiers du logo, son guide, des aperçus et les outils pour le régénérer |
+| `docs/historique.md` | Histoire du projet, modèle économique, plan de pub, problèmes rencontrés |
 | `tools/youtube_transcripts.py` | Récupère les transcriptions. À lancer sur un ordinateur personnel : YouTube bloque les serveurs cloud |
 
 - **Lancer l'appli :** `npm install`, puis `cp .env.example .env`, puis `npm run dev`, et ouvrir http://localhost:3000.

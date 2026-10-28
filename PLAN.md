@@ -2,6 +2,10 @@
 
 Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 
+## Urgent ⚠️
+
+- ⬜ **Changer la clé API** : supprimer l'ancienne sur console.anthropic.com (elle a été collée dans une conversation), en créer une nouvelle, la mettre dans `.env` et fixer une limite de dépense.
+
 ## Décisions à prendre ❓
 
 | Sujet | Options | Recommandation |
@@ -66,3 +70,4 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | Octobre 2026 | Correction progressive avec indices plutôt que la réponse directe |
 | Octobre 2026 | Crédits sans abonnement ; révision, quiz et série gratuits |
 | Octobre 2026 | Mascotte Sanko et nouveau logo (piste A) |
+| Octobre 2026 | Session de création archivée : tout est résumé dans `docs/historique.md` |
