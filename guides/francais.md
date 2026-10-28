@@ -445,3 +445,130 @@ Pistes à consulter. Ces sites n'ont pas été ouverts, et leur existence comme 
 - Œuvres actuellement au programme dans chaque pays.
 - Effets de l'approche par compétences (APC) sur la forme des sujets (Bénin, Côte d'Ivoire, autres).
 - Terminologie grammaticale officielle des manuels nationaux.
+---
+
+## 11. Ce que montrent les sites de cours sénégalais (BFEM)
+
+Sources lues le 27 octobre 2026. Elles sont **peu détaillées** pour le français, donc tout ce qui suit reste **[À VÉRIFIER sur des annales officielles]**.
+
+### 11.1 Grammaire au programme du BFEM (leçons de SamaBFEM)
+
+1. La phrase : notions, types et formes.
+2. Les groupes fonctionnels.
+3. Voix active et voix passive.
+4. Valeurs et emplois des temps et des modes.
+5. La ponctuation.
+6. Voix pronominale et tournure impersonnelle.
+7. La mise en relief (forme emphatique).
+8. Coordination, juxtaposition et subordination.
+9. Les propositions subordonnées.
+10. Expression du temps, de la cause et de la conséquence.
+11. Subordonnées de but, de condition, d'opposition et de comparaison.
+
+Si l'élève est en 3e au Sénégal, les questions de langue d'un sujet de BFEM portent probablement sur ces points. L'IA doit nommer la notion (par exemple « subordonnée circonstancielle de cause ») et la justifier par la question à poser ou par le mot subordonnant.
+
+### 11.2 Composantes de l'épreuve citées par une fiche de révision (fiabilité faible)
+
+Une fiche publiée sur Scribd cite 4 composantes :
+- la **rédaction** : plan introduction, développement, conclusion, en respectant le type de texte (narratif, descriptif ou argumentatif) ;
+- la **dictée** : accords, conjugaison, homophones ;
+- le **texte suivi de questions (TSQ)** : répondre en justifiant avec le texte ;
+- la **grammaire** : nature, fonction et temps.
+
+Le sigle « TSQ » est à connaître, car l'élève peut l'employer. Cette fiche est générale et parfois inexacte dans d'autres matières : elle ne prouve pas la structure officielle (voir 1.1).
+
+### 11.3 Sources
+
+- SamaBFEM, français : https://www.samabfem.com/subject/français (titres des leçons seulement). Le site annonce un « sujet et corrigé avec barème » du BFEM 2022 dans https://www.samabfem.com/ressources. **Non consulté : le lien de téléchargement n'est pas visible sans ouvrir l'appli.**
+- Fiche Scribd : https://fr.scribd.com/document/876660096/Fiches-de-Revision-BFEM-Toutes-Matieres (2 pages visibles, fiabilité faible).
+
+---
+
+## 12. Grilles officielles de correction (BAC Sénégal) et barème du BEPC (Burkina)
+
+Ce sont les sources les plus sûres de ce guide. Ce sont des documents officiels, lus le 27 octobre 2026.
+
+### 12.1 BAC Sénégal, épreuve de français (Office du Bac, grilles 2025 et 2026)
+
+- **Durée 4 h.** Coefficient 6 en L1a, L1b et L'1 ; 5 en L2 ; 3 en STEG.
+- **3 sujets au choix :** I. résumé suivi de discussion ; II. commentaire (suivi ou composé) ; III. dissertation.
+
+**Résumé (sur 10)**
+
+| Critère | Ce que le correcteur vérifie | Points |
+|---|---|---|
+| Compréhension du texte | Idée générale conforme, idées principales mises en évidence, enchaînement logique respecté, situation d'énonciation fidèle | 3 |
+| Fidélité | Ordre des idées rendu, idées reformulées, **pas de mots du texte repris tels quels**, **marge de tolérance respectée** | 3 |
+| Correction de la langue | Syntaxe, orthographe, accords, vocabulaire | 3 |
+| Présentation | Copie propre, écriture lisible | 1 |
+
+**Longueur imposée :**
+- série L : environ 90 mots en 2025 (de 80 à 100) ; environ 80 mots en 2024 (de 70 à 90) ;
+- STEG 2025 : de 105 à 125 mots.
+
+En STEG, le résumé est précédé de **questions de compréhension** : sens d'un mot du texte au sens propre et au sens figuré, repérage d'une phrase clé.
+
+**Discussion (sur 10)**
+
+| Partie | Points |
+|---|---|
+| Introduction : sujet amené 0,5 ; sujet posé (problème identifié, sujet cité ou reformulé) 1 ; plan annoncé **sans répondre d'emblée** 0,5 | 2 |
+| Développement : compréhension (pas de contresens, pas de sujet voisin, plan approprié) 1 ; pertinence des arguments et des exemples 2 | 3 |
+| Cohérence : transitions 0,5 ; connecteurs 0,5 | 1 |
+| Conclusion : résolution personnelle 0,5 ; ouverture 0,5 | 1 |
+| Langue | 2 |
+| Présentation | 1 |
+
+**Commentaire, suivi ou composé (sur 20)**
+
+| Partie | Points |
+|---|---|
+| Introduction : texte situé (auteur, œuvre, époque, courant, type de texte), idée générale, intérêt du texte, plan annoncé (centres d'intérêt dans l'ordre) | 3 |
+| Développement : **fond et forme analysés ensemble** ; commentaire composé **non linéaire** (par centres d'intérêt) ou commentaire suivi **linéaire** (par parties du texte) ; chaque partie ouverte par une introduction partielle et close par une conclusion partielle qui sert de transition ; indices tirés du texte ; remarques stylistiques (rythme, figures, sonorités, champs lexicaux) | 7 |
+| Conclusion : bilan, originalité du texte, ouverture sur d'autres textes | 3 |
+| Langue | 4 |
+| Présentation | 2 |
+| Originalité | 1 |
+
+**Dissertation (sur 20)**
+
+| Partie | Points |
+|---|---|
+| Introduction : sujet amené 1, sujet posé 1, plan annoncé sans répondre d'emblée 1 | 3 |
+| Compréhension : pas de contresens ni de sujet voisin, sujet traité en entier, plan adapté | 2 |
+| Pertinence : arguments et exemples appropriés 2 ; parties équilibrées qui répondent au problème 1 | 3 |
+| Cohérence : arguments ordonnés du simple au complexe, **chaque argument illustré par au moins un exemple**, exemples variés, transitions, connecteurs (0,5 chacun) | 3 |
+| Conclusion : synthèse des conclusions partielles 1, réponse personnelle 1, ouverture 1 | 3 |
+| Langue | 3 |
+| Présentation | 2 |
+| Originalité | 1 |
+
+**Présentation exigée (2 points) :**
+- sauter **deux lignes** entre l'introduction et le développement, puis entre le développement et la conclusion ;
+- marquer les alinéas ;
+- mettre les citations entre guillemets ;
+- signaler toute coupure par « (…) » ;
+- pour un vers cité sur la même ligne, mettre une barre oblique et garder la majuscule.
+
+### 12.2 BEPC Burkina Faso : français
+
+Barème officiel dans la fiche pays `pays/BF.md` :
+- dictée sur 20 (−1 par erreur d'usage, −2 par erreur de grammaire) ;
+- langue sur 40 ;
+- compréhension sur 10 ;
+- expression sur 30, dont 5 pour l'orthographe ;
+- hors sujet : 6 au maximum.
+
+### 12.3 Règles pour l'IA de Révizo
+
+1. **Résumé :** compter les mots de l'élève et comparer à la marge de tolérance de la consigne. Reformuler au lieu de recopier, garder l'ordre des idées et le système d'énonciation de l'auteur (le « je » de l'auteur reste un « je »).
+2. **Introduction de discussion ou de dissertation :** trois temps (amené, posé, annoncé). L'annonce du plan **ne donne pas la réponse**.
+3. **Commentaire :** toujours relier une remarque de forme (figure, rythme, champ lexical) à une idée de fond, avec une citation courte entre guillemets.
+4. **Chaque argument a au moins un exemple.** Le signaler quand l'élève en oublie un.
+5. **Rappeler les règles de présentation** : deux lignes sautées, alinéas, guillemets, (…). Elles valent 2 points sur 20.
+
+Sources :
+- https://officedubac.sn/wp-content/uploads/2026/07/Grilles-Evaluation-FRANCAIS.pdf
+- https://officedubac.sn/wp-content/uploads/2025/07/Grilles-de-correction-des-copies-pour-les-epreuves-du-premier-groupe.pdf
+- https://officedubac.sn/wp-content/uploads/2025/06/Grilles-de-correction-des-copies-pour-les-epreuves-du-premier-groupe-STEG.pdf
+- Longueurs des résumés de 2024 et 2025 : extraits des corrigés officiels de la série L sur officedubac.sn, cités d'après le moteur de recherche.

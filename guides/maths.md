@@ -33,7 +33,7 @@
 - **Les hypothèses de chaque théorème vérifiées** : continuité et stricte monotonie pour la bijection, initialisation et hérédité pour la récurrence, épreuves identiques et indépendantes pour la loi binomiale.
 - **Les contenus varient selon la série.**
   - **Séries à maths renforcées** (S1 au Sénégal, C en Côte d'Ivoire et ailleurs) : arithmétique (Bézout, congruences), similitudes, coniques. Le sujet S1 2023 contient une similitude liée à une conique ; le S1 2021 contient une équation de Bézout et des congruences ([S1 2023](https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/bac/senegal/sujet-bac-s1-s1a-s3-maths-2023-senegal.pdf) ; [S1 2021](https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/bac/senegal/sujet-bac-s1-s1a-s3-maths-2021-senegal.pdf)). La géométrie dans l'espace (produit vectoriel, plans, droites) est aussi probable **[ajout non sourcé]**.
-  - **Séries scientifiques expérimentales** (S2, D, TSExp) : nombres complexes, probabilités, suites et un problème d'analyse (étude de fonction ln ou exp, intégrales). Deux thèmes manquaient au brouillon et sont **fréquents d'après ma connaissance générale** : les **statistiques à deux variables** (nuage de points, point moyen, covariance, droite de régression, coefficient de corrélation) et les **équations différentielles** (y' = ay + b, y'' + ω²y = 0, y'' + ay' + by = 0 selon les séries) **[ajout non sourcé, à confirmer sur annales et programmes]**.
+  - **Séries scientifiques expérimentales** (S2, D, TSExp) : nombres complexes, probabilités, suites et un problème d'analyse (étude de fonction ln ou exp, intégrales). Deux thèmes manquaient au brouillon et sont **fréquents d'après ma connaissance générale** : les **statistiques à deux variables** (nuage de points, point moyen, covariance, droite de régression, coefficient de corrélation) et les **équations différentielles** (y' = ay + b, y'' + ω²y = 0, y'' + ay' + by = 0 selon les séries) **[confirmé pour le Sénégal par le programme officiel de Terminale S2-S4 : voir 13.4 ; ailleurs, non vérifié]**.
   - **Séries littéraires et économiques** (L, A, TSECO…) : épreuve plus courte, centrée sur les suites, les statistiques, les fonctions simples et les mathématiques financières. Au Mali, le sujet TSECO de septembre 2020 dure 3 h, coefficient 3, et parle de « capitaux en progression arithmétique » ([sigmaths Mali](https://www.sigmaths.net/docEtranger/mali/1441_1628762670.pdf)).
 
 ---
@@ -144,7 +144,7 @@ Pyramide, cône, cylindre, sphère. Volumes et aires latérales. Section par un 
    - si a ≠ 1, c'est une similitude directe de centre le point fixe d'affixe b/(1 − a), de rapport |a| et d'angle arg(a) ;
    - si de plus |a| = 1, c'est une rotation.
 
-   Les similitudes sont attestées en S1 ([corrigé S1 2021](https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/bac/senegal/corrige-bac-s1-s1a-s3-maths-2021-senegal.pdf)). Leur place dans le programme de S2 ou de D est **[non vérifiée]**.
+   Les similitudes sont attestées en S1 ([corrigé S1 2021](https://groupe-reussite.fr/ressources/wp-content/uploads/Annales/bac/senegal/corrige-bac-s1-s1a-s3-maths-2021-senegal.pdf)). Elles sont au programme officiel de Terminale S2-S4 au Sénégal (voir 13.4). Pour la série D, **[non vérifié]**.
 6. Le BAC S2 Sénégal 2025 s'ouvrait sur les complexes, d'après le titre d'une vidéo de correction ([YouTube](https://www.youtube.com/watch?v=XaiHE7UlF0A)).
 
 **E. Probabilités** (présentes dans les sujets S2 du Sénégal vus en 2019, 2021, 2022 et 2025)
@@ -1014,3 +1014,249 @@ Ces observations ne valent que pour cet échantillon : 10 vidéos sénégalaises
 - **Vidéos incomplètes.** SN20 est incomplète. CI23-T présente surtout le sujet et renvoie plusieurs réponses à « la prochaine correction ».
 - **BFEM.** Une seule vidéo (Sénégal 2019) traite ce niveau. Aucune vidéo ne porte sur le BEPC ivoirien.
 - **Petit échantillon par pays.** Les différences du 11.5 décrivent ces vidéos, pas l'ensemble des examens.
+
+---
+
+## 12. Ce que montrent les sites de cours sénégalais (BFEM)
+
+Sources lues le 27 octobre 2026 :
+- **Sunudaara** : cours de 3e et épreuves du BFEM de 2010 à 2025, sans corrigé sur la page ;
+- **TopEducationSN** : devoirs, compositions et BFEM blancs, avec des corrigés de profs ;
+- **SamaBFEM** : leçons et quiz.
+
+Les codes [SD], [TE] et [SB] renvoient au 12.6.
+
+### 12.1 Programme de 3e au Sénégal [SD]
+
+1. Racine carrée.
+2. Calcul algébrique.
+3. Équations et inéquations à une inconnue, y compris avec une valeur absolue et les inéquations produit.
+4. Statistique.
+5. Application affine, application affine par intervalle.
+6. Équations, inéquations et systèmes du 1er degré à deux inconnues, avec la résolution graphique.
+7. Vecteurs et translation.
+8. Repérage dans le plan.
+9. Relations trigonométriques dans le triangle rectangle.
+10. Théorème de Thalès et sa réciproque.
+11. Angle inscrit et angle au centre.
+12. Géométrie dans l'espace : pyramide, cône, section par un plan parallèle à la base, agrandissement et réduction.
+13. Construction de triangles, partage d'un segment en parties égales, preuve qu'un quadrilatère est un parallélogramme.
+
+### 12.2 Structure de l'épreuve de maths du BFEM (sujets 2022, 2023 et 2025) [SD]
+
+- **Exercice 1 : QCM** de 6 à 10 questions, avec trois choix A, B, C. **0,75 point par bonne réponse, 0 pour une réponse fausse ou absente.** Il n'y a pas de point négatif : l'élève doit toujours répondre. En 2018, c'était 1 point par réponse (voir 1.1).
+  - Thèmes du QCM : radicaux, valeur absolue, inéquation produit, trigonométrie, angle inscrit (moitié de l'angle au centre), application affine, vecteurs, système, Thalès, aire latérale du cône, médiane.
+- **Exercice de calcul.** Il demande :
+  - d'écrire sous la forme a√b ;
+  - de rendre un dénominateur rationnel, ou de montrer que deux nombres sont inverses ;
+  - de trouver le signe d'un nombre ;
+  - d'encadrer à 10⁻² près à partir d'un encadrement donné de √3 ;
+  - de résoudre une équation ou une inéquation produit.
+- **Problème de la vie courante** :
+  - un système à deux inconnues (pigeons et pintades en 2022) ;
+  - ou des statistiques sur une série regroupée en classes (2025 : 6 points en tout, dont 2 points pour la médiane par la méthode de Thalès).
+- **Géométrie dans l'espace, appliquée** :
+  - pyramide ou cône, puis section parallèle à la base ;
+  - coefficient de réduction k, puis volume de la petite pyramide = k³ × grand volume ;
+  - volume du tronc par différence ;
+  - conversion m³ → dm³ → L, masse avec une masse volumique, coût de peinture ou de béton.
+- Total 20 points. En 2025 : QCM sur 6, statistique sur 6, problème sur 8. La durée et le coefficient ne figurent pas sur ces pages.
+
+### 12.3 La médiane « par la méthode de Thalès » (spécifique au Sénégal) [TE, SD]
+
+C'est la méthode attendue au BFEM quand la série est en classes :
+
+1. Calculer les effectifs cumulés croissants (ECC) dans le tableau.
+2. Tracer le polygone des ECC : on relie les points (borne supérieure de la classe ; ECC).
+3. Calculer N/2 et repérer la classe médiane : la première dont l'ECC atteint ou dépasse N/2.
+4. Dans cette classe, les triangles sont « en position de Thalès ». On écrit :
+   (N/2 − ECC avant la classe) / (ECC de la classe − ECC avant la classe) = (Me − borne inférieure) / (amplitude).
+5. Résoudre, puis conclure par une phrase avec l'unité.
+
+Exemple du corrigé [TE] : N = 64, N/2 = 32, classe [20 ; 25[ avec des ECC de 24 et 36. On écrit (32 − 24)/(36 − 24) = (Me − 20)/(25 − 20), donc Me ≈ 23,3 h.
+
+Le cours de 3e de Sunudaara ne présente que la lecture graphique de la médiane, sans cette formule. Révizo doit donc expliquer la méthode de Thalès quand l'énoncé la demande.
+
+### 12.4 Comment les profs sénégalais rédigent un corrigé [TE]
+
+- **Problème avec des inconnues :**
+  1. « Choix de l'inconnue : soit x le nombre de…, et y le nombre de… » ;
+  2. mise en équation sous forme de système (1 point) ;
+  3. résolution par combinaison (multiplier une ligne par −2, puis additionner) ;
+  4. valeurs encadrées : « d'où x = 51 » ;
+  5. réponse finale en phrase, avec l'unité de la situation (« 50 vaches »), notée sur 1 point.
+- **Titres à l'impératif de la 1re personne du pluriel :** « Déterminons… », « Calculons… », « Montrons que… », « Déduisons-en… ».
+- **Géométrie dans l'espace :** la formule littérale d'abord, V = ⅓ × aire de base × hauteur, puis l'aire de base, la hauteur, le calcul avec les unités (cm², cm³) et le résultat encadré.
+- **Statistique :** chaque mot du vocabulaire rapporte des points (0,5 point chacun). Il faut savoir nommer la population, le caractère, l'individu et l'effectif manquant.
+- **Barème d'un BFEM blanc** (CEM Thioffac, Kaolack, 2022), à titre indicatif :
+  - QCM : 1 point par réponse ;
+  - tableau des ECC : 1 point ;
+  - polygone : 2 points ;
+  - médiane : 1 point ;
+  - volume de la pyramide : 1 point ;
+  - coefficient k : 1 point ;
+  - chaque volume déduit : 1 point.
+
+### 12.5 Règles pour l'IA de Révizo (BFEM Sénégal)
+
+1. **QCM du BFEM :** dire qu'une mauvaise réponse ne retire rien, donc qu'il faut toujours répondre. Mais il faut quand même faire le calcul pour être sûr (voir 11.6).
+2. **Médiane d'une série en classes :** utiliser la méthode de Thalès du 12.3, avec le polygone des ECC. Ne pas se contenter d'une lecture graphique, sauf si l'énoncé le demande.
+3. **Problème avec des inconnues :** commencer par « Choix de l'inconnue », puis la mise en équation, et répondre à la question posée par une phrase avec l'unité de la situation.
+4. **Section d'un solide :** toujours passer par k ; les aires sont multipliées par k² et les volumes par k³. Convertir avant de calculer une masse ou un coût.
+5. **Encadrements :** partir de l'encadrement donné, multiplier ou additionner en respectant le sens des inégalités (un facteur négatif inverse le sens), puis arrondir à la précision demandée.
+
+### 12.6 Sources et fiabilité
+
+| Code | Source | Ce qu'on en a tiré | Fiabilité |
+|---|---|---|---|
+| SD | Sunudaara, https://www.sunudaara.com/cours_maths_3e et https://www.sunudaara.com/bfem-math | Programme de 3e ; énoncés BFEM 2022, 2023 et 2025 | Bonne pour les énoncés. Aucun corrigé en ligne sur ces pages |
+| TE | TopEducationSN (M. Papa Alassane Sow), corrigé BFEM blanc 2022 du CEM Thioffac : https://topeducationsn.com/wp-content/uploads/2022/11/N°1-CORRECTION-BFEM-BLANC-EPREUVE-DE-MATHS-2022.pdf | Rédaction, barème, médiane par Thalès | Corrigé de prof, pas un corrigé officiel |
+| SB | SamaBFEM, https://www.samabfem.com/subject/mathematiques | 13 leçons de maths, quiz, examens blancs | Contenu des leçons non lisible sans ouvrir l'appli |
+
+### 12.7 Programme de maths par classe au Sénégal, de la 6e à la Terminale [SD]
+
+Ces listes servent à **rester au niveau de l'élève** : ne pas utiliser une notion d'une classe supérieure. Par exemple, pas de discriminant en 4e, ni de barycentre en 3e. Elles suivent l'ordre d'affichage du site, qui n'est pas forcément la progression officielle.
+
+- **6e :**
+  - géométrie : premières notions, droites perpendiculaires et parallèles, cercle, angles, symétrie orthogonale ;
+  - décimaux arithmétiques : rangement, quatre opérations, organisation d'un calcul ;
+  - décimaux relatifs ;
+  - ensembles (∈, ⊂, ∪, ∩), d'après un devoir [TE6].
+- **5e :**
+  - calcul dans D et puissances dans D ;
+  - décimaux relatifs, fractions ;
+  - multiples et diviseurs ;
+  - proportionnalité ;
+  - équations et inéquations simples ;
+  - repérage ;
+  - angles, triangles, quadrilatères ;
+  - symétrie centrale ;
+  - géométrie dans l'espace.
+- **4e :**
+  - nombres rationnels (Q), calcul algébrique ;
+  - équations dans Q, inéquations et systèmes d'inéquations à une inconnue ;
+  - application linéaire ;
+  - statistique ;
+  - distance, droite des milieux, droites remarquables du triangle ;
+  - triangle rectangle et Pythagore, cosinus d'un angle aigu ;
+  - translation et vecteur ;
+  - pyramides et géométrie dans l'espace.
+- **3e :** voir 12.1.
+- **Seconde S :**
+  - calcul dans R, équation du second degré ;
+  - systèmes d'équations et d'inéquations ;
+  - polynômes, généralités sur les fonctions ;
+  - calcul vectoriel, barycentre, repère cartésien ;
+  - angles et trigonométrie, produit scalaire.
+- **Seconde L :** calcul dans R (seul chapitre listé).
+- **Première S :**
+  - équations, inéquations et systèmes ; polynômes ;
+  - généralités sur les fonctions, limites et continuité, dérivées et applications, étude de fonctions, primitives ;
+  - suites numériques ;
+  - angles et trigonométrie ;
+  - produit scalaire et lignes de niveau ;
+  - calcul vectoriel, barycentres et repères ;
+  - orthogonalité et produit scalaire dans l'espace, géométrie dans l'espace ;
+  - transformations du plan ;
+  - dénombrement, statistique descriptive.
+- **Première L :**
+  - généralités sur les fonctions, limites et continuité, dérivabilité, étude de fonctions ;
+  - polynômes, systèmes ;
+  - suites ;
+  - dénombrement et probabilité, statistiques.
+- **Terminale S** (S1 et S2) :
+  - limites et continuité, dérivabilité, étude de fonctions, primitives ;
+  - logarithmes, exponentielles et puissances, croissances comparées ;
+  - calcul intégral, suites, équations différentielles ;
+  - nombres complexes, similitudes planes directes ;
+  - dénombrement et probabilités.
+- **En plus pour la Terminale S1 :** arithmétique, courbes paramétrées, coniques, isométries, angles orientés, fonctions de Leibniz, géométrie dans l'espace.
+- **Terminale L :**
+  - fonction ln, exponentielle ;
+  - suites ;
+  - statistique (à deux variables, d'après les intitulés) ;
+  - dénombrement et probabilités ;
+  - applications et polynômes ;
+  - calcul intégral.
+
+### 12.8 Le BAC de maths au Sénégal : structure observée [SD]
+
+- **S2, S2A, S4, S5, 2025 (1er groupe), 20 points :**
+  - **Exercice 1 (5,5 points) :** complexes, avec polynôme de degré 4, racines, module et argument, puis similitude directe (écriture complexe, éléments caractéristiques, image d'un cercle).
+  - **Exercice 2 (6 points) :** probabilités en contexte économique. Il faut trouver le nombre n de téléphones pour que P(au moins un défectueux) ≥ 0,999, arrondi par excès, puis comparer un coût en FCFA au chiffre d'affaires.
+  - **Problème (8,5 points) :**
+    - partie A (2 points) : fonction auxiliaire g(x) = 1 − x ln x, bijection, unique solution α avec 1,7 < α < 1,8, signe de g ;
+    - partie B (5,75 points) : f définie par morceaux, limites, branches infinies, continuité et dérivabilité en 1 avec interprétation géométrique, variations, courbe ;
+    - partie C (0,75 point) : réciproque et aire en cm².
+- Ce sujet confirme la structure décrite au 11.5 (exercice de complexes, probabilités, problème en parties A, B, C).
+- Énoncés disponibles sur Sunudaara : 2006-2020, 2024 et 2025 pour S1 et S2, plus les sujets du 2e groupe et de la série L en 2024. Les corrigés ne sont pas sur les pages vues.
+
+### 12.9 Erreur relevée dans un corrigé de collège (à ne pas reproduire)
+
+- [TE6] (devoir de 6e) répond « Faux » à « Un cube est un parallélépipède rectangle ». **C'est vrai : le cube est un parallélépipède rectangle particulier, dont toutes les arêtes sont égales.**
+- Le même corrigé donne « 32 » comme partie décimale de 1 056 479,32. En général, on écrit **0,32**. L'IA doit accepter la réponse de l'élève si son prof a cette convention, mais signaler l'écriture usuelle.
+
+Sources ajoutées : Sunudaara (cours de la 6e à la Terminale et BAC), https://www.sunudaara.com/sixieme, https://www.sunudaara.com/cinquieme, https://www.sunudaara.com/quatrieme, https://www.sunudaara.com/seconde, https://www.sunudaara.com/premiere, https://www.sunudaara.com/terminale, https://sunudaara.com/bac-senegal-math. [TE6] : correction du devoir n°1 de maths de 6e, 2020-2021, TopEducationSN, https://topeducationsn.com/wp-content/uploads/2021/01/correction-devoir-N°1-maths-semestre-1-6eme-2020-2021.pdf.
+
+---
+
+## 13. Sources officielles de l'Office du Bac du Sénégal (lues le 27 octobre 2026)
+
+C'est la source la plus sûre de ce guide : le corrigé officiel du BAC 2026 et les programmes officiels de Terminale, publiés sur officedubac.sn.
+
+### 13.1 L'épreuve S2-S2A-S4-S5 du BAC 2026 (1er groupe)
+
+- **4 heures, coefficient 5.**
+- **Calculatrice :** seules les calculatrices non imprimantes à entrée unique par clavier sont autorisées. Celles qui affichent des formulaires ou tracent des courbes sont interdites, et leur usage compte comme une fraude (circulaire n° 5990/OB/DIR du 12 août 1998).
+- **Structure :**
+  - Exercice 1 (6 points), nombres complexes : racine évidente P(3i) = 0, division par Horner, discriminant réduit Δ' et racine carrée δ, distances et nature d'un triangle, barycentre, quotient (z_A − z_D)/(z_C − z_D), points cocycliques, forme trigonométrique pour trouver cos(−7π/12) et sin(−7π/12) ;
+  - Exercice 2 (4 points), probabilités sous forme de **situation à résoudre** (voir 13.2) ;
+  - Problème (10 points) : partie A (1,5) fonction auxiliaire g et son signe ; partie B (7,5) étude d'une fonction définie par morceaux avec ln et exp ; partie C (1) bijection réciproque.
+
+### 13.2 Nouveau type d'exercice : la « situation » sans questions guidées
+
+L'exercice 2 donne un texte (un sondage avant une élection municipale), puis une seule consigne : « confirme ou infirme les propos de l'agent ». L'élève doit trouver seul les outils.
+
+**Barème officiel :**
+- traduction correcte des données : 1,5 point ;
+- formule des probabilités totales ou arbre pondéré : 1,5 point ;
+- interprétation correcte du résultat : 1 point.
+
+**Règle pour l'IA :** sur ce type d'exercice, guider l'élève en trois temps :
+1. **Traduire** : nommer chaque événement par une lettre et une phrase, puis écrire chaque pourcentage comme une probabilité, conditionnelle ou non (p(A2/A1) = 0,9…).
+2. **Calculer** : arbre pondéré, puis probabilités totales.
+3. **Conclure par une phrase** qui répond à la consigne : « L'agent a raison : il y a 529 chances sur 1 000 que… ». Sans cette phrase, l'élève perd 1 point sur 4.
+
+### 13.3 Comment le corrigé officiel rédige
+
+- **Division par Horner** présentée en tableau (coefficients en ligne, racine à gauche).
+- « Δ' = … = (1 − 2i)². Ainsi, δ = 1 − 2i est une racine carrée de Δ'. »
+- **Interpréter module et argument** : |q| = 1 « signifie que DA = DC » ; arg q = π/2 (2π) « signifie que (DC→, DA→) = π/2 (2π) » ; donc le triangle est rectangle et isocèle. Les angles s'écrivent avec « (2π) ».
+- **Chaque limite est interprétée** : « La droite d'équation y = 0 est asymptote horizontale à (C_f) en +∞ » ; asymptote verticale x = −1 ; asymptote oblique y = x + ln 3, montrée en écrivant f(x) − (x + ln 3) et en prouvant que cette différence tend vers 0.
+- **Valeur absolue** : réécrire f(x) sans valeur absolue, intervalle par intervalle, avant de dériver.
+- **Dérivabilité en un point** : limite du taux d'accroissement, puis interprétation (« demi-tangente à gauche de coefficient directeur −1 »). Dérivées à gauche et à droite différentes : f n'est pas dérivable en 0.
+- **Bijection** : « h est continue et strictement croissante sur ]−∞, −1[, donc h est une bijection de ]−∞, −1[ sur h(]−∞, −1[) = ℝ. »
+- **Consigne aux correcteurs pour le problème :** « tenir compte de la démarche, du raisonnement et de la justesse des résultats ». Une démarche juste rapporte des points même si le résultat final est faux : l'IA doit le dire à l'élève.
+
+**Erreur de frappe dans le corrigé officiel (à ne pas reproduire) :** pour f(x) = e^(−2x) ln(1 + 2e^x), le corrigé écrit f'(x) = 2e^(−2x)[2e^x/(1 + 2e^x) − ln(1 + 2e^x)]. Le bon facteur est e^x/(1 + 2e^x), sans le 2, puisque le 2 a déjà été mis en facteur. Le résultat final, f'(x) = 2e^(−2x) g(x), est juste.
+
+### 13.4 Programmes officiels de Terminale (Office du Bac, programmes de 2006 mis en ligne en janvier 2026)
+
+| Série | Horaire | Ce qui est au programme |
+|---|---|---|
+| **Terminale L** | 3 h par semaine | Composition d'applications ; division de polynômes et méthode de Horner (degré 4 au plus) ; dénombrement et probabilités simples ; ajustement linéaire (corrélation, moindres carrés, **aucune démonstration de formule**) ; limites et continuité **sans théorie** ; dérivées, tangente, bijection ; études de fonctions (polynômes, rationnelles, √(ax + b), valeur absolue) ; ln, exp ; suites arithmétiques et géométriques, récurrence ; primitives usuelles, intégrales, aires |
+| **Terminales S1 et S3** | 9 h par semaine | Probabilités (variables aléatoires, loi binomiale) ; complexes (Moivre, Euler, racines n-ièmes, linéarisation jusqu'au degré 5, équation de degré 3 connaissant une racine) ; **arithmétique** (PGCD, Bézout, Gauss, congruences, bases 2, 5 et 16, petit théorème de Fermat) ; suites ; accroissements finis ; intégration par parties (seuls les changements de variable **affines** sont exigibles à l'examen) ; équations différentielles ; barycentres et lignes de niveau ; similitudes ; produit vectoriel et produit mixte ; transformations de l'espace ; courbes paramétrées ; coniques |
+| **Terminales S2 et S4** | 5 h par semaine | Fonctions (valeurs intermédiaires, réciproque, branches infinies, points d'inflexion, primitives) ; ln, exp, puissances et leurs limites usuelles ; suites récurrentes u(n+1) = f(u(n)) ; intégrales, aires, volumes V = ∫ πf²(x) dx ; **équations différentielles** du 1er et du 2nd ordre avec second membre (« on donnera toujours une indication » pour la solution particulière) ; **statistiques à deux variables** (moindres carrés, corrélation) ; probabilités (conditionnelles, probabilités totales, variable aléatoire, fonction de répartition, loi binomiale) ; complexes (similitudes planes directes, Moivre, Euler, linéarisation, équations du 2nd degré à coefficients complexes) |
+
+**Règles pour l'IA tirées des programmes :**
+1. **Pas d'arithmétique en S2** : congruences, Bézout et Gauss sont réservés à S1 et S3. Ne pas les utiliser pour un élève de S2.
+2. **En série L, pas de théorie** : les limites se calculent sans définition formelle, et les formules de statistique ne se démontrent pas.
+3. **Équation différentielle avec second membre en S2** : l'énoncé donne toujours une piste pour la solution particulière. Chercher cette indication avant de proposer une méthode.
+4. Les programmes demandent des exercices « pris dans le domaine socioculturel de l'élève » : les exemples de l'IA peuvent parler de marché, de transport, de récolte ou d'élection locale.
+
+### 13.5 Sources
+
+- Corrigé officiel du BAC 2026, S2-S2A-S4-S5 : https://officedubac.sn/wp-content/uploads/2026/07/BAC-S2-2026-Esquisse-de-corrige.pdf
+- Corrigé S1 2026 (non lu) : https://officedubac.sn/wp-content/uploads/2026/07/Esquisse_Corrige_S1_2026.pdf
+- Programmes de Terminale L, S1-S3 et S2-S4 : https://officedubac.sn/wp-content/uploads/2026/01/Programme_Maths-LS.pdf
+- Liste de tous les corrigés 2026 : https://officedubac.sn/2026/06/30/corriges-bac-gen-2026/

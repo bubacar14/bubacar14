@@ -2,6 +2,8 @@
 
 Ce document rassemble ce qui a été décidé, calculé et appris pendant la conversation où Révizo est né. Le plan à jour est dans `PLAN.md`. La mémoire du projet, pour Claude, est dans `CLAUDE.md`.
 
+> **Mise à jour du 27 octobre 2026** (faite dans une autre session) : la mascotte Sanko s'appelle désormais **Lumi**, le modèle retenu est **Haiku 5.5** (environ 7 FCFA par exercice, mesuré sur 8 pages du BAC 2026), l'appli est déployée sur Vercel et le paiement passe par DexPay. Les sections ci-dessous décrivent l'état au moment de l'archivage, avant ces changements. `CLAUDE.md` et `PLAN.md` font foi.
+
 ⚠️ Tous les chiffres de marché, de prix, de coûts et de conversion sont des **estimations**. Ils sont à vérifier sur le terrain.
 
 ## 1. Comment on est arrivé à Révizo

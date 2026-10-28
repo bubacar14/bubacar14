@@ -1,0 +1,14 @@
+# Jamais envoyé à Vercel : la clé, les notes internes et les recherches.
+.env
+.env.*
+.claude
+node_modules
+public
+recherche
+youtube
+tools
+marque
+CLAUDE.md
+PLAN.md
+README.md
+supabase

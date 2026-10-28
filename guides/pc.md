@@ -449,3 +449,469 @@ Méthode pour l'élève :
 - Existence d'une règle officielle sur les erreurs reprises en cascade.
 - Chaînes YouTube et ressources fiables en Côte d'Ivoire, au Mali, au Burkina, en Guinée, au Bénin, au Togo et au Niger.
 - **Toutes les URL de la section 9 sont à relire**, ce qui n'a pas pu être fait ici.
+
+---
+
+## 11. Ce que montrent les vidéos des profs (YouTube)
+
+Cette section s'appuie sur **10 vidéos** de correction de physique-chimie : 3 du Sénégal (dont 1 BFEM), 3 de Côte d'Ivoire (dont 1 probable), 1 du Mali, 1 du Burkina (BEPC), 1 sans pays indiqué et 1 de France (brevet), gardée seulement pour ses conseils de méthode. **2 vidéos ont été écartées** (voir 11.7).
+
+C'est un premier échantillon : YouTube a bloqué la collecte après ces vidéos. Les transcriptions sont des sous-titres automatiques, parfois très abîmés (Mali et Burkina surtout). Les formules ont été reconstruites d'après le sens. Les codes entre crochets renvoient à la liste du 11.7.
+
+---
+
+### 11.1 Comment ils expliquent
+
+#### Ordre des étapes
+
+1. **Lire tout le sujet avant d'écrire.** « Avant de faire quoi que ce soit, il faut d'abord lire » [SN24-TS]. Ils lisent l'introduction, repèrent les données, le barème et l'échelle des graphes, puis cherchent « le but de l'exercice » [SN24-TS, FR-DNB].
+2. **Nommer le type de réaction ou de mouvement avant de calculer.** « Acide carboxylique + alcool, donc estérification directe » [SN24-TS, CI00-D] ; « hydratation d'un alcène, donc alcool » [CI95] ; « une des équations horaires est constante, donc le mouvement est plan » [TS-CIN].
+3. **Écrire la formule générale littérale**, puis remplacer : CnH2n+2O pour un alcool, M = 14n + 18 [CI95, SN22-ES] ; 12x/%C = y/%H = 16z/%O = M/100 [CI00-D, CI95, ML18-TSE].
+4. **Convertir en unités SI avant l'application numérique** : mA → A, min → s, mm² → m², ms/div → 10⁻³ s/div [SN-BFEM23, CI25-D].
+5. **Résultat avec unité**, puis phrase de conclusion (« la trajectoire est une parabole », « A est un aldéhyde »).
+6. **Rappel de cours après la réponse** au brevet : après chaque vrai/faux, le prof redonne la règle (BBT jaune/vert/bleu, lentilles divergentes pour la myopie, Ec = ½mv²) [SN-BFEM23].
+
+#### Ton et phrases types
+
+- Phrases de liaison : « on sait que… », « or… », « donc… », « ça veut simplement dire que… » [CI95, CI25-D].
+- Ils dédramatisent : « c'est pas difficile », « c'est question de cours », « même un élève de 5ᵉ peut tracer la courbe » [SN24-TS]. On le garde, sans jamais minimiser une difficulté réelle de l'élève.
+- Ils parlent du barème pour motiver : « ne négligez pas les 0,25 point, ce sont eux qui font les 8 points » [SN24-TS].
+- Ils encouragent à tout réviser : « n'écoutez personne qui vous dit que telle leçon va tomber » [SN24-TS].
+
+#### Questions posées à l'élève
+
+- « On a mélangé quoi et quoi ? » pour trouver le type de réaction [SN24-TS].
+- « Qu'est-ce que veut dire ralenti ? accéléré ? uniforme ? » : faire définir chaque mot de la consigne avant d'y répondre [FR-DNB].
+- « Quels objets agissent sur le système ? » pour l'inventaire des forces [FR-DNB].
+- « C'est le réactif en excès ou en défaut qui sert au calcul ? » [SN24-TS].
+
+#### Raisonnement par élimination (chimie organique)
+
+C'est la démarche la plus répétée [CI00-D, CI95, SN22-ES, ML18-TSE] :
+
+1. le test à la DNPH est positif, donc composé carbonylé (aldéhyde **ou** cétone) ;
+2. le test à la liqueur de Fehling, au réactif de Schiff ou au réactif de Tollens est négatif, donc cétone ; s'il est positif, ou si le composé réagit avec le dichromate acidifié, donc aldéhyde ;
+3. une cétone vient d'un alcool **secondaire** ; un aldéhyde ou un acide vient d'un alcool **primaire** (l'acide si l'oxydant est en excès) ; un alcool tertiaire ne s'oxyde pas ;
+4. on remonte à la formule semi-développée et au nom, puis on vérifie avec le nombre de carbones.
+
+#### Comment ils vérifient
+
+- **Cohérence entre questions** : si la constante K trouvée est > 10⁴ (réaction totale) alors qu'on a dit « limitée » plus haut, « il y a contradiction, vous vous êtes trompé quelque part » [SN24-TS].
+- **« Retrouver » = même valeur** : quand l'énoncé demande de *retrouver* le pKa par le calcul, on doit retomber sur la valeur lue à la demi-équivalence (10,7) ; sinon la courbe ou les calculs sont faux [SN24-TS].
+- **Analyse dimensionnelle** pour retrouver une formule oubliée ou l'unité d'une vitesse (mol·L⁻¹·min⁻¹) [SN24-TS].
+- **Lectures graphiques** : le prof prévient que la tangente tracée à la main donne une valeur approchée et que l'élève peut trouver un résultat voisin [SN24-TS, SN22-ES].
+
+---
+
+### 11.2 Ce qu'ils disent que le correcteur attend
+
+#### Barème et points
+
+- Sénégal, série S2 : chimie sur 8 points, physique sur 12 [SN24-TS]. Cela confirme la répartition notée au 1.2.
+- BFEM 2023 (Sénégal) : 1 h 30, coefficient 2 ; contrôle des connaissances sur 5, chimie sur 6, problème d'électricité sur 9 [SN-BFEM23]. **À confirmer** par le sujet officiel (voir 10.2).
+- Brevet France : « toute réponse même incomplète montrant la démarche sera prise en compte ». Le prof conseille d'écrire au moins la formule [FR-DNB]. La même logique vaut pour nos examens (points de méthode), mais sans texte officiel ouest-africain trouvé ici.
+
+#### Rédaction exigée
+
+- **Double flèche pour une réaction limitée** (estérification directe, acide faible + eau). « Si vous mettez une seule flèche, on vous barre et on vous donne zéro », car cela contredit « réversible » écrit juste avant [SN24-TS].
+- **Caractéristiques à réciter** :
+  - estérification directe : lente, limitée, réversible, athermique ;
+  - estérification indirecte (chlorure d'acyle, anhydride) : rapide, totale, exothermique ;
+  - saponification : lente et totale [SN24-TS, CI00-D, SN22-ES].
+- **Rôle de H₂SO₄** : catalyseur, qu'on peut écrire au-dessus de la flèche [SN24-TS].
+- **Identifier = formule + nom** : « on ne s'arrête pas là, l'identification consiste aussi à écrire le nom » [CI00-D].
+- **Justifier seulement quand c'est demandé**, mais savoir le faire : pour « donner la nature du circuit », le prof répond « capacitif » puis montre la justification par l'oscillogramme [CI25-D].
+- **Schémas** :
+  - à la règle (« un rectangle, pas un truc à main levée ») ;
+  - le vecteur force part du système et sa longueur est calculée avec l'échelle donnée, arrondie au millimètre (3 906 N → 3,9 cm) [FR-DNB] ;
+  - dosage : la burette contient le réactif titrant, le bécher la solution dosée, avec agitateur magnétique et sonde du pH-mètre [SN24-TS].
+- **Respecter l'échelle imposée** pour tracer une courbe ; sinon il faut tout refaire [SN24-TS].
+
+#### Ce qui fait perdre des points (selon les profs)
+
+- Une seule flèche pour une réaction réversible [SN24-TS].
+- Oublier l'unité d'une vitesse de réaction : « si vous oubliez l'unité, vous êtes foutu » [SN24-TS].
+- Calculer le rendement avec le réactif **en excès** au lieu du réactif limitant [SN24-TS].
+- Ne pas convertir en SI avant de calculer (mA, minutes, mm²) [SN-BFEM23].
+- Ne pas lire jusqu'au bout et rater une donnée (échelle, « annexe à rendre ») [SN24-TS, FR-DNB].
+
+---
+
+### 11.3 Méthodes par type d'exercice
+
+#### Formule brute par la composition centésimale [CI00-D, CI95, ML18-TSE]
+
+1. Écrire 12x/%C = y/%H = 16z/%O = M/100.
+2. Si M est inconnue mais la famille est connue (alcool : un seul O), tirer M de 16/%O = M/100 : M = 1600/26,7 ≈ 60 g/mol [CI95].
+3. Si on a la densité de vapeur : M = 29·d [ML18-TSE].
+4. Si on part d'une combustion : %C = 1200·m(CO₂)/(44·m), %H = 200·m(H₂O)/(18·m), %O par différence [ML18-TSE].
+5. Égaler M à la formule générale (14n + 18 = 60, donc n = 3), écrire la formule brute, puis **tous les isomères** avec leur nom et leur classe.
+
+#### Estérification, rendement, réactif limitant [SN24-TS]
+
+1. Calculer n = ρ·V/M pour chaque réactif liquide (g/cm³ × cm³ : pas de conversion).
+2. Comparer n/coefficient : le plus petit est le réactif limitant.
+3. Masse théorique d'ester par le bilan molaire **avec le réactif limitant**.
+4. Rendement = masse obtenue / masse théorique (ou quantités de matière).
+5. Comparer avec la voie indirecte (anhydride ou chlorure d'acyle) : totale et plus rapide, car le dérivé est plus réactif.
+
+#### Cinétique : vitesse par la tangente, temps de demi-réaction [SN24-TS, SN22-ES]
+
+1. Repérer la date sur l'axe, monter jusqu'à la courbe, tracer la tangente.
+2. Mesurer Δc et Δt sur la tangente **en cm**, convertir avec l'échelle (règle de trois).
+3. v = |Δc/Δt| avec l'unité (mmol·L⁻¹·min⁻¹).
+4. Conclure : la vitesse diminue car la concentration des réactifs diminue (facteur cinétique).
+5. t½ : temps au bout duquel la moitié du réactif limitant a disparu ; lire c₀/2 sur la courbe et projeter sur l'axe des temps.
+6. Pour une relation à démontrer (c(alcool) = C − CₐVₐ/V) : partir de « n formé = n initial − n restant », puis diviser par le volume constant [SN22-ES].
+
+#### Dosage acide-base, pKa [SN24-TS]
+
+- Point d'équivalence par la méthode des tangentes parallèles.
+- pKa = pH à la demi-équivalence (V = V_E/2).
+- Si l'énoncé fait une dilution (prise de 20 mL sur 500 mL), bien distinguer les deux volumes.
+- Concentrations des espèces : [H₃O⁺] = 10⁻ᵖᴴ, ions spectateurs par CₐVₐ/(Vₐ + V_b), électroneutralité, puis recalcul de Ka pour **retrouver** le pKa.
+- Acide fort + base faible : réaction totale (une seule flèche), K = 1/Ka très grand.
+
+#### Cinématique avec équations horaires [TS-CIN]
+
+1. Mouvement plan : une coordonnée reste constante (z = 0), donc mouvement dans le plan (xOy).
+2. Trajectoire : tirer t de x(t), le remplacer dans y(t) ; y = ax² + bx + c, donc parabole.
+3. Passage en y = 0 : résoudre y(t) = 0, puis calculer x et v à cette date.
+4. v = dOM/dt (coordonnées ẋ, ẏ, ż), puis la norme ; a = dv/dt.
+5. Le prof fait le lien avec les maths : « en physique, notre x c'est le temps t ».
+
+#### Circuit RLC et oscilloscope (Côte d'Ivoire, série D) [CI25-D]
+
+- Connaître le nom de chaque élément du schéma (GBF, oscilloscope bicourbe, conducteur ohmique).
+- Voie Y₁ : tension aux bornes du générateur ; voie Y₂ : tension aux bornes du conducteur ohmique, image de l'intensité.
+- Nature du circuit à partir de l'oscillogramme : si u est en retard sur i, φ < 0, donc circuit capacitif.
+- Période = nombre de divisions × base de temps (convertie : 1 ms/div = 1 × 10⁻³ s/div). Compter les carreaux du début à la fin d'une période.
+- Diagramme de Fresnel qualitatif : I sur l'axe horizontal (origine des phases), puis U_R, U_L et U_C bout à bout.
+- Calculs : tan φ pour trouver L ou C ; à la résonance d'intensité, LCω₀² = 1.
+- Le prof répète que le RLC « sort toujours » en série D ivoirienne. C'est l'avis d'un prof, pas une règle.
+
+#### Brevet : électricité et chimie de base [SN-BFEM23, BF-BEPC20]
+
+- Équilibrer une combustion : C d'abord, puis H, puis O ; multiplier par 2 pour enlever la fraction (2 C₄H₁₀ + 13 O₂ → 8 CO₂ + 10 H₂O).
+- Bilan molaire n(A)/a = n(B)/b ; gaz : n = V/Vm (22,4 L/mol).
+- Volume d'air = 5 × volume de dioxygène [BF-BEPC20].
+- Électricité :
+  - U = RI ;
+  - Q = I·t ;
+  - N = Q/e ;
+  - énergie par effet Joule W = U·I·t ;
+  - R = ρL/S, avec S en m².
+- Caractéristique U = f(I) droite passant par l'origine, donc conducteur ohmique ; R = pente [BF-BEPC20].
+- Indications d'une lampe (12 V, 3 W) : tension et puissance nominales ; sous 6 V, elle brille faiblement [BF-BEPC20].
+- Puissance P = W/t ; rendement = puissance utile / puissance reçue [BF-BEPC20].
+
+---
+
+### 11.4 Erreurs fréquentes signalées
+
+#### Erreurs d'élèves
+
+- **Ec proportionnelle à v** au lieu de v² [SN-BFEM23].
+- **La mole comme unité de concentration** (c'est mol/L) [SN-BFEM23].
+- **Tension d'un fil classée comme force à distance** (c'est une force de contact) [SN-BFEM23].
+- Confondre le réactif en excès et le réactif limitant dans le rendement [SN24-TS].
+- Mettre l'acide dans le bécher au lieu de la burette (ou l'inverse) [SN24-TS].
+- Ne retenir qu'une action mécanique alors que la consigne dit « les actions » [FR-DNB].
+
+#### Erreurs des profs eux-mêmes (à ne pas reproduire)
+
+- **[TS-CIN] Conclusion fausse sur la nature du mouvement.** Le prof trouve une trajectoire parabolique puis conclut « mouvement rectiligne uniformément accéléré » parce que a = 6 m/s² est constant. Le mouvement est **curviligne (parabolique)** avec un vecteur accélération constant. L'IA ne doit jamais conclure « rectiligne » sans trajectoire rectiligne.
+- **[TS-CIN] Valeur numérique incohérente** : il annonce 6,24 m/s puis 6,4 m/s pour √41 ≈ 6,40 m/s.
+- **[SN22-ES] Saponification dite « exothermique »** sans source : on s'en tient à « lente et totale ».
+- **[ML18-TSE] Calculs mal lisibles** dans la transcription : non réutilisés.
+
+---
+
+### 11.5 Différences entre pays observées
+
+- **Sénégal** : épreuve S2 chimie sur 8 / physique sur 12. Les exercices de chimie mêlent acides carboxyliques et dérivés, cinétique et dosage. Les profs citent souvent « la mention » et les concours.
+- **Côte d'Ivoire, série D** : RLC en régime sinusoïdal avec oscilloscope (2025) ; chimie organique par tests caractéristiques (2000, 1995 probable).
+- **Mali (TSE 2018)** : formule brute d'un alcool par combustion et densité de vapeur, puis chiralité et énantiomères.
+- **Burkina (BEPC 2020)** : sujet varié (fonte, cuivre et acide nitrique, électrolyse, couleurs, lampe, puissance et rendement).
+- **France (brevet)** : utile pour la méthode (lire la consigne, schéma propre), mais **hors programme ouest-africain** pour le contenu.
+
+---
+
+### 11.6 Règles supplémentaires pour l'IA de Révizo (tirées de ces vidéos)
+
+1. **Commencer par nommer** le type de réaction, de mouvement ou de circuit, avec la raison tirée de l'énoncé (« on mélange un acide et un alcool, donc… »).
+2. **Formule littérale, puis conversion SI, puis application numérique, puis unité.** Ne jamais sauter la conversion.
+3. **Double flèche** pour toute réaction limitée, et le rappeler comme piège quand l'élève met une seule flèche.
+4. **Réactif limitant d'abord** dans tout calcul de rendement ou de quantité de produit.
+5. **Tests de chimie organique** : dérouler le raisonnement par élimination du 11.1, test par test, sans sauter d'étape.
+6. **Lectures graphiques** : expliquer la méthode (tangente, mesure en cm, échelle) et prévenir que la valeur peut légèrement varier ; accepter une valeur voisine de celle de l'élève.
+7. **« Retrouver »** : vérifier que la valeur calculée coïncide avec celle obtenue plus haut, et le dire.
+8. **Cohérence finale** : comparer les conclusions entre questions (limitée/totale, nature du mouvement selon la trajectoire).
+9. **Brevet** : après chaque réponse de cours, redonner la règle en une phrase.
+10. **Ne pas prédire les sujets** (« le RLC tombe toujours ») : encourager à réviser tout le programme.
+
+---
+
+### 11.7 Vidéos analysées (liste avec liens) et vidéos écartées
+
+#### Vidéos analysées
+
+| Code | Titre (chaîne) | Lien | Pays / niveau / thème |
+|---|---|---|---|
+| SN24-TS | BAC 2024 Correction PC : sujets + méthode + astuces, partie 1 (THIAM SCIENCES) | https://www.youtube.com/watch?v=1XTQo7_Rq7Y | Sénégal, S2 2024, chimie : estérification, cinétique, dosage |
+| SN22-ES | (TS2/PC) Correction BAC 2022 : exercice 1, acides carboxyliques et cinétique (Elite Science) | https://www.youtube.com/watch?v=v4IGTZUDHNk | Sénégal, S2 2022, ester, saponification, cinétique |
+| SN-BFEM23 | Correction BFEM 2023 sciences physiques (NEXCLASS) | https://www.youtube.com/watch?v=DFOKX2Ko5_8 | Sénégal, BFEM 2023, sujet complet |
+| CI25-D | Correction détaillée Physique Chimie Bac série D CI 2025 (Savoirplus) | https://www.youtube.com/watch?v=0FmUMjfjyUc | Côte d'Ivoire, D 2025, RLC et oscilloscope |
+| CI00-D | Correction BAC Côte d'Ivoire 2000 (série D) : exercice 3 (Maîtrise Scientifique) | https://www.youtube.com/watch?v=QjjclLly-LQ | Côte d'Ivoire, D 2000, aldéhyde, chlorure d'acyle, esters |
+| CI95 | Exercice type BAC : hydratation d'un alcène en alcool (S@v@nts UJLOG : Doum & Zam) | https://www.youtube.com/watch?v=WMt8J8wdM1Q | BAC 1995, chaîne ivoirienne ; le pays du sujet n'est pas dit |
+| ML18-TSE | Correction BAC physique chimie 2018 TSE, partie 6 (Ecoles Au Mali) | https://www.youtube.com/watch?v=taAf4bJ22Rc | Mali, TSE 2018, formule brute d'un alcool. Transcription abîmée |
+| BF-BEPC20 | Corrigé de physique chimie BEPC session 2020 du Burkina Faso (Repère Éducation) | https://www.youtube.com/watch?v=c3IlMmr7Fpo | Burkina, BEPC 2020. Transcription très abîmée |
+| TS-CIN | Cinématique du point, Terminale S, exercice corrigé (Physique Chimie à Domicile) | https://www.youtube.com/watch?v=JS0Yg9sMi-s | Pays non indiqué, exercice d'entraînement. Contient une erreur (11.4) |
+| FR-DNB | Un sujet corrigé de brevet physique chimie : les conseils pour réussir le DNB (Physico Chimico Méthodo) | https://www.youtube.com/watch?v=H0q_xGnxHXQ | France, brevet 2022. Gardée pour la méthode seulement |
+
+#### Vidéos écartées
+
+- **« BAC Togo - Physique Chimie : Exo 3 Part 1 »** (oko learning), https://www.youtube.com/watch?v=X9n9BlYdzSY. La transcription ne contient que l'introduction (132 mots).
+- **« Méthodes physiques d'analyse d'un système chimique »** (Les génies des sciences), https://www.youtube.com/watch?v=5AMk0oRDhBc. Programme de terminale française (loi de Beer-Lambert, spectroscopie), hors des programmes ouest-africains.
+
+#### Limites des sources
+
+- **Petit échantillon** : 10 vidéos, et aucune pour le Bénin, le Togo, la Guinée ou le Niger. La collecte a été interrompue par un blocage de YouTube et doit reprendre.
+- **Transcriptions de mauvaise qualité** pour ML18-TSE et BF-BEPC20 : seuls les passages lisibles ont été utilisés.
+- **Physique peu couverte** : SN24-TS ne traite que la chimie (la partie physique est dans une autre vidéo non récupérée).
+- Les différences du 11.5 décrivent ces vidéos, pas l'ensemble des examens.
+
+---
+
+## 12. Ce que montrent les sites de cours sénégalais (BFEM)
+
+Sources lues le 27 octobre 2026 :
+- **Sunudaara** : cours de 3e et énoncés du BFEM de 2005 à 2022 ;
+- **TopEducationSN** : évaluations corrigées par M. Papa Alassane Sow ;
+- **SamaBFEM**.
+
+Les codes renvoient au 12.6.
+
+### 12.1 Programme de 3e au Sénégal [SD]
+
+- **Physique** (11 chapitres) :
+  - lentilles minces ;
+  - dispersion de la lumière blanche ;
+  - notion de force ;
+  - équilibre d'un solide soumis à deux forces ;
+  - principe des actions réciproques ;
+  - électrisation par frottement ;
+  - courant électrique ;
+  - résistance électrique ;
+  - loi d'Ohm ;
+  - énergie et rendement ;
+  - calorimétrie.
+- **Chimie** (5 chapitres) :
+  - solutions (concentrations, dilution) ;
+  - solutions acides et basiques ;
+  - métaux et combustion ;
+  - hydrocarbures ;
+  - action à froid des acides dilués sur les métaux usuels.
+
+### 12.2 Structure de l'épreuve de physique-chimie (BFEM et évaluations de 3e)
+
+- **Durée 1 h 30, coefficient 2.** C'est l'en-tête d'une évaluation de l'IA de Saint-Louis [TE1] ; la vidéo SN-BFEM23 donne la même chose. Ce n'est pas un texte officiel.
+- **Partie 1, contrôle des connaissances (5 à 6 points) :**
+  - texte à trous avec des mots fournis ;
+  - QCM ;
+  - vrai ou faux ;
+  - corriger une affirmation fausse ;
+  - compléter un tableau grandeur / unité / symbole.
+- **Partie 2, exercice d'application de chimie (6 points) :**
+  - formules d'oxydes ;
+  - équation-bilan de combustion ;
+  - quantité de matière, masse et volume de gaz (Vm donné) ;
+  - concentration et dilution.
+- **Partie 3, résolution de problème (8 à 9 points) :** physique, avec de l'optique (œil, lentilles, construction d'image), de l'électricité (loi d'Ohm, effet Joule, nombre d'électrons, association de résistances) ou de la mécanique (équilibre, tension d'un fil, schéma à l'échelle).
+- Le BFEM 2022 [SD] suit cette logique en 4 exercices : restitution et QCM, chimie (combustion de l'aluminium), optique, mécanique et vrai/faux, puis circuit électrique.
+
+### 12.3 Comment les profs sénégalais rédigent un corrigé [TE1]
+
+Pour chaque calcul, toujours dans cet ordre :
+1. **la formule littérale**, par exemple m = Cm × V ;
+2. **les données entre accolades**, chacune avec son unité (Cm = 8 g·L⁻¹ ; V = 1,5 L) ;
+3. **« AN : »**, l'application numérique ;
+4. **le résultat en gras, avec son unité.**
+
+Autres habitudes :
+- **« Établis la relation »** : on enchaîne les définitions (Cm = m/V, m = n × M, donc Cm = (n/V) × M = C × M).
+- **Dilution** : on écrit « n₁ = n₂ ⇒ C₁ × V(prélevé) = C₂ × V₂ », puis on isole C₂.
+- **Vergence** : on convertit f en mètres avant de calculer C = 1/f (f = 3 cm = 0,03 m, donc C ≈ 33,3 δ).
+- **Construction d'une image** : deux rayons (par le centre optique, et parallèle à l'axe puis passant par F′), puis les caractéristiques de l'image :
+  - réelle ou virtuelle ;
+  - droite ou renversée ;
+  - plus grande, plus petite ou de même taille.
+
+  Cas à connaître : objet à 2f, l'image est réelle, renversée et de même taille ; objet entre F et O (loupe), l'image est virtuelle, droite et agrandie.
+- **Œil :** l'hypermétropie se corrige par une lentille convergente, la myopie par une lentille divergente.
+
+### 12.4 Points de cours et pièges relevés dans les cours [SD]
+
+- **Le kWh est une unité d'énergie, pas de puissance.** 1 Wh = 3 600 J.
+- **Rendement :** r = énergie (ou puissance) utile / reçue, sans unité, et toujours **0 < r < 1**.
+- **Effet Joule :** E = R·I²·t. Si l'intensité double, la chaleur est multipliée par 4.
+- **Caractéristique U = f(I)** d'un conducteur ohmique : une droite qui passe par l'origine, de pente R.
+- **Combustion :**
+  - complète : flamme bleue, produits CO₂ et H₂O ;
+  - incomplète : flamme jaune et fumée noire, avec du **CO, gaz incolore, inodore et très toxique**.
+- **Familles d'hydrocarbures :** alcanes CₙH₂ₙ₊₂, alcènes CₙH₂ₙ, alcynes CₙH₂ₙ₋₂. Le cours ne donne pas la formule des alcynes, alors que le BFEM 2022 la demande en QCM.
+
+### 12.5 Erreur relevée dans un corrigé de prof (à ne pas reproduire)
+
+- [TE1] écrit qu'après une dilution, « sa concentration molaire et son volume augmente[nt] ». **C'est faux : la quantité de matière reste constante, le volume augmente, et la concentration diminue.** L'IA doit corriger cette idée si l'élève la reprend.
+
+### 12.6 Sources et fiabilité
+
+| Code | Source | Ce qu'on en a tiré | Fiabilité |
+|---|---|---|---|
+| SD | Sunudaara, https://www.sunudaara.com/cours-pc-3e, https://www.sunudaara.com/bfem-pc, https://www.sunudaara.com/bfem/bfem-physique-chimie-2022 | Programme de 3e, cours (loi d'Ohm, énergie et rendement, hydrocarbures), énoncé BFEM 2022 | Bonne pour les énoncés ; aucun corrigé |
+| TE1 | Correction de l'évaluation n°1 de sciences physiques de 3e, IA de Saint-Louis (M. Papa Alassane Sow) : https://topeducationsn.com/wp-content/uploads/2022/11/CORRECTION-EVALUATION-SP-3e-N°1-2022-2023.pdf | Structure en 3 parties, durée, présentation des calculs | Corrigé de prof, avec une erreur (12.5) |
+| SB | SamaBFEM, https://www.samabfem.com/subject/sciences | 11 leçons | Contenu des leçons non lu |
+
+### 12.7 Programme de physique-chimie par classe au Sénégal [SD]
+
+La physique-chimie commence en 4e. Il ne faut pas utiliser une notion d'une classe supérieure : la mole n'arrive qu'en 4e et les quantités de matière détaillées en Seconde.
+
+- **4e :**
+  - physique : introduction aux sciences physiques, grandeurs et mesures, masse, masse volumique et densité, poids et relation poids-masse, sources et récepteurs de lumière, propagation rectiligne, réflexion et réfraction, introduction à l'électricité ;
+  - chimie : mélanges et corps purs, structure de la matière, mole et grandeurs molaires, notion de réaction chimique.
+- **3e :** voir 12.1.
+- **Seconde S :**
+  - physique : mouvement et vitesse, forces, poids et masse, équilibre (forces non parallèles, solide mobile autour d'un axe), courant et intensité, électrisation, dipôles passifs et actifs, amplificateur opérationnel ;
+  - chimie : mélanges et corps purs, éléments et classification, liaisons, mole, équation-bilan, solutions aqueuses acides et basiques, pH et indicateurs, tests de quelques ions.
+- **Seconde L :** intensité et tension, circuit électrique, mouvement et vitesse, force, poids et masse ; structure de la matière, quantité de matière, solutions acides, basiques et neutres.
+- **Première S :**
+  - physique : travail et puissance, énergie cinétique, énergie potentielle et énergie mécanique, calorimétrie, champ et force électrostatiques, énergie électrique dans un circuit, amplificateur opérationnel (dérivateur, intégrateur), condensateurs, ondes et interférences mécaniques, lentilles ;
+  - chimie : chimie organique (alcanes, alcènes, alcynes, benzène, composés oxygénés), oxydoréduction (couples, classifications qualitative et quantitative, voie humide et voie sèche), électrolyse.
+- **Première L :** chimie organique de base, oxydoréduction, pile Daniell.
+- **Terminale S :**
+  - physique : cinématique, bases de la dynamique, plan incliné, chute verticale, projectile, particule dans un champ électrique, pendule conique, gravitation et satellites, champs magnétiques, loi de Laplace, induction et dipôle RL, dipôle RC, oscillations électriques libres et forcées (S2), interférences lumineuses, effet photoélectrique, niveaux d'énergie, réactions nucléaires ;
+  - chimie : alcools, amines, acides carboxyliques et dérivés, acides α-aminés, cinétique, pH et autoprotolyse, acide fort et base forte, acides et bases faibles avec dosages.
+- **Terminale L :**
+  - ondes et lumière (aspects ondulatoire et corpusculaire) ;
+  - énergie nucléaire ;
+  - production et transport de l'électricité ;
+  - matières plastiques, textiles, savons.
+
+### 12.8 Le BAC de physique-chimie au Sénégal : structure et rédaction [SD]
+
+- **S2, S2A, S4, S5, 2024 (1er groupe) : 5 exercices.**
+  - Chimie : estérification avec cinétique, puis amine (dosage pH-métrique, pKa, décarboxylation d'un acide α-aminé).
+  - Physique : spectrographe de masse, RLC en régime forcé (oscillogrammes, résonance, bande passante), effet photoélectrique et niveaux d'énergie de l'hydrogène.
+  - Le barème n'est pas affiché. La chimie est sur 8 points d'après SN24-TS (11.2).
+- **Rédaction du corrigé S2 2018** (corrigé publié par Sunudaara) :
+  - numéroter comme l'énoncé ;
+  - préciser le système et le référentiel « supposé galiléen » ;
+  - faire le bilan des forces ;
+  - nommer la loi (« D'après le théorème du centre d'inertie… », « D'après l'électroneutralité… », « D'après la conservation de la matière… ») ;
+  - **expression littérale d'abord, puis application numérique, puis unité** ;
+  - garder 3 chiffres significatifs ;
+  - repérer le point d'équivalence par la méthode des tangentes parallèles ;
+  - mesurer une pseudo-période sur plusieurs périodes, pour plus de précision.
+- Corrigés disponibles sur Sunudaara : S2 2014, 2017 et 2018 ; S1 2014, 2016 et 2017. Énoncés de 2006 à 2024, plus S1 2026.
+
+### 12.9 Corrigé de 4e relu [TE4]
+
+Évaluation de l'IA de Saint-Louis, 1 h 30, coefficient 2. Le corrigé contient :
+- un texte à trous et un vrai ou faux sur les mélanges et les changements d'état ;
+- les définitions de mélange homogène et hétérogène (« on distingue ou non les constituants à l'œil nu ») ;
+- un tableau à cocher, des exemples de phénomènes physiques et chimiques, et les états physiques de l'eau.
+
+Les réponses sont courtes et exactes, avec le mot-clé souligné. C'est le niveau de rédaction à viser en 4e.
+
+Sources ajoutées : https://www.sunudaara.com/quatrieme, https://www.sunudaara.com/cours-pc-seconde, https://www.sunudaara.com/cours-pc-premi%C3%A8re, https://www.sunudaara.com/cours-pc-terminale, https://sunudaara.com/bac-senegal-pc, https://sunudaara.com/bac/corrig%C3%A9-bac-pc-1er-groupe-s2-s2a-s4-s5-2018. [TE4] : correction de l'évaluation n°1 de sciences physiques de 4e, 2022-2023, https://topeducationsn.com/wp-content/uploads/2022/11/Correction-Evaluation-PC-N°1-Semestre1-Classe-4eme-2022-2023-1.pdf.
+
+---
+
+## 13. Sources officielles de l'Office du Bac du Sénégal (lues le 27 octobre 2026)
+
+### 13.1 L'épreuve S2-S2A-S4-S5 du BAC 2026 (1er groupe)
+
+- **4 heures. Coefficient 6 en S2 et S2A, coefficient 5 en S4 et S5.**
+- **5 exercices de 4 points :**
+  1. chimie organique : chlorure d'acyle, anhydride, amide, ester ; oxydation ménagée ; estérification (lente, réversible ou limitée, athermique) et rendement ;
+  2. dosage pH-métrique de l'aspirine : courbe pH = f(V_b), point d'équivalence, masse de principe actif, écart relatif, diagramme de prédominance, solution tampon ;
+  3. satellite : mouvement circulaire uniforme, vitesse, période, 3e loi de Kepler, orbite géostationnaire, énergie de transfert d'orbite ;
+  4. circuit RLC série en régime forcé : résonance d'intensité, bande passante, facteur de qualité, surtension ;
+  5. niveaux d'énergie de l'atome d'hydrogène, longueurs d'onde, interférences de Young (interfrange).
+
+### 13.2 Comment le corrigé officiel rédige et note
+
+- **Mécanique, toujours dans le même ordre :** système, référentiel (« géocentrique, galiléen »), bilan des forces, 2e loi de Newton, projection dans la base de Frenet, conclusion (« a_t = 0, donc v est constante : le mouvement est uniforme »).
+- **Expression littérale, puis application numérique, puis unité.** Le résultat est encadré.
+- **Courbe tracée par l'élève :** 0,25 point pour des axes bien gradués, 0,25 pour les points bien placés, 0,25 pour l'allure (avec le saut de pH). Une courbe soignée rapporte des points même avant tout calcul.
+- **Point d'équivalence :** méthode des tangentes parallèles. Le corrigé accepte une lecture approchée (pH_E ≈ 7,1 ou 7,2).
+- **Écart relatif :** E_r = |valeur attendue − valeur trouvée| / valeur attendue × 100, puis une **phrase de conclusion** qui compare à la marge acceptée (« 1 % < 3 % : le résultat est conforme »).
+- **Plusieurs réponses acceptées** : par exemple « les autres réactifs comme PCl5 et PCl3 peuvent être utilisés » à la place de SOCl2. L'IA ne doit pas dire « faux » quand l'élève choisit une autre voie correcte.
+- **Définitions demandées mot pour mot** : période de révolution, conditions d'un satellite géostationnaire (orbite circulaire dans le plan de l'équateur, même sens de rotation que la Terre, période égale à la rotation propre de la Terre), solution tampon, résonance d'intensité.
+
+**Erreur de frappe dans le corrigé officiel (à ne pas reproduire) :** l'accélération normale y est écrite v²/dt. C'est **v²/r**.
+
+### 13.3 Programmes officiels de Terminale (Office du Bac, mis en ligne en janvier 2026)
+
+**Terminales S1 et S2**
+
+- **Physique :**
+  - P1 cinématique ;
+  - P2 bases de la dynamique ;
+  - P3 applications de la dynamique ;
+  - P4 gravitation ;
+  - P5 champs magnétiques ;
+  - P6 particule chargée dans un champ magnétique ;
+  - P7 loi de Laplace ;
+  - P8 induction et dipôle RL ;
+  - P9 dipôle RC ;
+  - P10 oscillations électriques libres et forcées ;
+  - P11 oscillations mécaniques libres ;
+  - P12 interférences lumineuses ;
+  - P13 effet photoélectrique ;
+  - P14 niveaux d'énergie de l'atome ;
+  - P15 réactions nucléaires.
+- **Chimie :**
+  - C1 alcools ;
+  - C2 amines ;
+  - C3 acides carboxyliques et dérivés ;
+  - C4 cinétique ;
+  - C5 pH et indicateurs colorés ;
+  - C6 acide fort et base forte, dosage ;
+  - C7 acides et bases faibles, Ka ;
+  - C8 acide faible et base forte, effet tampon, dosage ;
+  - C9 acides aminés.
+- **Hors programme** (ne pas les utiliser) :
+  - loi de composition des accélérations, hodographes ;
+  - roulement avec glissement ;
+  - loi de Biot et Savart ;
+  - effet Compton ;
+  - mécanique relativiste ;
+  - mécanismes réactionnels en chimie ;
+  - étude systématique de la catalyse.
+
+  Le mouvement circulaire sinusoïdal est réservé à TS1 et TS3. Pour les amides, seul le passage de l'acide à l'amide est au programme.
+
+**Terminale L2** : épreuve de 2 heures, coefficient 2, en 4 parties de 5 points :
+1. définitions ;
+2. phrases à trous, QCM ou questions à réponse courte, phrases à rectifier ;
+3. schémas à compléter ou exercice d'application ;
+4. texte scientifique avec questions.
+
+Au programme : énergie électrique, énergie nucléaire, ondes, lumière, puis en chimie les plastiques, les textiles et les savons.
+- **Pas d'exercice au BAC sur :**
+  - l'induction ;
+  - la réfraction ;
+  - l'effet photoélectrique ;
+  - les chapitres lessives et pollution.
+- **Exercices possibles :**
+  - défaut de masse et énergie libérée ;
+  - période radioactive ;
+  - polymérisation ;
+  - saponification.
+
+### 13.4 Sources
+
+- Corrigé officiel S2-S2A-S4-S5 2026 : https://officedubac.sn/wp-content/uploads/2026/06/Corrige_epreuve_S2_1-ergroupe_2026_stabilise.pdf
+- Programmes de Terminale L2, S1 et S2 : https://officedubac.sn/wp-content/uploads/2026/01/Programme_Sciences-Physiques_Tle_LS.pdf

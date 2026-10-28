@@ -4,11 +4,11 @@ Prototype d'une plateforme de révision « façon Higgsfield » pour les élève
 
 C'est une appli web installable (PWA) : on l'ouvre depuis un lien, on l'ajoute à l'écran d'accueil, et elle marche aussi sans connexion.
 
-## Sanko, la mascotte
+## Lumi, la mascotte
 
-Sanko est un oiseau jaune soleil avec une huppe en goutte d'encre bleue (`sanko.js`). Il vient de **Sankofa**, l'oiseau des symboles adinkra qui se retourne pour reprendre l'œuf laissé derrière lui. Le proverbe akan dit : « Il n'est jamais interdit de revenir chercher ce que tu as oublié. » C'est le principe de la révision des erreurs : Sanko « ramène » à l'élève ce qu'il a oublié.
+Lumi est un oiseau jaune soleil avec une huppe en goutte d'encre bleue (`sanko.js`). Il vient de **Sankofa**, l'oiseau des symboles adinkra qui se retourne pour reprendre l'œuf laissé derrière lui. Le proverbe akan dit : « Il n'est jamais interdit de revenir chercher ce que tu as oublié. » C'est le principe de la révision des erreurs : Lumi « ramène » à l'élève ce qu'il a oublié.
 
-Sanko a six humeurs : content, joie, réfléchit, encourage, dort et fier. Il accueille l'élève, pose la question de départ, donne les coups de pouce, réagit à chaque réponse et célèbre la fin de séance. C'est aussi l'icône de l'appli.
+Lumi a six humeurs : content, joie, réfléchit, encourage, dort et fier. Il accueille l'élève, pose la question de départ, donne les coups de pouce, réagit à chaque réponse et célèbre la fin de séance. C'est aussi l'icône de l'appli.
 
 ## Design
 
@@ -72,7 +72,7 @@ Tu peux aussi passer la clé directement : `ANTHROPIC_API_KEY=ta_cle npm start`.
 
 Puis ouvrir http://localhost:3000.
 
-Le modèle par défaut est `claude-opus-5-5`. Pour un modèle moins cher, il suffit de changer la variable `REVIZO_MODEL`, par exemple `REVIZO_MODEL=claude-haiku-5-5`.
+Le modèle par défaut est `claude-haiku-5-5`, le moins cher. Pour un autre modèle, il suffit de changer la variable `REVIZO_MODEL`, par exemple `REVIZO_MODEL=claude-opus-5-5`.
 
 ## Mettre en ligne
 

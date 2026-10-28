@@ -23,8 +23,8 @@
 ### 1.1 Brevet (BFEM Sénégal, BEPC Côte d'Ivoire, Burkina, Bénin, Togo, Niger, Guinée, DEF Mali)
 
 - **Sénégal (BFEM) :**
-  - Le brouillon indique un coefficient 2 (arrêté n° 018359 du 5 mai 2021, cité par [sencampus](https://www.sencampus.com/dossiers/le-bfem-et-apres/le-bfem-comment-ca-marche)) et une durée de 1 h 30 d'après un corrigé 2025. Un fascicule ancien donne 1 h. **Non vérifié.**
-  - Structure rapportée : « maîtrise des connaissances » (environ 5 pts) et « compétences méthodologiques » (environ 14 pts). Thèmes 2025 cités : anticorps et tectonique ([Scribd](https://www.scribd.com/document/893314653/BFEM-2025-SVT-Corrige-G1-Normale)). **Non vérifié.**
+  - Le brouillon indique un coefficient 2 (arrêté n° 018359 du 5 mai 2021, cité par [sencampus](https://www.sencampus.com/dossiers/le-bfem-et-apres/le-bfem-comment-ca-marche)) et une durée de 1 h 30 d'après un corrigé 2025. Un fascicule ancien donne 1 h. **Confirmé (1 h 30, coef. 2) par le corrigé officiel du BFEM 2021, voir 11.1.**
+  - Structure rapportée : « maîtrise des connaissances » (environ 5 pts) et « compétences méthodologiques » (environ 14 pts). Thèmes 2025 cités : anticorps et tectonique ([Scribd](https://www.scribd.com/document/893314653/BFEM-2025-SVT-Corrige-G1-Normale)). **Structure confirmée par le corrigé officiel 2021 : 5 + 7 + 7 points, plus 1 point de présentation (voir 11.1).**
 - **Bénin (BEPC) :** d'après le brouillon, le corrigé officiel 2025 est organisé autour de trois compétences ([epreuvesetcorriges](https://epreuvesetcorriges.com/categories/benin/examens/bepc/39854-corrige-officiel-epreuve-de-svt-bepc-2025-benin)) :
   - restituer des connaissances ;
   - résoudre un problème à partir de documents ;
@@ -563,3 +563,140 @@ Les points marqués « (cours) » relèvent du cours standard de terminale. Ils 
 - 1 test curl a été refusé par le proxy (403).
 
 Pour faire les vérifications listées ici, il faut relancer avec un nouveau quota de recherches et un accès réseau à ces domaines.
+---
+
+## 11. Ce que montrent les sites de cours sénégalais (BFEM)
+
+Sources lues le 27 octobre 2026 : TopEducationSN, qui publie le **corrigé officiel du BFEM 2021** (scan portant le tampon de la Direction des examens et concours), SamaBFEM et Sunudaara. Les codes renvoient au 11.5.
+
+### 11.1 Structure officielle de l'épreuve de SVT du BFEM (session 2021) [TE-BFEM21]
+
+- **Durée 1 h 30, coefficient 2.** Cela confirme les valeurs signalées « non vérifiées » au 1.1.
+- **Exercice 1, maîtrise des connaissances (5 points) :** 4 QCM à 1 point chacun, puis 1 question à 1 point (identifier une structure : les glomérules des néphrons).
+- **Exercice 2, compétences méthodologiques (7 points) :** immunologie, avec la comparaison entre sérothérapie et vaccination à partir de courbes d'anticorps.
+- **Exercice 3, compétences méthodologiques (7 points) :** géologie, avec l'ordre des couches sédimentaires, le principe de superposition, les couches manquantes et l'histoire géologique.
+- **Présentation et qualité de l'expression : 1 point.**
+
+### 11.2 Comment le corrigé officiel rédige une exploitation de documents [TE-BFEM21]
+
+1. **Décrire l'évolution avec des chiffres :** grandeur, valeur de départ, valeur d'arrivée, unité et moment. Par exemple : la quantité d'anticorps diminue de 0,5 UI/mL à 0 à la 7ᵉ semaine.
+2. **Déduire :** « On en déduit que… ». La conclusion est biologique : le sérum donne une immunité immédiate et brève ; le vaccin, une immunité tardive et durable.
+3. **Comparer pour conclure :** quand l'énoncé demande l'avantage des deux techniques réunies, il faut combiner les deux conclusions (sérovaccination : protection immédiate **et** durable).
+4. **Barème du raisonnement :**
+   - « décrire puis déduire l'avantage » : 2 points par technique ;
+   - avantage combiné : 1,5 point ;
+   - « deux avantages individuels » : 1,5 point (par exemple, moins de cas de la maladie et moins de décès).
+5. **Géologie :**
+   - classer les couches de la plus ancienne à la plus récente ;
+   - **citer le principe** de superposition : une couche est plus ancienne que celle qui la recouvre ;
+   - proposer une hypothèse pour les couches absentes (l'érosion) ;
+   - reconstituer les événements dans l'ordre (sédimentation puis érosion).
+   Chaque étape vaut 1 à 2 points.
+
+### 11.3 Programme de SVT de 3e au Sénégal (d'après les leçons de SamaBFEM) [SB]
+
+- **Fonctions de l'organisme :**
+  - système nerveux ;
+  - vision (œil, accommodation, défauts de la vue) ;
+  - respiration et phénomènes énergétiques ;
+  - fermentation ;
+  - rôle des reins dans l'excrétion urinaire.
+- **Immunologie** (4 leçons, la partie la plus lourde) :
+  - immunité et défense de l'organisme ;
+  - système immunitaire ;
+  - spécificité immunologique ;
+  - aides à l'immunité (sérum, vaccin) ;
+  - VIH/sida.
+- **Géologie :**
+  - tectonique des plaques ;
+  - roches métamorphiques ;
+  - cycle des roches.
+
+Cela concorde avec le BFEM 2021 (reins, immunité, couches sédimentaires) et avec les thèmes 2025 cités au 1.1 (anticorps, tectonique).
+
+### 11.4 Règles pour l'IA de Révizo (BFEM Sénégal)
+
+1. **Pour un document :** toujours décrire avec des valeurs chiffrées et leurs unités, puis écrire « On en déduit que… ». Une conclusion sans relevé de valeurs perd des points.
+2. **Sérum et vaccin :** sérum = anticorps apportés, effet immédiat mais bref ; vaccin = anticorps fabriqués par l'organisme, effet tardif mais durable.
+3. **Géologie :** citer le principe utilisé (superposition, recoupement, continuité) avant de l'appliquer.
+4. **Rappeler que la présentation et l'expression valent 1 point :** des phrases complètes et une copie propre.
+5. Pour un sujet du BFEM sénégalais, ne pas proposer des thèmes hors programme de 3e (génétique, reproduction détaillée) comme s'ils étaient attendus.
+
+### 11.5 Sources et fiabilité
+
+| Code | Source | Ce qu'on en a tiré | Fiabilité |
+|---|---|---|---|
+| TE-BFEM21 | Corrigé de l'épreuve de SVT du BFEM 2021, 1er groupe, publié par TopEducationSN : https://topeducationsn.com/wp-content/uploads/2022/11/Corrige-epreuve-SVT-BFEM-21.pdf | Structure, barème, rédaction attendue | **Élevée** : document officiel scanné (en-tête du ministère, tampon de la Direction des examens) |
+| SB | SamaBFEM, https://www.samabfem.com/subject/svt | Liste des 14 leçons de 3e | Titres seulement |
+| SCR | Fiches de révision BFEM sur Scribd, https://fr.scribd.com/document/876660096/Fiches-de-Revision-BFEM-Toutes-Matieres | Rien de retenu | **Faible** : thèmes de SVT (reproduction, écologie) qui ne correspondent pas aux leçons de 3e ni au BFEM 2021 |
+
+### 11.6 Programme de SVT par classe au Sénégal [SD]
+
+- **4e :**
+  - géologie : volcanisme, roches magmatiques, séismes et structure du globe, ressources naturelles et gestion durable ;
+  - biologie : digestion et absorption, sang (composition, circulation, maladies, pression artérielle), contamination par les micro-organismes ;
+  - reproduction : puberté, de la fécondation à l'accouchement, contraception ;
+  - hérédité : transmission des caractères héréditaires.
+- **3e :** voir 11.3.
+- **Première S :**
+  - la cellule : techniques d'étude, organisation, bactéries et virus, échanges cellulaires, synthèse des protéines, chromosomes et mitose, mouvements cellulaires ;
+  - nutrition : respiration, aliments, digestion, ration alimentaire ;
+  - physiologie : introduction ;
+  - géologie : introduction, roches magmatiques (granite, basalte), sédimentaires et métamorphiques, structure du globe, tectonique, paléogéographie, ensembles et ressources géologiques du Sénégal.
+- **Première L :** la cellule (organisation, bactéries et virus, échanges, protéines, mitose), digestion et absorption, introduction à la géologie, ressources géologiques du Sénégal.
+- Pour la 6e, la 5e et la Seconde, les listes n'étaient pas lisibles.
+
+### 11.7 Le BAC de SVT au Sénégal : sujet S2 2024 [SD]
+
+Ce sujet confirme le modèle du 1.2.
+- **Partie I, maîtrise des connaissances :** un exposé sur le potentiel d'action, avec ses conditions d'obtention, ses caractéristiques, l'interprétation ionique et des schémas.
+- **Partie II, compétences méthodologiques :**
+  - exercice 1 : glycémie, diabète de type 2 et obésité (IMC, adipocytes) ;
+  - exercice 2 : immunologie (souris nude, chambre de Marbrook, plasmocytes), avec une seule consigne et 4 documents.
+- **Communication : 2 points** (plan de l'exposé 1 point, expression 0,5 point, présentation 0,5 point).
+- **Verbes de consigne :** « analyse », « tire une conclusion », « émets une hypothèse », « montre le lien », « établis la relation », « explique ». L'IA doit traiter chaque verbe à part, dans l'ordre.
+
+Sources ajoutées : https://www.sunudaara.com/quatrieme, http://www.sunudaara.com/cours-svt-première, https://sunudaara.com/bac-senegal-svt, https://sunudaara.com/bac/bac-svt-1er-groupe-s2-s2a-s4-s5-2024.
+
+---
+
+## 12. Sources officielles de l'Office du Bac du Sénégal (lues le 27 octobre 2026)
+
+### 12.1 Le corrigé officiel du BAC 2026, S2-S2A-S4-S5 (1er groupe)
+
+**I. Maîtrise des connaissances (5 points) : un exposé**, ici sur la pollinisation et la double fécondation.
+- **Introduction (0,75)** : une phrase de contexte (0,25), le problème posé sous forme de questions (0,25), l'annonce du plan (0,25).
+- **Développement en parties titrées** (I, II) : définition exacte, puis les cas (pollinisation directe et croisée), puis les exemples (« 2 agents » demandés, 0,25 chacun).
+- **Schéma complet et annoté : 1 point.** Un schéma annoté mais incomplet (sans la double fécondation) ne vaut que 0,5.
+- **Conclusion (0,5)** : elle résume et relie les deux parties.
+
+**II. Compétences méthodologiques**
+- **Exercice de génétique (arbre généalogique)** : chaque hypothèse est **retenue ou rejetée avec un individu précis** de l'arbre comme preuve (« le garçon II3 aurait hérité X^M de sa mère I2, qui serait alors malade ; or I2 est saine : l'hypothèse est rejetée »), 0,5 point par hypothèse.
+  - Notation des génotypes : X^a2//X^a2, X^a1//Y.
+  - Le corrigé précise : « accepter la discussion avec échiquier de croisement » et « accepter d'autres raisonnements cohérents et corrects ».
+- **Exercice d'immunologie (4 documents puis une synthèse)** : pour chaque document, toujours **un constat chiffré (0,25), puis une déduction (0,25)**.
+  - Exemple : « Dans le milieu 3 (LB + LT + GRM), on voit une agglutination. » puis « La coopération entre LB et LT a permis l'agglutination. »
+  - La synthèse reprend les déductions pour expliquer le mécanisme.
+- **Communication : 2 points**, soit plan de l'exposé 1, qualité de l'expression 0,5, présentation de la copie 0,5.
+
+**Règles pour l'IA :**
+1. Dans un exposé de SVT, rappeler qu'un **schéma complet et annoté** vaut à lui seul 1 point sur 5.
+2. En exploitation de documents, ne jamais sauter le **constat avec les chiffres** du document : il rapporte autant que la déduction.
+3. En génétique, rejeter ou retenir chaque hypothèse **en citant un individu de l'arbre**.
+
+### 12.2 Programmes officiels de Terminale (Office du Bac, mis en ligne en janvier 2026)
+
+- **Terminale S2 : 122 heures, 6 parties, 13 thèmes, 30 leçons.**
+  1. Relations de l'organisme avec le milieu extérieur (46 h) : système nerveux cérébro-spinal, tissu nerveux, rôle du système nerveux dans le comportement moteur, muscle strié squelettique.
+  2. Activité cardiaque et pression artérielle (10 h).
+  3. Intégrité de l'organisme (26 h) : milieu intérieur, régulation de la glycémie, immunologie.
+  4. Reproduction (22 h) : chez les mammifères et chez les spermaphytes (plantes à fleurs).
+  5. Hérédité (14 h) : génétique, hérédité humaine.
+  6. Biotechnologies (4 h).
+- **Terminale S1** : 19 leçons sur 9 thèmes. Ce sont les mêmes que S2, mais sans la reproduction des plantes ni les biotechnologies d'après le sommaire global. La génétique y comporte les « lois statistiques de la transmission des caractères ».
+- **Terminale L2** : 6 thèmes et 11 leçons. Encéphale et moelle épinière, pression artérielle, glycémie, immunologie (dont le VIH/sida), reproduction des mammifères, hérédité humaine. **Pas de génétique des lois statistiques ni de muscle** en L2 : l'IA ne doit pas les utiliser avec un élève de L2.
+
+### 12.3 Sources
+
+- Corrigé officiel SVT S2 2026 : https://officedubac.sn/wp-content/uploads/2026/07/CORRIGE-SVT-S2.pdf
+- Programmes de Terminale L2, S1 et S2 : https://officedubac.sn/wp-content/uploads/2026/01/Programmes_SVT_Tles_LS.pdf

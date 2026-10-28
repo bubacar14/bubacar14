@@ -111,7 +111,7 @@ Exemple relayé : Côte d'Ivoire 2025, « La fin de l'État, c'est la liberté d
 
 **Consignes rencontrées**
 - Burkina, Côte d'Ivoire, très probablement aussi le Sénégal, le Togo, le Bénin et le Niger : « Dégagez l'intérêt philosophique de ce texte à partir de son étude ordonnée ». En Côte d'Ivoire, la consigne est au tutoiement : « Fais l'étude ordonnée de ce texte et dégage son intérêt philosophique ».
-- Le brouillon indiquait « texte à expliquer et discuter » pour le Sénégal. **[À VÉRIFIER : la consigne exacte du texte au BAC sénégalais. La formule « intérêt philosophique… étude ordonnée » y est, à ma connaissance, aussi utilisée.]**
+- Le brouillon indiquait « texte à expliquer et discuter » pour le Sénégal. **Confirmé pour la série S en 2024 (voir 11.1). Pour la série L et les autres années, à vérifier.**
 - **Pour l'IA :** toujours **reprendre mot pour mot la consigne** fournie par l'élève, au lieu de supposer celle de son pays.
 
 **Méthode pas à pas**
@@ -474,3 +474,112 @@ Elle comporte, dans l'ordre :
 10. **Oral du second groupe** dans les pays autres que le Bénin.
 11. **Énoncés exacts des sujets cités en exemple**, et l'attribution de « La fin de l'État, c'est la liberté » (Spinoza).
 12. **Contenu réel des vidéos citées.** Elles n'ont pas été regardées.
+---
+
+## 11. Ce que montrent les sites de cours sénégalais (BAC)
+
+Sources lues le 27 octobre 2026 sur Sunudaara : le sujet du BAC 2024, les fiches de méthode et la liste des cours.
+
+### 11.1 Format du BAC sénégalais : sujet de 2024, série S, 1er groupe
+
+- **3 sujets au choix**, l'élève en traite un :
+  1. une **question** (dissertation) : « Suffit-il à l'homme de dominer la nature pour s'épanouir ? » ;
+  2. une **affirmation à expliquer et discuter** (dissertation) : « L'art nous permet de mieux percevoir la réalité » ;
+  3. un **texte à expliquer et discuter** (André Comte-Sponville, sur la philosophie et les sciences).
+- Cela **règle le point « à vérifier » du type 3** pour la série S en 2024 : la consigne du texte est « expliquer et discuter ». La formule « intérêt philosophique… étude ordonnée » n'apparaît pas sur ce sujet.
+
+### 11.2 Méthode de dissertation enseignée (fiche de Sunudaara)
+
+- **Avant d'écrire :**
+  - analyser le sujet, sans le réduire à une définition ni en sortir ;
+  - **conceptualiser** les mots-clés, c'est-à-dire les définir en lien avec le sujet ;
+  - poser les questions connexes, qui forment la problématique.
+- **Introduction (la fiche lui attribue 3 points) :**
+  - amorce (un constat) ;
+  - pose du problème, de la question la plus large à la plus précise ;
+  - annonce du plan.
+- **Plan dialectique :**
+  - thèse (2 ou 3 idées argumentées) ;
+  - antithèse (qui part de l'objection de la fin de la thèse) ;
+  - synthèse (qui dépasse ou nuance).
+- **Citations et exemples :** ils illustrent un argument mais ne le remplacent jamais.
+- **Conclusion :** répondre à la problématique, puis ouvrir.
+
+### 11.3 Méthode du commentaire enseignée (fiche de Sunudaara)
+
+- **Au brouillon :** se demander « de quoi parle le texte ? » (thème, problème) et « comment l'auteur procède-t-il ? » (thèse, enchaînement des arguments). Rédiger l'introduction **après** ce travail.
+- **Introduction :** problème, structure du texte et thèse, annonce du plan. Pas de résumé, pas de biographie de l'auteur.
+- **Développement en deux temps :**
+  - une **partie explicative** fidèle : connecteurs, idée principale et idées secondaires, concepts expliqués, sans paraphrase ;
+  - une **partie critique** : la thèse est-elle recevable, quelles sont ses limites ? On s'appuie sur d'autres auteurs, en restant dans le problème du texte.
+- **Conclusion :** rappeler la démarche, dégager l'intérêt philosophique et faire le bilan de sa réflexion.
+
+### 11.4 Notions au programme (liste des cours de Terminale de Sunudaara)
+
+- **Domaine 1, la réflexion philosophique :** origines et spécificité de la philosophie (face aux mythes, aux religions et aux sciences), grandes interrogations (métaphysique), enjeux et finalités.
+- **Domaine 2, la vie sociale :** individu et société, État, travail.
+- **Autres notions :**
+  - liberté ;
+  - conscient et inconscient ;
+  - nature et culture ;
+  - langage et communication ;
+  - l'art et le réel.
+
+Ces deux domaines semblent structurer le programme sénégalais. **[À vérifier avec le programme officiel.]**
+
+Sources : https://sunudaara.com/bac/bac-philo-1er-groupe-s-2024, https://sunudaara.com/bac-senegal-philo, https://www.sunudaara.com/philo/la-dissertation-philosophique-cas-pratique-savoir-faire-0, https://www.sunudaara.com/technique-de-commentaire-philosophique, http://www.sunudaara.com/cours-philo.
+
+---
+
+## 12. Le canevas officiel de correction du BAC 2026 (Office du Bac, lu le 27 octobre 2026)
+
+Document de l'Office du Bac daté du 30 juin 2026, envoyé aux correcteurs pour « harmoniser les évaluations ». Son titre dit « BACCALAUREAT 2016 » par erreur : les sujets sont bien ceux de 2026.
+
+### 12.1 La grille de notation (dissertation et explication de texte)
+
+| Bloc | Points | Ce que le correcteur vérifie |
+|---|---|---|
+| A. Conceptualisation et problématisation | 7 | Dissertation : analyser les termes du sujet, dégager une problématique pertinente, traiter le sujet tel qu'il est posé, lui donner une extension suffisante. Texte : comprendre le texte, dégager l'idée générale, expliciter les idées, rester dans les limites du texte |
+| B. Argumentation | 8 | Idées précises (pas de lieux communs), références bien commentées, réponse construite progressivement, prise en charge des thèses opposées, bilan qui répond à la question. Texte : lien entre idée générale et idées secondaires, attitude critique |
+| C. Communication | 5 | Problème posé clairement en introduction, parties équilibrées, **une idée par alinéa**, mots de liaison, citations et exemples bien utilisés, langue correcte |
+
+Les points A 7, B 8 et C 5 suivent l'ordre où le canevas présente les blocs. L'attribution des points à chaque bloc est **déduite de cet ordre** : le canevas ne la répète pas mot pour mot.
+
+### 12.2 Ce que le correcteur attend pour chaque sujet
+
+Le canevas suit toujours le même schéma :
+1. **Problématique** : une suite de questions qui part de la thèse évidente, la met en doute, puis cherche à dépasser l'opposition.
+2. **Analyse des termes clés**, un par un. Exemple pour « Vaut-il mieux être gouverné par un homme vertueux ou par des lois justes ? » : « vaut-il mieux » (est-il préférable, plus judicieux, plus efficient ?), « être gouverné », « homme vertueux », « lois justes ». Pour « La science doit-elle exclure toute subjectivité ? », le canevas note que **le mot « toute » est crucial** : il radicalise la question.
+3. **Parcours attendu** : une thèse (« phase de validation »), ses limites (« phase critique »), puis un **dépassement**.
+4. **« On appréciera particulièrement »** : l'idée qui fait la différence, par exemple que des citoyens éclairés sont le meilleur contre-pouvoir, ou que l'objectivité scientifique est un travail du savant sur sa propre subjectivité.
+5. **À chaque sujet : « Il ne sera pas toléré une restitution mécanique du cours »** (sur l'État, sur le langage, sur la science…).
+
+Pour le **commentaire de texte**, le canevas donne :
+- la problématique du texte ;
+- sa **structure en mouvements** (« dans un premier mouvement… ; dans un second mouvement… ») ;
+- ce que l'explication doit montrer ;
+- des pistes de **discussion** (limites de la thèse de l'auteur, contre-exemples).
+
+### 12.3 Sujets 2026 (1er groupe)
+
+- **Séries L** :
+  - « Vaut-il mieux être gouverné par un homme vertueux ou par des lois justes ? » ;
+  - « Le langage est-il un instrument de pouvoir ? » ;
+  - un texte de Gusdorf sur la science et la philosophie.
+- **Séries S** :
+  - « La science doit-elle exclure toute subjectivité ? » ;
+  - « La philosophie doit-elle s'affranchir de la culture ? » ;
+  - un texte de Max Weber qui compare l'œuvre d'art et l'œuvre scientifique face au progrès.
+
+Les exemples attendus sont parfois **africains** : le canevas cite le griot dans la société traditionnelle comme exemple du pouvoir de la parole.
+
+### 12.4 Règles pour l'IA de Révizo
+
+1. **Ne jamais réciter le cours.** Partir des mots du sujet, les définir, et montrer en quoi ils posent problème.
+2. **Repérer le mot qui radicalise** (« toute », « seulement », « doit », « vaut-il mieux ») et le faire remarquer à l'élève.
+3. **Thèse, limites, dépassement** : proposer ce parcours, avec une référence commentée par partie, plutôt qu'un catalogue d'auteurs.
+4. **Une idée par alinéa**, des mots de liaison, et une conclusion qui répond vraiment à la question.
+5. Pour un texte, découper en **mouvements** avant d'expliquer, et finir par une discussion.
+6. **Droits :** résumer les canevas, ne pas recopier leurs problématiques mot pour mot dans l'appli.
+
+Source : https://officedubac.sn/wp-content/uploads/2026/06/Canevas-Bac-philo-2026.doc-1.pdf
