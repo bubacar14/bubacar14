@@ -2,18 +2,26 @@
 // Chaque route reçoit le corps JSON et les en-têtes, et renvoie { status, data }.
 import { traiterLire, traiterResoudre } from "./ia.js";
 import crypto from "node:crypto";
-import { comptesActifs, identifier, solde, compte, debiter, rendre, crediter, creerCommande, payerCommande, echouerCommande, etatCommande, noterEvenement, adminStats, adminEleves, adminEleve, adminCrediter, adminMarquerTest, adminPlus, adminReglage, adminDepense, adminAccueil } from "./comptes.js";
+import { comptesActifs, identifier, solde, compte, debiter, rendre, crediter, creerCommande, payerCommande, echouerCommande, etatCommande, noterEvenement, adminStats, adminEleves, adminEleve, adminCrediter, adminMarquerTest, adminPlus, adminReglage, adminDepense, adminAccueil, ajouterSignalement, marquerRobot, adminSignalements, adminSignalementTraite, adminCouts, adminSuspects, adminEcarterSuspects } from "./comptes.js";
 import { paiementActif, modeTest, OFFRES, nouvelleReference, creerSession, etatSession, signatureValide, moyensDePaiement, numeroInternational, lancerTentative } from "./paiement.js";
 
 const PAS_DE_CLE = { status: 400, data: { erreur: "Mets l'appli à jour (Cmd + Maj + R) puis réessaie." } };
 const PANNE = { status: 503, data: { erreur: "Le service est momentanément indisponible. Réessaie dans un instant." } };
 
 
+// Robots (aperçus de liens, vérification des pubs, navigateurs automatisés) : écartés des statistiques.
+const ROBOT = /bot|crawl|spider|slurp|facebookexternalhit|facebot|meta-externalagent|headlesschrome|lighthouse|whatsapp|telegram|preview/i;
+
 async function avecCompte(entetes, travail) {
   if (!comptesActifs) return travail(null);
   const qui = identifier(entetes);
   if (!qui) return PAS_DE_CLE;
   try {
+    if (ROBOT.test(String(entetes["user-agent"] || ""))) {
+      const r = await travail(qui);
+      await marquerRobot(qui).catch(() => {});
+      return r;
+    }
     return await travail(qui);
   } catch (error) {
     console.error(error);
@@ -45,7 +53,9 @@ export function routeCompte(body, entetes) {
 export function routeLire(body, entetes) {
   return avecCompte(entetes, async (qui) => {
     if (qui) await solde(qui);
-    return traiterLire(body);
+    const r = await traiterLire(body);
+    if (qui && r.cout) noterEvenement(qui, "lecture", { cout: r.cout }).catch(() => {});
+    return r;
   });
 }
 
@@ -61,7 +71,7 @@ export function routeResoudre(body, entetes) {
       return { status: resultat.status, data: { ...resultat.data, credits: retour?.credits ?? debit.credits, rendu: Boolean(retour?.ok) } };
     }
     // Pour les statistiques : la matière et le niveau de l'exercice corrigé (sans l'énoncé).
-    noterEvenement(qui, "exercice", { matiere: matiereCourte(resultat.data.matiere), niveau: String(body?.classe || "").slice(0, 30) }).catch(() => {});
+    noterEvenement(qui, "exercice", { matiere: matiereCourte(resultat.data.matiere), niveau: String(body?.classe || "").slice(0, 30), cout: resultat.cout || 0 }).catch(() => {});
     return { status: 200, data: { ...resultat.data, credits: debit.credits, mouvement: debit.mouvement } };
   });
 }
@@ -73,6 +83,17 @@ export function routeSignaler(body, entetes) {
     const mouvement = Number(body?.mouvement);
     if (!Number.isInteger(mouvement)) return { status: 400, data: { erreur: "Requête invalide." } };
     const retour = await rendre(qui, mouvement, "signalement");
+    // L'énoncé et la réponse de l'IA sont gardés pour corriger les guides (rien d'autre sur l'élève).
+    if (typeof body?.enonce === "string" && body.enonce.trim()) {
+      await ajouterSignalement(qui, {
+        mouvement,
+        matiere: matiereCourte(body.matiere),
+        classe: String(body.classe || "").slice(0, 40),
+        pays: String(body.pays || "").slice(0, 4),
+        enonce: body.enonce.slice(0, 4000),
+        reponse: typeof body.reponse === "string" ? body.reponse.slice(0, 3000) : "",
+      }).catch((e) => console.error(e));
+    }
     return { status: 200, data: { rendu: retour.ok, credits: retour.credits } };
   });
 }
@@ -267,6 +288,16 @@ export async function routeAdmin(body, entetes) {
         if (!credits || Math.abs(credits) > 500) return { status: 400, data: { erreur: "Nombre de crédits invalide." } };
         return { status: 200, data: await adminCrediter(String(body.id || "").slice(0, 36), credits) };
       }
+      case "signalements":
+        return { status: 200, data: await adminSignalements(body.traites === true) };
+      case "signalement_traite":
+        return { status: 200, data: (await adminSignalementTraite(Math.trunc(Number(body.id)), body.traite !== false)) || { ok: false } };
+      case "couts":
+        return { status: 200, data: await adminCouts(Math.min(Math.max(Number(body.jours) || 30, 1), 365)) };
+      case "suspects":
+        return { status: 200, data: await adminSuspects() };
+      case "ecarter_suspects":
+        return { status: 200, data: await adminEcarterSuspects() };
       case "accueil":
         return { status: 200, data: await adminAccueil(Math.min(Math.max(Number(body.jours) || 30, 1), 365)) };
       case "plus":

@@ -26,12 +26,17 @@
     reglages: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z",
     retour: "M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5",
     horloge: "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20M12 6v6l4 2",
+    qualite: "M12 9v4M12 17h.01M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z",
+    robot: "M12 8V4H8M4 8h16v12H4zM2 14h2M20 14h2M9 13v2M15 13v2",
     cadeau: "M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z",
     comportement: "M9 3l-2 9h4l-2 9 8-12h-4l2-6z",
     defilement: "M12 3v18M7 16l5 5 5-5",
   };
   const icone = (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${ICONES[n]}"/></svg>`;
-  const VUES = { ensemble: "Vue d'ensemble", campagnes: "Campagnes pub", comportement: "Comportement", eleves: "Élèves", paiements: "Paiements", reglages: "Réglages" };
+  const VUES = { ensemble: "Vue d'ensemble", campagnes: "Campagnes pub", comportement: "Comportement", qualite: "Qualité", eleves: "Élèves", paiements: "Paiements", reglages: "Réglages" };
+  // Conversion des coûts de l'IA (en dollars) : 1 $ compté 600 FCFA (estimation, le taux varie).
+  const FCFA_PAR_DOLLAR = 600;
+  const fcfaDeMicro = (micro) => Math.round((Number(micro || 0) / 1e6) * FCFA_PAR_DOLLAR);
   const JOURS = ["", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
   let jeton = null;
@@ -41,6 +46,7 @@
   let stats = null;
   let plus = null;
   let accueil = [];
+  let couts = null;
   const graphes = [];
 
   function toast(texte) {
@@ -106,7 +112,7 @@
   async function charger() {
     $("#contenu").classList.add("chargement");
     try {
-      [stats, plus, accueil] = await Promise.all([api("stats", { jours }), api("plus", { jours }), api("accueil", { jours }).catch(() => [])]);
+      [stats, plus, accueil, couts] = await Promise.all([api("stats", { jours }), api("plus", { jours }), api("accueil", { jours }).catch(() => []), api("couts", { jours }).catch(() => null)]);
       $("#majHeure").textContent = `Mis à jour à ${new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}`;
       afficher();
     } catch (err) {
@@ -120,7 +126,7 @@
     document.querySelectorAll(".onglet").forEach((b) => b.setAttribute("aria-current", String(b.dataset.vue === vue)));
     graphes.splice(0).forEach((g) => g.destroy());
     if (!stats) return;
-    ({ ensemble: vueEnsemble, campagnes: vueCampagnes, comportement: vueComportement, eleves: vueEleves, paiements: vuePaiements, reglages: vueReglages })[vue]();
+    ({ ensemble: vueEnsemble, campagnes: vueCampagnes, comportement: vueComportement, qualite: vueQualite, eleves: vueEleves, paiements: vuePaiements, reglages: vueReglages })[vue]();
   }
 
   const entete = (titre, avecPeriode = true) => `
@@ -151,14 +157,14 @@
   function vueEnsemble() {
     const t = stats.totaux;
     const e = stats.entonnoir;
-    const coutIa = t.exercices * COUT_EXERCICE;
+    const coutIa = couts?.corrections ? fcfaDeMicro(couts.total) : t.exercices * COUT_EXERCICE;
     $("#contenu").innerHTML = `
       ${entete("Vue d'ensemble")}
       <div class="grille kpis">
         ${kpi("bleu", "visite", "Visiteurs", nombre(t.actifs), `${nombre(t.actifs_aujourdhui)} aujourd'hui`)}
         ${kpi("violet", "nouveau", "Nouveaux élèves", nombre(t.nouveaux), `${nombre(t.eleves)} au total`)}
         ${kpi("orange", "photo", "Exercices corrigés", nombre(t.exercices), `${nombre(t.essais)} essais · ${nombre(t.quiz)} quiz`)}
-        ${kpi("vert", "argent", "Revenus", fcfa(t.revenus), `${nombre(t.payeurs)} payeurs · coût IA ≈ ${fcfa(coutIa)}`)}
+        ${kpi("vert", "argent", "Revenus", fcfa(t.revenus), `${nombre(t.payeurs)} payeurs · coût IA ${couts?.corrections ? "" : "≈ "}${fcfa(coutIa)}`)}
       </div>
       <div class="grille deux">
         <div class="carte">
@@ -433,6 +439,37 @@
     });
   }
 
+  // ---------- Qualité : corrections signalées comme fausses ----------
+
+  async function vueQualite(traites = false) {
+    $("#contenu").innerHTML = `
+      ${entete("Qualité des corrections", false)}
+      <div class="carte">
+        <div class="entete" style="margin-bottom:4px">
+          <h2>Corrections signalées comme fausses</h2>
+          <div class="periode" role="group" aria-label="Filtre"><button data-traites="non" aria-pressed="${!traites}">À traiter</button><button data-traites="oui" aria-pressed="${traites}">Traitées</button></div>
+        </div>
+        <p class="aide">L'élève a touché « Signaler une erreur » : voici l'exercice et ce que l'IA a répondu. Vérifie, corrige le guide de la matière si besoin, puis marque « Traité ». Rien sur l'élève à part sa classe et son pays.</p>
+        <div id="listeSignalements"><p class="vide">Chargement…</p></div>
+      </div>`;
+    document.querySelectorAll("[data-traites]").forEach((b) => b.addEventListener("click", () => vueQualite(b.dataset.traites === "oui")));
+    try {
+      const liste = await api("signalements", { traites });
+      $("#listeSignalements").innerHTML = liste.length ? liste.map((x) => `
+        <article class="signalement">
+          <div class="signalement-tete"><b>${esc(x.matiere || "?")}</b><span class="petit">${esc(x.classe || "–")} · ${esc(PAYS[x.pays] || x.pays || "–")} · ${date(x.quand)}</span></div>
+          <h3>Énoncé</h3><pre>${esc(x.enonce)}</pre>
+          <h3>Réponse de l'IA</h3><pre>${esc(x.reponse || "–")}</pre>
+          <button class="bouton ${x.traite ? "secondaire" : ""}" data-signalement="${x.id}" data-traite="${!x.traite}">${x.traite ? "Remettre à traiter" : "Traité"}</button>
+        </article>`).join("") : `<p class="vide">${traites ? "Aucune correction traitée pour l'instant." : "Aucune correction signalée à traiter. Bonne nouvelle !"}</p>`;
+      document.querySelectorAll("[data-signalement]").forEach((b) => b.addEventListener("click", async () => {
+        try { await api("signalement_traite", { id: Number(b.dataset.signalement), traite: b.dataset.traite === "true" }); vueQualite(traites); } catch (err) { toast(err.message); }
+      }));
+    } catch (err) {
+      $("#listeSignalements").innerHTML = `<p class="vide">${esc(err.message)}</p>`;
+    }
+  }
+
   // ---------- Élèves ----------
 
   async function vueEleves(recherche = "") {
@@ -531,8 +568,30 @@
         ${kpi("vert", "argent", "Revenus", fcfa(t.revenus), "paiements réels confirmés")}
         ${kpi("bleu", "paiements", "Paiements réussis", nombre(t.commandes_payees), `sur ${nombre(t.commandes_commencees)} commencés (${pct(t.commandes_payees, t.commandes_commencees)})`)}
         ${kpi("soleil", "argent", "Crédits vendus", nombre(t.credits_vendus), `panier moyen ${t.commandes_payees ? fcfa(Math.round(t.revenus / t.commandes_payees)) : "–"}`)}
-        ${kpi("orange", "photo", "Coût de l'IA (estimé)", fcfa(t.exercices * COUT_EXERCICE), `${nombre(t.exercices)} exercices × ${COUT_EXERCICE} FCFA`)}
+        ${couts?.corrections
+          ? kpi("orange", "photo", "Coût réel de l'IA", fcfa(fcfaDeMicro(couts.total)), `${nombre(couts.corrections)} corrections · ${fcfa(fcfaDeMicro(couts.cout_corrections / couts.corrections))} chacune`)
+          : kpi("orange", "photo", "Coût de l'IA (estimé)", fcfa(t.exercices * COUT_EXERCICE), `${nombre(t.exercices)} exercices × ${COUT_EXERCICE} FCFA`)}
       </div>
+      ${couts?.corrections ? `
+      <div class="grille moitie">
+        <div class="carte">
+          <h2>Coût réel de l'IA</h2>
+          <p class="aide">Mesuré à chaque appel (tokens × tarif du modèle), converti à environ ${FCFA_PAR_DOLLAR} FCFA le dollar (estimation).</p>
+          <div class="tableau-boite"><table><tbody>
+            <tr><td>Corrections</td><td>${nombre(couts.corrections)}</td><td><b>${fcfa(fcfaDeMicro(couts.cout_corrections))}</b></td></tr>
+            <tr><td>Lectures de photos</td><td>${nombre(couts.lectures)}</td><td><b>${fcfa(fcfaDeMicro(couts.cout_lectures))}</b></td></tr>
+            <tr><td><b>Total</b></td><td></td><td><b>${fcfa(fcfaDeMicro(couts.total))}</b></td></tr>
+            <tr><td>Marge (revenus − IA)</td><td></td><td><b class="${t.revenus >= fcfaDeMicro(couts.total) ? "gain" : "perte"}">${fcfa(t.revenus - fcfaDeMicro(couts.total))}</b></td></tr>
+          </tbody></table></div>
+        </div>
+        <div class="carte">
+          <h2>Coût par matière</h2>
+          <p class="aide">Coût moyen d'une correction selon la matière.</p>
+          <div class="tableau-boite"><table><thead><tr><th>Matière</th><th>Corrections</th><th>Coût moyen</th><th>Total</th></tr></thead><tbody>
+            ${couts.par_matiere.map((m) => `<tr><td>${esc(m.cle)}</td><td>${nombre(m.n)}</td><td>${fcfa(fcfaDeMicro(m.cout / m.n))}</td><td>${fcfa(fcfaDeMicro(m.cout))}</td></tr>`).join("")}
+          </tbody></table></div>
+        </div>
+      </div>` : ""}
       <div class="carte">
         <div class="entete" style="margin-bottom:4px"><h2>Derniers paiements</h2><button class="bouton secondaire" id="exporterPaiements">Exporter (Excel)</button></div>
         <p class="aide">Les 30 derniers, toutes périodes. « Test » : fait avec les clés de test de DexPay, sans argent réel.</p>
@@ -567,6 +626,11 @@
           <div class="offrir"><input class="champ" type="number" id="plafond" min="0" max="100" value="${r.bienvenue_max_par_reseau ?? 30}"><button class="bouton" id="sauverPlafond">Enregistrer</button></div>
         </div>
       </div>
+      <div class="carte" style="margin-bottom:16px">
+        <h2>Robots et visites suspectes</h2>
+        <p class="aide">Les robots connus (aperçus de liens WhatsApp ou Facebook, navigateurs automatiques) sont écartés tout seuls. Ici : les appareils arrivés par groupes de 4 ou plus dans la même minute, sans classe ni aucune action. Ce sont souvent les robots de vérification des pubs.</p>
+        <div id="suspects"><p class="petit">Recherche…</p></div>
+      </div>
       <div class="carte">
         <h2>Exporter les données</h2>
         <p class="aide">Fichiers CSV, à ouvrir dans Excel ou Google Sheets. Aucun prénom ni numéro de téléphone : Révizo ne les garde pas.</p>
@@ -576,6 +640,15 @@
           <button class="bouton secondaire" id="expCampagnes">Campagnes</button>
         </div>
       </div>`;
+    api("suspects").then((liste) => {
+      $("#suspects").innerHTML = liste.length
+        ? `<p><b>${nombre(liste.length)} visites suspectes</b> : ${liste.slice(0, 12).map((x) => `<span class="mono">${esc(x.id)}</span>`).join(", ")}${liste.length > 12 ? "…" : ""}</p>
+           <button class="bouton" id="ecarterSuspects">Écarter ces ${nombre(liste.length)} visites des chiffres</button>`
+        : `<p class="petit">Aucune visite suspecte en ce moment.</p>`;
+      $("#ecarterSuspects")?.addEventListener("click", async () => {
+        try { const r = await api("ecarter_suspects"); toast(`${nombre(r.ecartes)} visites écartées`); charger(); } catch (err) { toast(err.message); }
+      });
+    }).catch((err) => { $("#suspects").innerHTML = `<p class="petit">${esc(err.message)}</p>`; });
     const majCout = () => { $("#coutBonus").textContent = `Coût maximum par nouvel élève : environ ${fcfa(Number($("#bonus").value || 0) * COUT_EXERCICE)} (s'il utilise tout).`; };
     $("#bonus").addEventListener("input", majCout);
     majCout();

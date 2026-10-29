@@ -56,3 +56,10 @@ export const adminPlus = (jours) => rpc("revizo_admin_plus", { p_jours: jours })
 export const adminReglage = (cle, valeur) => rpc("revizo_admin_reglage", { p_cle: cle, p_valeur: valeur });
 export const adminDepense = (source, campagne, depense) => rpc("revizo_admin_depense", { p_source: source, p_campagne: campagne, p_depense: depense });
 export const adminAccueil = (jours) => rpc("revizo_admin_accueil", { p_jours: jours });
+export const ajouterSignalement = (qui, d) => rpc("revizo_signalement_ajouter", { p_cle_hash: qui.cle, p_mouvement: d.mouvement, p_matiere: d.matiere, p_classe: d.classe, p_pays: d.pays, p_enonce: d.enonce, p_reponse: d.reponse });
+export const marquerRobot = (qui) => rpc("revizo_marquer_robot", { p_cle_hash: qui.cle });
+export const adminSignalements = (traites) => rpc("revizo_admin_signalements", { p_traites: traites });
+export const adminSignalementTraite = (id, traite) => rpc("revizo_admin_signalement_traite", { p_id: id, p_traite: traite });
+export const adminCouts = (jours) => rpc("revizo_admin_couts", { p_jours: jours });
+export const adminSuspects = () => rpc("revizo_admin_suspects", {});
+export const adminEcarterSuspects = () => rpc("revizo_admin_ecarter_suspects", {});

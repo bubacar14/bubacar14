@@ -1074,7 +1074,13 @@ async function signalerErreur() {
   if (exo.signale) return;
   exo.signale = true;
   renderCorrection();
-  const r = exo.mouvement ? await appelApi("api/signaler", { mouvement: exo.mouvement }) : { local: true };
+  // L'énoncé et la correction partent avec le signalement, pour améliorer les guides de l'IA (rien sur l'élève).
+  const d = exo.correction || {};
+  const texte = (v) => (typeof v === "string" ? v : Array.isArray(v) ? v.join(" ") : v ? JSON.stringify(v) : "");
+  const resume = [`Réponse : ${texte(d.reponse)}`, ...(d.etapes || []).map((e, i) => `${i + 1}. ${texte(e.titre)} : ${texte(e.calcul || e.explication)}`)].join("\n");
+  const r = exo.mouvement
+    ? await appelApi("api/signaler", { mouvement: exo.mouvement, enonce: exo.texte || d.enonce || "", reponse: resume, matiere: d.matiere || "", classe: state.classe || "", pays: state.country || "" })
+    : { local: true };
   if (r.local) state.credits += 1;
   else if (typeof r.credits === "number") state.credits = r.credits;
   save();

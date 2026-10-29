@@ -174,8 +174,8 @@ async function lire({ image, mediaType }) {
     system: "Tu recopies fidèlement l'énoncé d'un exercice scolaire photographié (cahier, feuille, sujet d'examen d'Afrique de l'Ouest francophone). Ne résous rien. Signale chaque passage où tu hésites sur un caractère ou un symbole.",
     messages: [{ role: "user", content: [{ type: "image", source: { type: "base64", media_type: mediaType, data: image } }, { type: "text", text: "Recopie l'énoncé." }] }],
   });
-  journal("lecture", response);
-  return readJson(response);
+  const cout = journal("lecture", response);
+  return { resultat: readJson(response), cout };
 }
 
 function userContent({ texte, image, mediaType, pays, classe }) {
@@ -192,12 +192,24 @@ function userContent({ texte, image, mediaType, pays, classe }) {
 }
 
 // Une ligne par appel à l'IA : sert à mesurer le coût réel d'un exercice.
+// Tarifs en dollars par million de tokens : entrée, sortie, lecture du cache, écriture du cache (5 min).
+// Haiku 5.5 : tarif des appels de moins de 100 000 tokens (Révizo reste en dessous).
+const TARIFS = {
+  "claude-haiku-5-5": [0.1, 0.5, 0.01, 0.125],
+  "claude-sonnet-5-5": [2, 10, 0.2, 2.5],
+  "claude-opus-5-5": [4, 20, 0.2, 5],
+};
+
+// Une ligne par appel à l'IA dans les journaux, et son coût en millionièmes de dollar (pour l'admin).
 function journal(etape, response) {
   const u = response.usage || {};
+  const [e, s, l, c] = TARIFS[MODEL] || TARIFS["claude-haiku-5-5"];
+  const cout = Math.round((u.input_tokens || 0) * e + (u.output_tokens || 0) * s + (u.cache_read_input_tokens || 0) * l + (u.cache_creation_input_tokens || 0) * c);
   console.log(JSON.stringify({
     etape, modele: response.model, fin: response.stop_reason,
-    entree: u.input_tokens, cache_lu: u.cache_read_input_tokens, cache_ecrit: u.cache_creation_input_tokens, sortie: u.output_tokens,
+    entree: u.input_tokens, cache_lu: u.cache_read_input_tokens, cache_ecrit: u.cache_creation_input_tokens, sortie: u.output_tokens, cout,
   }));
+  return cout;
 }
 
 function readJson(response) {
@@ -232,14 +244,15 @@ async function detecterMatiere(content) {
     system: `Indique la matière scolaire de cet exercice : ${Object.entries(MATIERES).map(([k, v]) => `${k} = ${v}`).join(", ")}, autre = toute autre matière ou pas un exercice.`,
     messages: [{ role: "user", content }],
   });
-  journal("matiere", response);
+  const cout = journal("matiere", response);
   const data = readJson(response);
-  return MATIERES[data.matiere] ? data.matiere : null;
+  return { cle: MATIERES[data.matiere] ? data.matiere : null, cout };
 }
 
 async function resoudre({ texte, image, mediaType, pays, classe, matiere }) {
   const content = userContent({ texte, image, mediaType, pays, classe });
-  const cle = MATIERES[matiere] ? matiere : await detecterMatiere(content);
+  const detection = MATIERES[matiere] ? { cle: matiere, cout: 0 } : await detecterMatiere(content);
+  const cle = detection.cle;
 
   // L'ordre compte pour le cache : consignes et règles communes d'abord (identiques pour
   // tous les exercices), puis le guide de la matière.
@@ -277,11 +290,11 @@ async function resoudre({ texte, image, mediaType, pays, classe, matiere }) {
     system,
     messages: [{ role: "user", content }],
   }).finalMessage();
-  journal("correction", response);
-  return readJson(response);
+  const cout = journal("correction", response) + detection.cout;
+  return { resultat: readJson(response), cout };
 }
 
-// Vérifie la demande de l'appli, appelle l'IA et renvoie { status, data } prêt à envoyer.
+// Vérifie la demande de l'appli, appelle l'IA et renvoie { status, data, cout } (cout en millionièmes de dollar).
 function erreurApi(error) {
   if (error instanceof Anthropic.RateLimitError) {
     return { status: 429, data: { erreur: "Beaucoup d'élèves en même temps. Réessaie dans une minute." } };
@@ -298,8 +311,8 @@ export async function traiterLire(body) {
   if (typeof body?.image !== "string" || !body.image) return { status: 400, data: { erreur: "Envoie une photo." } };
   if (!IMAGE_TYPES.includes(body.mediaType)) return { status: 400, data: { erreur: "Format de photo non pris en charge." } };
   try {
-    const result = await lire({ image: body.image, mediaType: body.mediaType });
-    return { status: result.erreur ? 422 : 200, data: result };
+    const { resultat, cout } = await lire({ image: body.image, mediaType: body.mediaType });
+    return { status: resultat.erreur ? 422 : 200, data: resultat, cout };
   } catch (error) {
     return erreurApi(error);
   }
@@ -311,7 +324,7 @@ export async function traiterResoudre(body) {
   if (!texte && !image) return { status: 400, data: { erreur: "Écris ton exercice ou envoie une photo." } };
   if (image && !IMAGE_TYPES.includes(body.mediaType)) return { status: 400, data: { erreur: "Format de photo non pris en charge." } };
   try {
-    const result = await resoudre({
+    const { resultat, cout } = await resoudre({
       texte,
       image,
       mediaType: body.mediaType,
@@ -319,7 +332,7 @@ export async function traiterResoudre(body) {
       classe: typeof body.classe === "string" ? body.classe.slice(0, 40) : "",
       matiere: typeof body.matiere === "string" ? body.matiere : "",
     });
-    return { status: result.erreur ? 422 : 200, data: result };
+    return { status: resultat.erreur ? 422 : 200, data: resultat, cout };
   } catch (error) {
     return erreurApi(error);
   }
