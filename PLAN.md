@@ -2,6 +2,10 @@
 
 Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 
+## Urgent ⚠️
+
+- ⬜ **Changer la clé API** si ce n'est pas déjà fait : supprimer l'ancienne sur console.anthropic.com (elle a été collée dans une conversation), en créer une nouvelle, la mettre dans `.env` et fixer une limite de dépense.
+
 ## Décisions à prendre ❓
 
 | Sujet | Options | Recommandation |
@@ -118,3 +122,4 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | 29 octobre 2026 | **Microsoft Clarity** (projet z53aabeetb) pour revoir les visites : chargé seulement sur revizo.click, champs, images et prénom masqués. Onglet « Comportement » dans l'admin (chiffres des 3 derniers jours via l'API Data Export, jeton `CLARITY_TOKEN` dans Vercel ; 10 demandes par jour au plus, réponse gardée 3 h). À mentionner dans les CGU |
 | 29 octobre 2026 | Pub Meta élargie à la demande du fondateur : **18-55 ans** (des élèves utilisent le téléphone d'un parent ; Meta refuse toujours les moins de 18 ans) et **8 pays** (SN, CI, ML, BF, GN, BJ, TG, NE), soit environ 27 à 31 millions de personnes. Budget inchangé : 5 $ par jour jusqu'au 30/10 à 19 h (heure du Pacifique). Le nom de l'ensemble reste « Sénégal 18-24 ans » |
 | 29 octobre 2026 | Test A/B de l'accueil **en ligne** (feu vert du fondateur, pendant la pub ; avec Clarity) : B = classe seule, deux choix (photo ou exemple gratuit, sans ouvrir la caméra d'office), prénom facultatif après la première correction. 4 indicateurs par version dans l'admin. Ne juger qu'à partir d'environ 100 élèves par version |
+| Octobre 2026 | Session de création archivée : histoire, calculs et plan de pub résumés dans `docs/historique.md` |

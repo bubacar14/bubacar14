@@ -2,7 +2,7 @@
 
 Révizo est une appli web (PWA) de renforcement scolaire pour les élèves d'Afrique de l'Ouest francophone : Sénégal, Côte d'Ivoire, Mali, Burkina Faso, Guinée, Bénin, Togo et Niger, du primaire au BAC (BFEM, BEPC, DEF). Le fondateur est bubacar14. Il n'est pas développeur : explique simplement, en français, et donne les commandes exactes.
 
-Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de chaque session et tiens-le à jour.
+Le plan, les tâches et les décisions sont dans `PLAN.md`. Lis-le au début de chaque session et tiens-le à jour. L'histoire du projet (tournois d'idées, modèle économique, plan de pub, problèmes déjà rencontrés) est dans `docs/historique.md`.
 
 ## Le produit
 
