@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Révizo Admin</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=JetBrains+Mono:wght@500&display=swap">
+  <style>
+    :root {
+      --fond: #f4f6fb; --carte: #ffffff; --encre: #1b1f3b; --encre-2: #5a6080; --ligne: #e3e7f2;
+      --bic: #2563eb; --bic-doux: #e8efff; --violet: #7c3aed; --violet-doux: #f1eaff; --soleil: #ffc21a; --soleil-doux: #fff6d9;
+      --juste: #12893f; --juste-doux: #e3f6ea; --orange: #ea6a0a; --orange-doux: #fff0e3; --rouge: #e11d48; --rouge-doux: #ffe4ea;
+      --ombre: 0 1px 2px rgba(27, 31, 59, 0.06), 0 8px 24px rgba(37, 99, 235, 0.06);
+      --titre: "Bricolage Grotesque", system-ui, sans-serif; --texte: "Atkinson Hyperlegible", system-ui, sans-serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --fond: #0e1229; --carte: #171c3d; --encre: #f1f3ff; --encre-2: #aab1d6; --ligne: #2a3163;
+        --bic: #7aa2ff; --bic-doux: #1f2a5e; --violet: #b49bff; --violet-doux: #2a2160; --soleil: #ffd04d; --soleil-doux: #3a3216;
+        --juste: #4fd38a; --juste-doux: #143a28; --orange: #ffa25c; --orange-doux: #3d2614; --rouge: #ff6b8a; --rouge-doux: #3d1622;
+        --ombre: 0 1px 0 rgba(0, 0, 0, 0.3);
+      }
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--fond); color: var(--encre); font-family: var(--texte); font-size: 15px; line-height: 1.45; }
+    button, input, select { font: inherit; color: inherit; }
+    h1, h2, h3 { font-family: var(--titre); margin: 0; letter-spacing: -0.01em; }
+    .mono { font-family: var(--mono); font-size: 0.92em; }
+    .petit { color: var(--encre-2); font-size: 13px; }
+    [hidden] { display: none !important; }
+
+    /* Connexion */
+    .connexion { min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px; }
+    .connexion form { width: min(380px, 100%); background: var(--carte); border: 1px solid var(--ligne); border-radius: 24px; padding: 28px; box-shadow: var(--ombre); display: flex; flex-direction: column; gap: 14px; }
+    .connexion img { width: 56px; height: 56px; border-radius: 14px; }
+    .champ { width: 100%; min-height: 48px; padding: 0 14px; border: 1.5px solid var(--ligne); border-radius: 12px; background: var(--fond); }
+    .champ:focus { outline: none; border-color: var(--bic); }
+    .bouton { min-height: 46px; padding: 0 18px; border: 0; border-radius: 12px; background: var(--bic); color: #fff; font-weight: 700; cursor: pointer; }
+    .bouton:disabled { opacity: 0.6; cursor: default; }
+    .bouton.secondaire { background: var(--bic-doux); color: var(--bic); }
+    a.bouton { display: inline-flex; align-items: center; text-decoration: none; }
+    .erreur { color: var(--rouge); font-size: 14px; min-height: 20px; }
+
+    /* Mise en page */
+    .appli { display: grid; grid-template-columns: 240px 1fr; min-height: 100dvh; }
+    .cote { position: sticky; top: 0; height: 100dvh; padding: 22px 16px; border-right: 1px solid var(--ligne); background: var(--carte); display: flex; flex-direction: column; gap: 6px; }
+    .marque { display: flex; align-items: center; gap: 10px; margin: 0 6px 18px; }
+    .marque img { width: 36px; height: 36px; border-radius: 10px; }
+    .marque b { font-family: var(--titre); font-size: 20px; }
+    .marque span { font-size: 12px; color: var(--encre-2); display: block; }
+    .onglet { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: 12px; background: none; color: var(--encre-2); font-weight: 700; text-align: left; cursor: pointer; }
+    .onglet svg { width: 20px; height: 20px; flex: none; }
+    .onglet[aria-current="true"] { background: var(--bic-doux); color: var(--bic); }
+    .cote .bas { margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
+    .contenu { padding: 26px 32px 60px; min-width: 0; }
+    .entete { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+    .entete h1 { font-size: 28px; }
+    .periode { display: inline-flex; padding: 4px; gap: 4px; border-radius: 999px; background: var(--carte); border: 1px solid var(--ligne); }
+    .periode button { min-height: 34px; padding: 0 14px; border: 0; border-radius: 999px; background: none; color: var(--encre-2); font-weight: 700; cursor: pointer; }
+    .periode button[aria-pressed="true"] { background: var(--bic); color: #fff; }
+
+    /* Cartes et chiffres */
+    .grille { display: grid; gap: 16px; }
+    .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 16px; }
+    .carte { background: var(--carte); border: 1px solid var(--ligne); border-radius: 20px; padding: 18px 20px; box-shadow: var(--ombre); min-width: 0; }
+    .kpi { display: flex; flex-direction: column; gap: 4px; position: relative; overflow: hidden; }
+    .kpi .ico { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; margin-bottom: 6px; }
+    .kpi .ico svg { width: 20px; height: 20px; }
+    .kpi b { font-family: var(--titre); font-size: 30px; line-height: 1.1; }
+    .kpi .sous { font-size: 13px; color: var(--encre-2); }
+    .t-bleu .ico { background: var(--bic-doux); color: var(--bic); } .t-violet .ico { background: var(--violet-doux); color: var(--violet); }
+    .t-soleil .ico { background: var(--soleil-doux); color: #b58300; } .t-vert .ico { background: var(--juste-doux); color: var(--juste); }
+    .t-orange .ico { background: var(--orange-doux); color: var(--orange); }
+    @media (prefers-color-scheme: dark) { .t-soleil .ico { color: var(--soleil); } }
+    .carte h2 { font-size: 17px; margin-bottom: 4px; }
+    .carte .aide { font-size: 13px; color: var(--encre-2); margin: 0 0 14px; }
+    .deux { grid-template-columns: 2fr 1fr; margin-bottom: 16px; }
+    .moitie { grid-template-columns: 1fr 1fr; margin-bottom: 16px; }
+    .graphe { position: relative; height: 280px; }
+    .graphe.petit-g { height: 220px; }
+
+    /* Entonnoir */
+    .entonnoir { display: flex; flex-direction: column; gap: 10px; }
+    .marche { display: grid; grid-template-columns: 150px 1fr 70px; align-items: center; gap: 12px; }
+    .marche .barre { height: 26px; border-radius: 8px; background: var(--fond); overflow: hidden; }
+    .marche .barre span { display: block; height: 100%; border-radius: 8px; background: linear-gradient(90deg, var(--bic), var(--violet)); min-width: 2px; }
+    .marche .val { text-align: right; font-weight: 700; }
+    .marche .val small { display: block; font-weight: 400; color: var(--encre-2); font-size: 12px; }
+
+    /* Tableaux */
+    .tableau-boite { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--encre-2); font-weight: 700; padding: 10px 12px; border-bottom: 1px solid var(--ligne); white-space: nowrap; }
+    td { padding: 11px 12px; border-bottom: 1px solid var(--ligne); white-space: nowrap; }
+    tbody tr:hover { background: var(--fond); }
+    tr.cliquable { cursor: pointer; }
+    .pastille { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .p-payee { background: var(--juste-doux); color: var(--juste); } .p-attente { background: var(--soleil-doux); color: #9a6f00; }
+    .p-echouee { background: var(--rouge-doux); color: var(--rouge); } .p-test { background: var(--violet-doux); color: var(--violet); }
+    @media (prefers-color-scheme: dark) { .p-attente { color: var(--soleil); } }
+    .vide { color: var(--encre-2); text-align: center; padding: 28px; }
+    .recherche { display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+    .recherche .champ { flex: 1; min-width: 200px; }
+
+    /* Lien de pub */
+    .lien-pub { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .lien-pub code { flex: 1; min-width: 0; padding: 10px 12px; border-radius: 10px; background: var(--fond); font-family: var(--mono); font-size: 13px; overflow-wrap: anywhere; }
+
+    /* Fiche élève */
+    .fond-fiche { position: fixed; inset: 0; background: rgba(10, 12, 30, 0.45); display: flex; justify-content: flex-end; z-index: 20; }
+    .fiche { width: min(460px, 100%); height: 100%; overflow-y: auto; background: var(--carte); padding: 24px; display: flex; flex-direction: column; gap: 16px; box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2); }
+    .fiche .tete { display: flex; justify-content: space-between; align-items: center; }
+    .infos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .infos div { background: var(--fond); border-radius: 12px; padding: 10px 12px; }
+    .infos small { display: block; color: var(--encre-2); font-size: 12px; }
+    .liste { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 14px; }
+    .liste li { display: flex; justify-content: space-between; gap: 10px; padding: 8px 10px; border-radius: 10px; background: var(--fond); }
+    .offrir { display: flex; gap: 8px; }
+    .offrir .champ { width: 110px; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--encre); color: var(--carte); padding: 10px 18px; border-radius: 999px; font-weight: 700; z-index: 30; }
+    .chargement { opacity: 0.5; pointer-events: none; transition: opacity 0.2s; }
+    .direct { display: inline-flex; align-items: center; gap: 6px; margin-left: 10px; padding: 4px 12px; border-radius: 999px; background: var(--juste-doux); color: var(--juste); font-family: var(--texte); font-size: 13px; font-weight: 700; vertical-align: middle; }
+    .direct i { width: 8px; height: 8px; border-radius: 50%; background: var(--juste); animation: pouls 1.6s ease-in-out infinite; }
+    @keyframes pouls { 50% { opacity: 0.3; } }
+    @media (prefers-reduced-motion: reduce) { .direct i { animation: none; } }
+    .champ-depense { width: 120px; min-height: 38px; }
+    .gain { color: var(--juste); } .perte { color: var(--orange); }
+
+    /* Téléphone */
+    @media (max-width: 900px) {
+      .appli { grid-template-columns: 1fr; }
+      .cote { position: sticky; z-index: 10; height: auto; flex-direction: row; align-items: center; padding: 10px 12px; border-right: 0; border-bottom: 1px solid var(--ligne); overflow-x: auto; gap: 4px; }
+      .marque { margin: 0 8px 0 0; } .marque span { display: none; }
+      .onglet { width: auto; white-space: nowrap; padding: 0 10px; } .onglet span { display: none; }
+      .onglet[aria-current="true"] span { display: inline; }
+      .cote .bas { margin: 0 0 0 auto; flex-direction: row; }
+      .cote .bas .petit { display: none; }
+      .contenu { padding: 18px 16px 50px; }
+      .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .deux, .moitie { grid-template-columns: 1fr; }
+      .kpi b { font-size: 24px; }
+      .marche { grid-template-columns: 110px 1fr 56px; }
+      .entete h1 { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="connexion" id="ecranConnexion">
+    <form id="formConnexion">
+      <img src="icon-192.png" alt="">
+      <h1>Révizo Admin</h1>
+      <p class="petit">Espace réservé à l'équipe de Révizo.</p>
+      <input class="champ" type="password" id="motDePasse" placeholder="Mot de passe" autocomplete="current-password" required>
+      <button class="bouton" type="submit" id="boutonConnexion">Se connecter</button>
+      <div class="erreur" id="erreurConnexion" role="alert"></div>
+    </form>
+  </div>
+
+  <div class="appli" id="ecranAppli" hidden>
+    <nav class="cote" aria-label="Sections">
+      <div class="marque"><img src="icon-192.png" alt=""><div><b>Révizo</b><span>Tableau de bord</span></div></div>
+      <button class="onglet" data-vue="ensemble"></button>
+      <button class="onglet" data-vue="campagnes"></button>
+      <button class="onglet" data-vue="comportement"></button>
+      <button class="onglet" data-vue="eleves"></button>
+      <button class="onglet" data-vue="paiements"></button>
+      <button class="onglet" data-vue="reglages"></button>
+      <div class="bas">
+        <span class="petit" id="majHeure"></span>
+        <button class="bouton secondaire" id="rafraichir">Actualiser</button>
+        <button class="bouton secondaire" id="deconnexion">Quitter</button>
+      </div>
+    </nav>
+    <main class="contenu" id="contenu"></main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

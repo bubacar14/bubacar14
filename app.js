@@ -366,7 +366,7 @@ function renderHome() {
 
     <section class="hero" aria-labelledby="titreExo">
       <div class="hero-texte">
-        <span class="hero-etiquette">${icone("etincelle")}${premier ? "1er exercice offert" : "Toutes les matières"}</span>
+        <span class="hero-etiquette">${icone("etincelle")}${premier ? (state.credits > 1 ? `${state.credits} exercices offerts` : "1er exercice offert") : "Toutes les matières"}</span>
         <h2 class="hero-titre" id="titreExo">Mon <span class="hero-titre-accent">exercice</span></h2>
         <p>Une photo, et Lumi t'explique la méthode pas à pas.</p>
       </div>
@@ -436,6 +436,26 @@ function renderHome() {
 
 // Le premier écran après l'accueil : rien d'autre que l'exercice. Ni quiz, ni crédits, ni onglets.
 function renderPremierContact() {
+  if (state.versionAccueil === "B") {
+    afficher(`
+      <div class="premier">
+        ${sankoDit("joie", "Montre-moi un exercice : je t'explique la méthode, pas à pas.", 88, "sanko-flotte")}
+        <button class="viseur-premier" id="premierePhoto">
+          <span class="viseur-coins" aria-hidden="true"></span>
+          ${icone("photo")}
+          <span class="viseur-titre">Photographier mon exercice</span>
+          <span class="petit">Ton cahier, une feuille ou un sujet</span>
+        </button>
+        <button class="btn btn-principal btn-large" id="essai">${icone("etincelle")}Essayer un exemple gratuit</button>
+        <p class="petit centre">Gratuit, sans inscription · <button class="lien-discret" id="premierEcrire">écrire l'exercice</button></p>
+        <button class="lien-discret" id="plusTard">Découvrir l'appli d'abord</button>
+      </div>`, "", true);
+    $("#premierePhoto").addEventListener("click", () => $("#photoInput").click());
+    $("#premierEcrire").addEventListener("click", () => { exo = { photo: null, texte: "" }; renderSaisie(); });
+    $("#essai").addEventListener("click", lancerEssai);
+    $("#plusTard").addEventListener("click", () => { state.decouverte = "faite"; save(); render("home"); });
+    return;
+  }
   afficher(`
     <div class="premier">
       ${sankoDit("joie", `${esc(state.pseudo || "Salut")}, montre-moi l'exercice qui te bloque. Je t'explique comment le faire.`, 88, "sanko-flotte")}
@@ -465,6 +485,7 @@ function cleEssai() {
 }
 function lancerEssai() {
   const essai = ESSAIS[cleEssai()];
+  mesurer("essai", { niveau: cleEssai() });
   exo = { photo: null, texte: essai.texte, essai, lecture: { enonce: essai.texte, doutes: [] } };
   renderLecture();
   setTimeout(renderEnonceLu, 1800);
@@ -504,7 +525,7 @@ function planifierRetour() {
 // L'invitation du navigateur à installer l'appli, gardée pour le bon moment : juste après le premier exercice compris.
 let invitationInstall = null;
 window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); invitationInstall = e; });
-window.addEventListener("appinstalled", () => { invitationInstall = null; toast("Révizo est sur ton écran d'accueil !"); });
+window.addEventListener("appinstalled", () => { invitationInstall = null; mesurer("installation"); toast("Révizo est sur ton écran d'accueil !"); });
 
 const appliInstallee = () => window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 const surIphone = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
@@ -546,9 +567,20 @@ function blocVictoire(d) {
     <section class="carte victoire apparait">
       ${sanko("fier", 96, "sanko-saute")}
       <h2 class="victoire-titre">Exercice compris</h2>
-      <p>Bravo ${esc(state.pseudo)}, tu as la méthode. C'est elle qui compte le jour de l'examen.</p>
+      <p>Bravo${state.pseudo ? ` ${esc(state.pseudo)}` : ""}, tu as la méthode. C'est elle qui compte le jour de l'examen.</p>
       ${motDuProf ? `<p class="mot-prof"><span class="etiquette">Le petit mot du prof</span><span class="annotation">${esc(motDuProf)}</span></p>` : ""}
     </section>
+    ${state.pseudo ? "" : `
+    <section class="carte carte-prenom" id="cartePrenom">
+      <h3 class="titre">Comment tu t'appelles ?</h3>
+      <p class="petit">Pour que Lumi t'appelle par ton prénom, et pour défier tes amis. C'est facultatif.</p>
+      ${pays() ? "" : `<div class="puces">${Object.entries(COUNTRIES).map(([k, v]) => `<button class="puce" data-pays-apres="${k}" aria-pressed="false">${esc(v.nom)}</button>`).join("")}</div>`}
+      <input type="text" id="prenomApres" maxlength="20" placeholder="Ton prénom" autocomplete="given-name" enterkeyhint="done">
+      <div class="actions-ligne">
+        <button class="btn btn-principal" id="garderPrenom">Enregistrer</button>
+        <button class="btn btn-discret" id="prenomPlusTard">Plus tard</button>
+      </div>
+    </section>`}
     <section class="carte rendezvous">
       ${sankoDit("content", "Demain, je te ramène cet exercice. Si tu retrouves la méthode tout seul, c'est gagné : tu sais le refaire.", 56)}
       ${calendrierSemaine(true)}
@@ -622,6 +654,14 @@ async function appelApi(route, body) {
   } catch {
     return { erreur: navigator.onLine ? "Le service ne répond pas. Réessaie dans un instant." : "Pas de connexion internet. Réessaie quand le réseau revient." };
   }
+}
+
+// Mesure anonyme pour le tableau de bord (jamais de prénom ni de numéro). Envoyée sans attendre de réponse ;
+// une erreur réseau est ignorée : l'élève ne doit jamais être gêné par une mesure.
+function mesurer(type, details = {}) {
+  try {
+    fetch("api/evenement", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", "X-Revizo-Cle": state.cle }, body: JSON.stringify({ type, details }) }).catch(() => {});
+  } catch { /* hors ligne */ }
 }
 
 function renderSaisie() {
@@ -765,6 +805,7 @@ function expliquerEssai() {
     cocherObjectif("exo");
     save();
     majBarre();
+    mesurer("correction", { type: "essai" });
     ouvrirCorrection(exo.essai.correction);
   }, 2700);
 }
@@ -802,6 +843,7 @@ async function expliquer() {
   }
   if (typeof data.credits === "number") state.credits = data.credits;
   exo.mouvement = data.mouvement;
+  mesurer("correction", { type: "perso" });
   state.exosFaits += 1;
   marquerActif();
   if (cocherObjectif("exo")) setTimeout(() => { son("fin"); confettis(); toast("Objectif du jour atteint !"); }, 400);
@@ -836,7 +878,7 @@ function ouvrirCorrection(data, depuisRevision) {
 // Après le choix de démarrage. Le tout premier bon choix est fêté par Lumi, avec le prénom de l'élève.
 function retourDemarrage(choix) {
   if (choix.juste && exo.decouverte) {
-    return `<div class="retour apparait">${sankoDit("joie", `Bien vu ${esc(state.pseudo)} ! Tu as trouvé tout seul par où commencer.`, 64, "sanko-saute")}<p>${esc(choix.retour)}</p></div>`;
+    return `<div class="retour apparait">${sankoDit("joie", `Bien vu${state.pseudo ? ` ${esc(state.pseudo)}` : ""} ! Tu as trouvé tout seul par où commencer.`, 64, "sanko-saute")}<p>${esc(choix.retour)}</p></div>`;
   }
   return `
     <div class="retour apparait">
@@ -985,6 +1027,22 @@ function renderCorrection() {
       setTimeout(() => { son("fin"); confettis(); $(".victoire")?.scrollIntoView({ block: "center", behavior: "smooth" }); }, 250);
     }
     $("#installer")?.addEventListener("click", () => { $("#installer").remove(); installerAppli(); });
+    view.querySelectorAll("[data-pays-apres]").forEach((b) => b.addEventListener("click", () => {
+      view.querySelectorAll("[data-pays-apres]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      state.country = b.dataset.paysApres;
+      save();
+    }));
+    $("#garderPrenom")?.addEventListener("click", () => {
+      const p = $("#prenomApres").value.trim();
+      if (p.length < 2) { toast("Écris ton prénom, ou touche « Plus tard »."); return; }
+      state.pseudo = p;
+      save();
+      mesurer("prenom", { donne: true });
+      if (state.country) mesurer("bienvenue", { classe: state.classe, pays: state.country, version: state.versionAccueil || "" });
+      $("#cartePrenom").remove();
+      toast(`Enchanté ${p} !`);
+    });
+    $("#prenomPlusTard")?.addEventListener("click", () => { mesurer("prenom", { donne: false }); $("#cartePrenom").remove(); });
     $("#defier").addEventListener("click", () => demarrerQuiz("duel"));
     $("#continuer").addEventListener("click", () => render("home"));
   }
@@ -1137,6 +1195,7 @@ function calendrierSemaine(animer = false) {
 
 function finSeance() {
   const { score, qs, duel, mode, matiere, resultats } = session;
+  mesurer("quiz", { mode: duel ? "duel" : mode, score, total: qs.length, matiere: matiere || "" });
   const nouveauJour = marquerActif();
   const objectifAtteint = cocherObjectif("revision");
   let gelGagne = false;
@@ -1192,6 +1251,7 @@ function finSeance() {
 // ---------- Duel (boucle virale) ----------
 
 function partagerDuel(qs, score) {
+  mesurer("partage", { quoi: "duel" });
   const nom = state.pseudo || "Un ami";
   const url = `${location.origin}${location.pathname}#duel=${qs.map((q) => q.id).join(",")}&s=${score}&n=${encodeURIComponent(nom)}`;
   const text = `J'ai eu ${score}/${qs.length} sur Révizo. À toi de jouer :`;
@@ -1249,6 +1309,7 @@ function renderReviser() {
 // ---------- Recharge (paiement simulé) ----------
 
 function renderRecharge(contexte) {
+  mesurer("recharge", { contexte: contexte || "" });
   const c = pays();
   let choisie = "moyen";
   let operateur = c?.paiement[0] || "";
@@ -1628,8 +1689,20 @@ function renderProfil() {
 // ---------- Bienvenue (premier lancement) ----------
 
 // Trois petites étapes : la classe, le pays, puis le prénom.
+// Fin de l'accueil (versions A et B) : mesure, cadeau de bienvenue, puis le premier contact.
+function terminerBienvenue() {
+  state.bienvenue = true;
+  mesurer("bienvenue", { classe: state.classe, pays: state.country || "", version: state.versionAccueil || "" });
+  annoncerCadeau();
+  // Un nouvel élève passe d'abord par le premier contact : un seul geste, son exercice.
+  if (state.exosFaits === 0 && !state.decouverte) state.decouverte = "en_cours";
+  save();
+  render("home");
+}
+
 function renderBienvenue(etape = 1, choisirPays = false) {
-  const points = `<div class="points-etapes" aria-label="Étape ${etape} sur 3">${[1, 2, 3].map((k) => `<span class="${k <= etape ? "fait" : ""}"></span>`).join("")}</div>`;
+  const total = state.versionAccueil === "B" ? 1 : 3;
+  const points = total === 1 ? "" : `<div class="points-etapes" aria-label="Étape ${etape} sur 3">${[1, 2, 3].map((k) => `<span class="${k <= etape ? "fait" : ""}"></span>`).join("")}</div>`;
   const entete = etape === 1 ? points : `
     <div class="entete-flux">
       <button class="btn btn-discret" id="retour" aria-label="Étape précédente">${icone("retour")}</button>
@@ -1648,7 +1721,14 @@ function renderBienvenue(etape = 1, choisirPays = false) {
       <div class="grille-choix">
         ${CLASSES.map((c) => `<button class="puce" data-classe="${esc(c)}" aria-pressed="${state.classe === c}">${esc(c)}</button>`).join("")}
       </div>`, "", true);
-    lierPuces("classe", (v) => { state.classe = v; save(); son("tap"); suivante(); });
+    lierPuces("classe", (v) => {
+      state.classe = v;
+      save();
+      son("tap");
+      // Version B : une seule étape. Le pays reste celui deviné (modifiable dans le Profil), le prénom viendra après la correction.
+      if (state.versionAccueil === "B") setTimeout(terminerBienvenue, 180);
+      else suivante();
+    });
     return;
   }
 
@@ -1705,12 +1785,8 @@ function renderBienvenue(etape = 1, choisirPays = false) {
   const valider = () => {
     if (!pret()) return;
     state.pseudo = champ.value.trim();
-    state.bienvenue = true;
-    // Un nouvel élève passe d'abord par le premier contact : un seul geste, son exercice.
-    if (state.exosFaits === 0 && !state.decouverte) state.decouverte = "en_cours";
-    save();
     son("tap");
-    render("home");
+    terminerBienvenue();
   };
   maj();
   champ.focus({ preventScroll: true });
@@ -1751,14 +1827,41 @@ async function syncCompte() {
   if (r.paiement) paiement = r.paiement;
   if (typeof r.credits !== "number") return;
   state.credits = r.credits;
+  // Les crédits de bienvenue : annoncés une fois, après l'écran d'accueil.
+  if (r.offerts > 1 && !state.cadeauVu) state.cadeauAnnonce = r.offerts;
   save();
   majBarre();
+  if (state.bienvenue) annoncerCadeau();
+  if (document.querySelector(".hero")) renderHome();
+}
+
+function annoncerCadeau() {
+  if (!state.cadeauAnnonce || state.cadeauVu) return;
+  const n = state.cadeauAnnonce;
+  state.cadeauVu = true;
+  state.cadeauAnnonce = 0;
+  save();
+  setTimeout(() => { son("fin"); confettis(); toast(`Cadeau : ${n} exercices offerts pour commencer !`); }, 600);
 }
 
 refillDaily();
 majBarre();
 syncCompte();
-const demandeInstall = new URLSearchParams(location.search).has("installer");
+// Test A/B de l'accueil : chaque nouvel appareil reçoit au hasard la version A (3 étapes) ou B (classe seule).
+if (!state.versionAccueil && !state.bienvenue) { state.versionAccueil = Math.random() < 0.5 ? "A" : "B"; save(); }
+
+// Visite du jour, avec la source de la pub (utm_source, utm_campaign) lue avant que l'adresse soit nettoyée.
+const parametres = new URLSearchParams(location.search);
+const sourceVisite = (parametres.get("utm_source") || parametres.get("source") || (parametres.has("fbclid") ? "facebook" : "")).toLowerCase().slice(0, 40);
+const campagneVisite = (parametres.get("utm_campaign") || "").slice(0, 60);
+if (sourceVisite && !state.source) { state.source = sourceVisite; state.campagne = campagneVisite; save(); }
+if (state.derniereVisite !== today() || sourceVisite) {
+  state.derniereVisite = today();
+  save();
+  mesurer("visite", { source: sourceVisite || state.source || "", campagne: campagneVisite || state.campagne || "", installee: appliInstallee(), version: state.versionAccueil || "" });
+}
+if (parametres.has("utm_source") || parametres.has("fbclid")) history.replaceState(null, "", location.pathname + location.hash);
+const demandeInstall = parametres.has("installer");
 if (demandeInstall) history.replaceState(null, "", location.pathname);
 const retourPaiement = lireRetourPaiement();
 const duelRecu = lireDuel();

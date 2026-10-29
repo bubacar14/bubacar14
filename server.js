@@ -6,7 +6,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { MODEL } from "./ia.js";
 import { comptesActifs } from "./comptes.js";
-import { routeLire, routeResoudre, routeCompte, routeSignaler, routeAchatDemo, routePayer, routeCommande, routeWebhook, routeMoyens } from "./routes.js";
+import { routeLire, routeResoudre, routeCompte, routeSignaler, routeAchatDemo, routePayer, routeCommande, routeWebhook, routeMoyens, routeEvenement, routeAdmin } from "./routes.js";
 import { PUBLIC } from "./fichiers-publics.js";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
@@ -44,6 +44,8 @@ const ROUTES = {
   "/api/achat-demo": routeAchatDemo,
   "/api/payer": routePayer,
   "/api/moyens": routeMoyens,
+  "/api/evenement": routeEvenement,
+  "/api/admin": routeAdmin,
   "/api/commande": routeCommande,
 };
 
@@ -69,7 +71,8 @@ const MIME = {
 
 
 async function handleStatic(req, res) {
-  const name = decodeURIComponent(new URL(req.url, "http://x").pathname).replace(/^\/+/, "") || "index.html";
+  let name = decodeURIComponent(new URL(req.url, "http://x").pathname).replace(/^\/+/, "") || "index.html";
+  if (name === "admin") name = "admin.html";
   if (!PUBLIC.includes(name)) {
     res.writeHead(404);
     return res.end("Not found");

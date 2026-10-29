@@ -18,6 +18,31 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=Caveat:wght@600&family=JetBrains+Mono:wght@500&display=swap">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    // Microsoft Clarity : revoir les visites pour comprendre où les élèves bloquent. Seulement sur le site en ligne.
+    if (/(^|\.)revizo\.click$|revizo-three\.vercel\.app$/.test(location.hostname)) {
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "z53aabeetb");
+
+      // Les élèves sont souvent mineurs : on masque les champs, les photos d'exercices et tout texte qui contient le prénom.
+      const masquer = (el) => el && el.setAttribute && el.setAttribute("data-clarity-mask", "true");
+      const prenom = () => { try { return (JSON.parse(localStorage.getItem("revizo:v2")) || {}).pseudo || ""; } catch { return ""; } };
+      const proteger = (racine) => {
+        if (!racine.querySelectorAll) return;
+        racine.querySelectorAll("input, textarea, img").forEach(masquer);
+        const p = prenom();
+        if (p.length < 2) return;
+        const marche = document.createTreeWalker(racine, NodeFilter.SHOW_TEXT);
+        while (marche.nextNode()) if (marche.currentNode.nodeValue.includes(p)) masquer(marche.currentNode.parentElement);
+      };
+      new MutationObserver((changes) => changes.forEach((c) => c.addedNodes.forEach((n) => proteger(n.nodeType === 1 ? n : n.parentElement || document.body))))
+        .observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+      document.addEventListener("DOMContentLoaded", () => proteger(document.body));
+    }
+  </script>
 </head>
 <body>
   <header class="topbar">

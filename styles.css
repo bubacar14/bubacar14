@@ -875,3 +875,7 @@ body.immersif main { min-height: calc(100dvh - 64px); }
 .attente-paiement h1 { text-align: center; }
 .attente-paiement p { max-width: 34ch; }
 .attente-paiement .btn { width: min(320px, 100%); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+
+/* Prénom facultatif après la première correction (accueil version B). */
+.carte-prenom { display: flex; flex-direction: column; gap: var(--espace-2); }
+.carte-prenom .actions-ligne { align-items: center; }

@@ -3,6 +3,15 @@
   "buildCommand": "node build.mjs",
   "outputDirectory": "public",
   "functions": {
-    "api/*.js": { "maxDuration": 300, "includeFiles": "guides/**" }
-  }
+    "api/*.js": {
+      "maxDuration": 300,
+      "includeFiles": "guides/**"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    }
+  ]
 }

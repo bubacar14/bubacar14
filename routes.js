@@ -1,8 +1,9 @@
 // Les routes de l'API, communes au serveur local (server.js) et à Vercel (api/).
 // Chaque route reçoit le corps JSON et les en-têtes, et renvoie { status, data }.
 import { traiterLire, traiterResoudre } from "./ia.js";
-import { comptesActifs, identifier, solde, debiter, rendre, crediter, creerCommande, payerCommande, echouerCommande, etatCommande } from "./comptes.js";
-import { paiementActif, OFFRES, nouvelleReference, creerSession, etatSession, signatureValide, moyensDePaiement, numeroInternational, lancerTentative } from "./paiement.js";
+import crypto from "node:crypto";
+import { comptesActifs, identifier, solde, compte, debiter, rendre, crediter, creerCommande, payerCommande, echouerCommande, etatCommande, noterEvenement, adminStats, adminEleves, adminEleve, adminCrediter, adminMarquerTest, adminPlus, adminReglage, adminDepense, adminAccueil } from "./comptes.js";
+import { paiementActif, modeTest, OFFRES, nouvelleReference, creerSession, etatSession, signatureValide, moyensDePaiement, numeroInternational, lancerTentative } from "./paiement.js";
 
 const PAS_DE_CLE = { status: 400, data: { erreur: "Mets l'appli à jour (Cmd + Maj + R) puis réessaie." } };
 const PANNE = { status: 503, data: { erreur: "Le service est momentanément indisponible. Réessaie dans un instant." } };
@@ -22,13 +23,21 @@ async function avecCompte(entetes, travail) {
   }
 }
 
+// Nom court d'une matière (l'IA écrit parfois « Mathématiques », « Maths », « Physique-Chimie »…).
+const MATIERES_COURTES = [["math", "Maths"], ["géom", "Maths"], ["phys", "PC"], ["chim", "PC"], ["svt", "SVT"], ["vie et de la terre", "SVT"], ["philo", "Philo"], ["fran", "Français"], ["hist", "Histoire-Géo"], ["géographie", "Histoire-Géo"], ["angl", "Anglais"], ["économ", "Économie"], ["compta", "Économie"]];
+function matiereCourte(m = "") {
+  const t = String(m).toLowerCase();
+  return MATIERES_COURTES.find(([k]) => t.includes(k))?.[1] || String(m).split(/[.,;:(·]/)[0].trim().slice(0, 30) || "?";
+}
+
 // Solde de l'élève (l'exercice offert du jour est ajouté ici).
 export function routeCompte(body, entetes) {
   return avecCompte(entetes, async (qui) => {
     // « dexpay » : vrai paiement ; « demo » : paiement simulé (ordinateur du développeur) ; « bientot » : pas encore branché.
     const paiement = paiementActif && comptesActifs ? "dexpay" : process.env.VERCEL ? "bientot" : "demo";
     if (!qui) return { status: 200, data: { local: true, paiement } };
-    return { status: 200, data: { credits: await solde(qui), paiement } };
+    const e = await compte(qui);
+    return { status: 200, data: { credits: e.credits, offerts: e.credits_offerts || 0, paiement } };
   });
 }
 
@@ -51,6 +60,8 @@ export function routeResoudre(body, entetes) {
       const retour = await rendre(qui, debit.mouvement, "remboursement").catch(() => null);
       return { status: resultat.status, data: { ...resultat.data, credits: retour?.credits ?? debit.credits, rendu: Boolean(retour?.ok) } };
     }
+    // Pour les statistiques : la matière et le niveau de l'exercice corrigé (sans l'énoncé).
+    noterEvenement(qui, "exercice", { matiere: matiereCourte(resultat.data.matiere), niveau: String(body?.classe || "").slice(0, 30) }).catch(() => {});
     return { status: 200, data: { ...resultat.data, credits: debit.credits, mouvement: debit.mouvement } };
   });
 }
@@ -104,7 +115,7 @@ export function routePayer(body, entetes) {
     const telephone = numeroInternational(body?.telephone, pays);
     if (!telephone) return { status: 400, data: { erreur: "Vérifie ton numéro de téléphone.", code: "numero_invalide" } };
     const reference = nouvelleReference();
-    await creerCommande(qui, reference, body.offre, offre.credits, offre.prix);
+    await creerCommande(qui, reference, body.offre, offre.credits, offre.prix, modeTest);
     await creerSession(reference, offre);
     try {
       const t = await lancerTentative(reference, { operateur: moyen.code, pays, telephone, nom: String(body?.nom || "Élève Révizo").slice(0, 40) });
@@ -157,5 +168,122 @@ export async function routeWebhook(corpsBrut, entetes) {
   } catch (error) {
     console.error(error);
     return { status: 500, data: { erreur: "Réessaie plus tard." } };
+  }
+}
+
+// ---------- Mesures anonymes ----------
+
+// Les seuls événements et détails acceptés : jamais de prénom ni de numéro de téléphone.
+const EVENEMENTS = {
+  visite: ["source", "campagne", "installee", "version"],
+  bienvenue: ["classe", "pays", "version"],
+  correction: ["type"],
+  prenom: ["donne"],
+  essai: ["niveau"],
+  quiz: ["mode", "score", "total", "matiere"],
+  installation: [],
+  recharge: ["contexte"],
+  partage: ["quoi"],
+};
+
+export function routeEvenement(body, entetes) {
+  const champs = EVENEMENTS[body?.type];
+  if (!champs || !comptesActifs) return Promise.resolve({ status: 200, data: { ok: false } });
+  const details = {};
+  for (const c of champs) {
+    const v = body.details?.[c];
+    if (typeof v === "string") details[c] = v.slice(0, 60);
+    else if (typeof v === "number" || typeof v === "boolean") details[c] = v;
+  }
+  return avecCompte(entetes, async (qui) => {
+    await noterEvenement(qui, body.type, details);
+    return { status: 200, data: { ok: true } };
+  });
+}
+
+// ---------- Espace admin (revizo.click/admin) ----------
+// Mot de passe ADMIN_PASSWORD (réglage Vercel). La connexion renvoie un jeton signé valable 12 heures.
+
+const MOT_DE_PASSE = process.env.ADMIN_PASSWORD;
+const DUREE_JETON = 12 * 60 * 60 * 1000;
+const signer = (texte) => crypto.createHmac("sha256", `revizo-admin:${MOT_DE_PASSE}`).update(texte).digest("hex");
+const egal = (a, b) => a.length === b.length && crypto.timingSafeEqual(Buffer.from(a), Buffer.from(b));
+
+function jetonValide(jeton) {
+  if (!MOT_DE_PASSE || typeof jeton !== "string") return false;
+  const [expire, signature] = jeton.split(".");
+  return Number(expire) > Date.now() && Boolean(signature) && egal(signer(expire), signature);
+}
+
+// Microsoft Clarity (revoir les visites) : chiffres des 3 derniers jours, par source, pour l'onglet « Comportement ».
+// Clarity n'autorise que 10 demandes par jour : la réponse est gardée 3 heures (8 demandes par jour au plus).
+const CLARITY_TOKEN = process.env.CLARITY_TOKEN;
+const CLARITY_GARDE = 3 * 60 * 60 * 1000;
+let clarityMemoire = null;
+
+async function adminClarity() {
+  if (!CLARITY_TOKEN) return { configure: false };
+  if (clarityMemoire && Date.now() - clarityMemoire.quand < CLARITY_GARDE) return clarityMemoire.donnees;
+  try {
+    const res = await fetch("https://www.clarity.ms/export-data/api/v1/project-live-insights?numOfDays=3&dimension1=Source", {
+      headers: { Authorization: `Bearer ${CLARITY_TOKEN}`, "Content-Type": "application/json" },
+      signal: AbortSignal.timeout(20000),
+    });
+    if (!res.ok) {
+      const erreur = res.status === 429 ? "limite" : res.status === 401 || res.status === 403 ? "jeton" : "panne";
+      // Si Clarity refuse (limite du jour atteinte), on garde les derniers chiffres reçus.
+      return clarityMemoire ? { ...clarityMemoire.donnees, avertissement: erreur } : { configure: true, erreur };
+    }
+    const donnees = { configure: true, metriques: await res.json(), recu: new Date().toISOString() };
+    clarityMemoire = { quand: Date.now(), donnees };
+    return donnees;
+  } catch (error) {
+    console.error(error);
+    return clarityMemoire ? { ...clarityMemoire.donnees, avertissement: "panne" } : { configure: true, erreur: "panne" };
+  }
+}
+
+export async function routeAdmin(body, entetes) {
+  if (!MOT_DE_PASSE || !comptesActifs) return { status: 503, data: { erreur: "Espace admin non configuré." } };
+  if (body?.action === "connexion") {
+    const essai = String(body.motDePasse || "");
+    // Une petite attente à chaque essai freine ceux qui tenteraient de deviner le mot de passe.
+    await new Promise((ok) => setTimeout(ok, 600));
+    if (!egal(signer(essai), signer(MOT_DE_PASSE))) return { status: 401, data: { erreur: "Mot de passe incorrect." } };
+    const expire = String(Date.now() + DUREE_JETON);
+    return { status: 200, data: { jeton: `${expire}.${signer(expire)}` } };
+  }
+  if (!jetonValide(String(entetes["authorization"] || "").replace(/^Bearer /, ""))) return { status: 401, data: { erreur: "Reconnecte-toi." } };
+  try {
+    switch (body?.action) {
+      case "stats":
+        return { status: 200, data: await adminStats(Math.min(Math.max(Number(body.jours) || 30, 1), 365)) };
+      case "eleves":
+        return { status: 200, data: await adminEleves(String(body.recherche || "").slice(0, 40), 100) };
+      case "eleve":
+        return { status: 200, data: (await adminEleve(String(body.id || "").slice(0, 36))) || { erreur: "Élève introuvable." } };
+      case "crediter": {
+        const credits = Math.trunc(Number(body.credits));
+        if (!credits || Math.abs(credits) > 500) return { status: 400, data: { erreur: "Nombre de crédits invalide." } };
+        return { status: 200, data: await adminCrediter(String(body.id || "").slice(0, 36), credits) };
+      }
+      case "accueil":
+        return { status: 200, data: await adminAccueil(Math.min(Math.max(Number(body.jours) || 30, 1), 365)) };
+      case "plus":
+        return { status: 200, data: await adminPlus(Math.min(Math.max(Number(body.jours) || 30, 1), 365)) };
+      case "reglage":
+        return { status: 200, data: await adminReglage(String(body.cle || ""), Math.trunc(Number(body.valeur))) };
+      case "depense":
+        return { status: 200, data: await adminDepense(String(body.source || "").slice(0, 40), String(body.campagne || "").slice(0, 60), Math.trunc(Number(body.depense) || 0)) };
+      case "test":
+        return { status: 200, data: await adminMarquerTest(String(body.id || "").slice(0, 36), body.test !== false) };
+      case "clarity":
+        return { status: 200, data: await adminClarity() };
+      default:
+        return { status: 400, data: { erreur: "Action inconnue." } };
+    }
+  } catch (error) {
+    console.error(error);
+    return PANNE;
   }
 }
