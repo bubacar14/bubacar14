@@ -19,6 +19,15 @@
         "process.env.PORT='3001'; import('./server.js')"
       ],
       "port": 3001
+    },
+    {
+      "name": "revizo-statique",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "-e",
+        "const h=require('http'),f=require('fs'),p=require('path'),R='/Users/Apple/Documents/revizo-github',T={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json'};h.createServer((q,s)=>{const n=decodeURIComponent(q.url.split('?')[0]).replace(/^\\/+/,'')||'index.html';f.readFile(p.join(R,n),(e,d)=>{if(e){s.writeHead(404);return s.end()}s.writeHead(200,{'Content-Type':T[p.extname(n)]||'application/octet-stream'});s.end(d)})}).listen(8099,'127.0.0.1')"
+      ],
+      "port": 8099
     }
   ]
 }

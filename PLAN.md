@@ -10,7 +10,7 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | Lumi (mascotte, ex-Sanko) | Nom choisi : Lumi. Reste à valider le dessin et l'histoire | Faire relire l'histoire Sankofa par quelqu'un de culture akan, puis faire dessiner les poses par un illustrateur |
 | Logo | Piste A (retenue), B (le « o » en Sanko) ou C (mot seul) | A |
 | Modèle d'IA | **Mesuré le 27 octobre 2026** sur 8 pages du BAC 2026 : Haiku 5.5 environ 7 FCFA par exercice, Sonnet 5.5 environ 90, Opus 5.5 environ 190 (lecture + correction, 1 $ compté 600 FCFA) | Haiku 5.5 : 8 pages sur 8 justes après correction de la limite de longueur, et seul rentable avec des crédits à 33-50 FCFA. Sonnet s'est trompé en probabilités. À confirmer sur de vraies photos d'élèves (cahiers, écriture à la main) |
-| Prix des crédits | Provisoire : 200 FCFA les 3, 500 FCFA les 10, 2 000 FCFA les 50 | À recalculer une fois le modèle choisi |
+| Prix des crédits | En ligne : 200 FCFA les 3, 500 FCFA les 10, 2 000 FCFA les 50 | Avec Haiku (environ 7 FCFA l'exercice, mesuré), chaque crédit rapporte environ 25 à 60 FCFA avant frais DexPay (non vérifiés). Proposition en attente : 500 / 1 000 / 2 000 FCFA pour 10 / 25 / 60 crédits, sans pack à 200 FCFA |
 | Premier pays | Sénégal ou Côte d'Ivoire | Le pays où tu peux tester avec de vrais élèves et des profs |
 
 ## Phase 1 : prototype ✅
@@ -46,13 +46,13 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 ## Phase 3 : prêt pour de vrais élèves ⬜
 
 - 🔄 Vrais comptes : crédits sur Supabase par appareil (fait le 27 octobre 2026). Reste : numéro de téléphone pour retrouver ses crédits sur un autre téléphone, sauvegarde de la progression
-- 🔄 Vrai paiement mobile money par **DexPay** (compte du fondateur) : code prêt et en ligne le 27 octobre 2026. Mode test validé le 27 octobre 2026 (paiement réussi : +10 crédits une seule fois, webhook signé accepté ; paiement annulé : rien d'ajouté). Reste : régénérer la clé secrète de test (passée par la conversation), CGU et accord parental, puis clés réelles collées par le fondateur dans Vercel. Pays couverts : Sénégal, Côte d'Ivoire, Mali, Burkina Faso, Guinée (pas encore Bénin, Togo, Niger)
+- 🔄 Vrai paiement mobile money par **DexPay** : en ligne en **mode réel** depuis le 27 octobre 2026, directement dans l'appli (opérateur + numéro, sans la page DexPay). Opérateurs réels : Sénégal (Wave, Orange Money, Mixx by Yas), Côte d'Ivoire (Orange Money, MTN), Guinée (Orange Money). Reste : un vrai paiement de 200 FCFA par le fondateur (Orange Money et Wave), remplacer le nom « Capture Vision » par « Révizo » dans DexPay, CGU et accord parental
 - 🔄 Hébergement en ligne : **Vercel** (projet revizo, https://revizo-three.vercel.app, déployé le 27 octobre 2026). Crédits protégés par Supabase, domaine **https://revizo.click** en service, IA active en ligne (Haiku 5.5)
 - ⬜ Banque de 1 500 questions validées par des profs, par pays et par examen
 - ⬜ Mode hors ligne : file d'attente des photos quand le réseau manque
-- ⬜ Mesures d'usage (PostHog) : rétention à J1, J7 et J30, conversion en payant, coût par exercice
+- ✅ Mesures d'usage et tableau de bord admin (revizo.click/admin), le 28 octobre 2026 : visiteurs, nouveaux élèves, exercices, revenus, coût de l'IA estimé, parcours de l'arrivée au paiement, pays, classes, résultats par campagne pub. Reste : rétention à J1, J7, J30
 - ⬜ Mentions légales, CGU, données personnelles (CDP au Sénégal, ARTCI en Côte d'Ivoire), accord parental pour les mineurs
-- ⬜ Création de la société
+- ✅ Société enregistrée (NINEA, RCCM), d'après le fondateur le 27 octobre 2026
 
 ## Phase 4 : test terrain ⬜
 
@@ -63,7 +63,9 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 ## Phase 5 : lancement et croissance ⬜
 
 - ⬜ Faire vivre Lumi sur TikTok, Instagram et WhatsApp (vidéos, mèmes, stickers)
+- ✅ Pub vidéo 20 s en 9:16 : v4 avec la voix « Léo », faite le 28 octobre 2026 (~/Documents/motion-studio, projet revizo-pub, exports RevizoPub-9x16-v4-leo.mp4 et -whatsapp.mp4)
 - ⬜ 10 premiers scripts de vidéos TikTok avec Lumi
+- 🔄 Première pub Meta publiée le 28 octobre 2026 : « Révizo test 3 jours - Sénégal », objectif Trafic, 18-24 ans au Sénégal, 5 $ par jour jusqu'au 31/10 à 2 h (Dakar), environ 15 $ au total (environ 9 000 FCFA, estimation), vidéo de Léo (v4) avec « 10 exercices offerts ». Résultats dans revizo.click/admin, onglet Campagnes pub (Facebook · test3j)
 - ⬜ Campagnes Meta et TikTok calées sur les examens (60 % du budget de mars à juin)
 - ⬜ Ambassadeurs dans les lycées, offre pour les cours de renforcement et les écoles
 - ⬜ 2e et 3e pays
@@ -108,3 +110,11 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | 27 octobre 2026 | **L'IA marche en ligne** sur revizo.click (clé ajoutée par le fondateur, Production seulement). Test réel : lecture d'une photo en 5 s, correction en 17 s, crédit retiré. Défaut repéré : la lecture a classé une page de SVT en physique-chimie (la matière se corrige sur l'écran « Vérifie l'énoncé ») |
 | 27 octobre 2026 | Installation de l'appli sur le téléphone (PWA, sans Play Store) : vraies icônes PNG avec la tête de Lumi, manifeste à jour (fond blanc, bleu Bic, raccourci « Photo »), étapes illustrées sur iPhone et dans les autres navigateurs, ligne « Installer l'appli » dans le Profil, lien à partager revizo.click/?installer. Chrome juge l'appli installable |
 | 27 octobre 2026 | Paiement dans Révizo, sans passer par la page DexPay (intégration directe) : choix de l'opérateur avec son logo, numéro de téléphone, demande sur le téléphone (Orange Money, MTN, Mixx) ou bouton « Ouvrir Wave », attente de la confirmation puis reçu. Testé en mode test de bout en bout. Opérateurs actifs en réel : Sénégal (Wave, Orange Money, Mixx by Yas), Côte d'Ivoire (Orange Money, MTN), Guinée (Orange Money) ; ailleurs, « bientôt » |
+| 28 octobre 2026 | Pub vidéo : voix off « Léo » (Higgsfield, moteur ElevenLabs), « Elodie » refusée. Fin : « Teste-le gratuitement. Sur revizo.click ». Pas de « 1er exercice offert », pas d'accent sur les maths (les pages défilent par matière). Promesses à l'écran à garder vraies dans l'appli : « Sans inscription · Sans Play Store », « BFEM · BEPC · BAC » |
+| 28 octobre 2026 | Espace admin sur revizo.click/admin (mot de passe dans Vercel et dans ~/.revizo/admin-motdepasse.txt) et mesures anonymes dans l'appli, prêtes avant la pub Meta. Liens de pub : `?utm_source=facebook|instagram&utm_medium=pub&utm_campaign=test3j`. Les 106 appareils et les commandes de test d'avant le lancement sont marqués « test » et exclus des chiffres |
+| 28 octobre 2026 | **10 crédits offerts** à chaque élève (valeur de vente 500 FCFA ; coût réel d'IA environ 70 FCFA au maximum par élève, estimation à 7 FCFA l'exercice). Limité à 30 nouveaux appareils par réseau et par jour contre la triche ; réglable dans l'admin. Admin enrichi : en ce moment, retour J1/J7, heures et jours d'utilisation, matières, quiz, dépense et rentabilité par campagne, réglages, exports Excel |
+| 28 octobre 2026 | Pub Meta publiée avec l'accord écrit du fondateur (en vérification chez Meta) : Sénégal, 18-24 ans (Meta refuse ce type de pub aux moins de 18 ans), 5 $ par jour pendant 3 jours, lien revizo.click/?utm_source=facebook&utm_medium=pub&utm_campaign=test3j |
+| 29 octobre 2026 | Analyse après 1 jour de pub : 2,47 $, 6 045 personnes touchées, 89 visites selon Meta, 113 élèves venus de Facebook dont 21 actifs (19 %). Point faible : 71 % des arrivants quittent l'écran de bienvenue (classe, pays, prénom) avant la fin. Proposition en attente : une seule étape (classe, pays deviné), prénom après le premier exercice, mesure de chaque étape |
+| 29 octobre 2026 | **Microsoft Clarity** (projet z53aabeetb) pour revoir les visites : chargé seulement sur revizo.click, champs, images et prénom masqués. Onglet « Comportement » dans l'admin (chiffres des 3 derniers jours via l'API Data Export, jeton `CLARITY_TOKEN` dans Vercel ; 10 demandes par jour au plus, réponse gardée 3 h). À mentionner dans les CGU |
+| 29 octobre 2026 | Pub Meta élargie à la demande du fondateur : **18-55 ans** (des élèves utilisent le téléphone d'un parent ; Meta refuse toujours les moins de 18 ans) et **8 pays** (SN, CI, ML, BF, GN, BJ, TG, NE), soit environ 27 à 31 millions de personnes. Budget inchangé : 5 $ par jour jusqu'au 30/10 à 19 h (heure du Pacifique). Le nom de l'ensemble reste « Sénégal 18-24 ans » |
+| 29 octobre 2026 | Test A/B de l'accueil **en ligne** (feu vert du fondateur, pendant la pub ; avec Clarity) : B = classe seule, deux choix (photo ou exemple gratuit, sans ouvrir la caméra d'office), prénom facultatif après la première correction. 4 indicateurs par version dans l'admin. Ne juger qu'à partir d'environ 100 élèves par version |
