@@ -45,7 +45,7 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 - ⬜ Lire les autres corrigés officiels 2026 : maths S1, PC S1 et L2, SVT S1 et L2, français L, séries techniques (STEG, STIDD)
 - ⬜ Contenu des programmes du primaire (on a les examens CFEE et CEPE, pas les programmes détaillés)
 - ⬜ Vérifier les calculs de maths automatiquement (SymPy) et afficher un badge « Calcul vérifié »
-- ⬜ Enregistrer côté serveur les explications signalées comme fausses, pour corriger les guides
+- ✅ Explications signalées comme fausses enregistrées (énoncé et réponse de l'IA) et listées dans l'onglet Qualité de l'admin (29 octobre 2026)
 
 ## Phase 3 : prêt pour de vrais élèves ⬜
 
@@ -123,3 +123,4 @@ Statuts : ✅ fait · 🔄 en cours · ⬜ à faire · ❓ décision à prendre
 | 29 octobre 2026 | Pub Meta élargie à la demande du fondateur : **18-55 ans** (des élèves utilisent le téléphone d'un parent ; Meta refuse toujours les moins de 18 ans) et **8 pays** (SN, CI, ML, BF, GN, BJ, TG, NE), soit environ 27 à 31 millions de personnes. Budget inchangé : 5 $ par jour jusqu'au 30/10 à 19 h (heure du Pacifique). Le nom de l'ensemble reste « Sénégal 18-24 ans » |
 | 29 octobre 2026 | Test A/B de l'accueil **en ligne** (feu vert du fondateur, pendant la pub ; avec Clarity) : B = classe seule, deux choix (photo ou exemple gratuit, sans ouvrir la caméra d'office), prénom facultatif après la première correction. 4 indicateurs par version dans l'admin. Ne juger qu'à partir d'environ 100 élèves par version |
 | Octobre 2026 | Session de création archivée : histoire, calculs et plan de pub résumés dans `docs/historique.md` |
+| 29 octobre 2026 | Admin : corrections signalées (onglet Qualité), coût réel de l'IA mesuré à chaque appel (essai : environ 6 FCFA pour une correction de maths, proche de l'estimation de 7), robots écartés tout seuls d'après leur navigateur, et bouton pour écarter les visites suspectes (17 repérées le 29/10, à décider par le fondateur) |
