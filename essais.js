@@ -405,3 +405,38 @@ const ESSAIS = {
     }
   }
 };
+
+// Accueil C : l'exercice fait dès l'ouverture, avant toute question. Trois taps, une équation du niveau BFEM/BEPC.
+// Chaque étape : une question, trois choix ; un mauvais choix explique et laisse réessayer.
+const DEMO = {
+  enonce: "Résous l'équation : 2x + 6 = 14",
+  etapes: [
+    {
+      question: "Par où commencer ?",
+      choix: [
+        { texte: "Enlever 6 des deux côtés", juste: true, retour: "Oui ! On isole d'abord le terme avec x." },
+        { texte: "Diviser 14 par 6", juste: false, retour: "Pas tout à fait : le 6 est ajouté à 2x, on ne divise pas par lui." },
+        { texte: "Ajouter 6 des deux côtés", juste: false, retour: "Presque : pour faire disparaître + 6, on enlève 6." },
+      ],
+      ligne: "2x + 6 − 6 = 14 − 6",
+    },
+    {
+      question: "Combien fait 14 − 6 ?",
+      choix: [
+        { texte: "20", juste: false, retour: "Attention : on enlève 6, on ne l'ajoute pas." },
+        { texte: "8", juste: true, retour: "Exact ! Il reste 2x = 8." },
+        { texte: "7", juste: false, retour: "Presque : compte encore, 14 − 6." },
+      ],
+      ligne: "2x = 8",
+    },
+    {
+      question: "Dernière étape : combien vaut x ?",
+      choix: [
+        { texte: "x = 16", juste: false, retour: "2x veut dire 2 fois x : on divise par 2, on ne multiplie pas." },
+        { texte: "x = 6", juste: false, retour: "Cherche le nombre qui, multiplié par 2, donne 8." },
+        { texte: "x = 4", juste: true, retour: "Bravo ! 2 × 4 + 6 = 14 : ça marche." },
+      ],
+      ligne: "x = 8 ÷ 2 = 4",
+    },
+  ],
+};

@@ -205,6 +205,8 @@ const EVENEMENTS = {
   installation: [],
   recharge: ["contexte"],
   partage: ["quoi"],
+  demo: ["etape", "erreurs"],
+  promesse: ["moment", "tenue"],
 };
 
 export function routeEvenement(body, entetes) {

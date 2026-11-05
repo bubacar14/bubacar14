@@ -254,21 +254,24 @@
 
   // ---------- Campagnes pub ----------
 
-  // Test A/B de l'accueil : les 4 indicateurs, séparément pour chaque version.
-  const NOMS_VERSIONS = { A: "A · accueil en 3 étapes", B: "B · classe seule, puis photo ou exemple" };
+  // Test de l'accueil : les indicateurs, séparément pour chaque version (équation et promesse : version C seulement).
+  const NOMS_VERSIONS = { A: "A · accueil en 3 étapes", B: "B · classe seule, puis photo ou exemple", C: "C · équation dès l'ouverture, puis promesse" };
   function carteAccueil() {
     const ligne = (v) => `<tr><td><b>${esc(NOMS_VERSIONS[v.version] || v.version)}</b></td><td>${nombre(v.nouveaux)}</td>
+      <td>${v.version === "C" ? `${pct(v.demo_finie, v.nouveaux)} <span class="petit">(${nombre(v.demo_finie)})</span>` : "—"}</td>
       <td>${pct(v.premiere_correction, v.nouveaux)} <span class="petit">(${nombre(v.premiere_correction)})</span></td>
       <td>${pct(v.exercice_perso, v.nouveaux)} <span class="petit">(${nombre(v.exercice_perso)})</span></td>
       <td>${pct(v.retour_lendemain, v.base_lendemain)} <span class="petit">(${nombre(v.retour_lendemain)}/${nombre(v.base_lendemain)})</span></td>
-      <td>${pct(v.activite_lendemain, v.base_lendemain)} <span class="petit">(${nombre(v.activite_lendemain)}/${nombre(v.base_lendemain)})</span></td></tr>`;
+      <td>${pct(v.activite_lendemain, v.base_lendemain)} <span class="petit">(${nombre(v.activite_lendemain)}/${nombre(v.base_lendemain)})</span></td>
+      <td>${v.version === "C" ? `${pct(v.promesse, v.nouveaux)} <span class="petit">(${nombre(v.promesse)})</span>` : "—"}</td>
+      <td>${v.version === "C" ? `${pct(v.promesse_tenue, v.promesse)} <span class="petit">(${nombre(v.promesse_tenue)}/${nombre(v.promesse)})</span>` : "—"}</td></tr>`;
     return `
       <div class="carte" style="margin-bottom:16px">
-        <h2>Test de l'accueil (A/B)</h2>
-        <p class="aide">Chaque nouvel appareil reçoit au hasard la version A ou B. Pour juger, attends au moins une centaine d'élèves par version : avec quelques élèves, les écarts sont dus au hasard. « Le lendemain » ne compte que les élèves arrivés avant aujourd'hui.</p>
+        <h2>Test de l'accueil (A/B/C)</h2>
+        <p class="aide">Chaque nouvel appareil reçoit au hasard la version A, B ou C (C depuis le 5 novembre 2026). Pour juger, attends au moins une centaine d'élèves par version : avec quelques élèves, les écarts sont dus au hasard. « Le lendemain » ne compte que les élèves arrivés avant aujourd'hui.</p>
         <div class="tableau-boite"><table>
-          <thead><tr><th>Version</th><th>Nouveaux</th><th>1re correction reçue</th><th>Exercice perso envoyé</th><th>Revient le lendemain</th><th>Travaille le lendemain</th></tr></thead>
-          <tbody>${accueil.length ? accueil.map(ligne).join("") : `<tr><td colspan="6" class="vide">Pas encore de nouvel élève dans le test sur cette période.</td></tr>`}</tbody>
+          <thead><tr><th>Version</th><th>Nouveaux</th><th>Équation finie</th><th>1re correction reçue</th><th>Exercice perso envoyé</th><th>Revient le lendemain</th><th>Travaille le lendemain</th><th>Promet de revenir</th><th>Promesse tenue</th></tr></thead>
+          <tbody>${accueil.length ? accueil.map(ligne).join("") : `<tr><td colspan="9" class="vide">Pas encore de nouvel élève dans le test sur cette période.</td></tr>`}</tbody>
         </table></div>
       </div>`;
   }

@@ -436,6 +436,11 @@ function renderHome() {
 
 // Le premier écran après l'accueil : rien d'autre que l'exercice. Ni quiz, ni crédits, ni onglets.
 function renderPremierContact() {
+  if (state.versionAccueil === "C") {
+    afficher(`<div class="premier">${blocSuiteDemo("Montre-moi ton exercice : je t'explique la méthode, pas à pas.")}</div>`, "", true);
+    lierSuiteDemo();
+    return;
+  }
   if (state.versionAccueil === "B") {
     afficher(`
       <div class="premier">
@@ -477,6 +482,126 @@ function renderPremierContact() {
   $("#premierEcrire").addEventListener("click", () => { exo = { photo: null, texte: "" }; renderSaisie(); });
   $("#essai").addEventListener("click", lancerEssai);
   $("#plusTard").addEventListener("click", () => { state.decouverte = "faite"; save(); render("home"); });
+}
+
+// ---------- Accueil C : l'exercice d'abord, les questions après ----------
+
+// Dès l'ouverture, sans rien demander : une équation en 3 taps (DEMO dans essais.js).
+// Un mauvais choix explique et laisse réessayer ; un bon choix écrit la ligne sur le cahier.
+function renderDemo(i = 0, lignes = [], erreurs = 0) {
+  const e = DEMO.etapes[i];
+  if (i === 0) mesurer("demo", { etape: "debut" });
+  afficher(`
+    <div class="demo">
+      <div class="points-etapes" aria-label="Étape ${i + 1} sur 3">${DEMO.etapes.map((_, k) => `<span class="${k <= i ? "fait" : ""}"></span>`).join("")}</div>
+      <div class="cahier-essai cahier-demo">
+        <span>${esc(DEMO.enonce)}</span>
+        ${lignes.map((l) => `<span class="demo-ligne">${esc(l)}</span>`).join("")}
+        <span class="demo-ligne demo-ecrit" id="ligneEcrite"></span>
+      </div>
+      <div id="bulleDemo">${sankoDit(i === 0 ? "joie" : "reflechit", i === 0 ? `Salut, moi c'est Lumi ! On le fait ensemble ?<br><b>${esc(e.question)}</b>` : `<b>${esc(e.question)}</b>`, 64, i === 0 ? "sanko-flotte" : "")}</div>
+      <div class="choix-demarrage">
+        ${e.choix.map((c, k) => `<button class="choix" data-demo="${k}"><span class="choix-lettre">${"ABC"[k]}</span><span class="choix-texte">${esc(c.texte)}</span></button>`).join("")}
+      </div>
+    </div>`, "", true);
+  view.querySelectorAll("[data-demo]").forEach((b) => b.addEventListener("click", () => {
+    const c = e.choix[Number(b.dataset.demo)];
+    if (!c.juste) {
+      erreurs += 1;
+      son("erreur");
+      b.classList.add("erreur");
+      b.disabled = true;
+      b.insertAdjacentHTML("beforeend", `<span class="choix-etat">${icone("erreur")}À revoir</span>`);
+      $("#bulleDemo").innerHTML = sankoDit("encourage", `${esc(c.retour)}<br><b>Essaie encore !</b>`, 64);
+      return;
+    }
+    son("juste");
+    b.classList.add("juste");
+    b.insertAdjacentHTML("beforeend", `<span class="choix-etat">${icone("juste")}Juste</span>`);
+    view.querySelectorAll("[data-demo]").forEach((x) => { x.disabled = true; });
+    $("#bulleDemo").innerHTML = sankoDit("joie", esc(c.retour), 64, "sanko-saute");
+    mesurer("demo", { etape: String(i + 1), erreurs });
+    ecrireLettreALettre((t) => { const l = $("#ligneEcrite"); if (!l) return false; l.textContent = t; }, e.ligne);
+    setTimeout(() => {
+      if (!$("#ligneEcrite")) return; // l'élève est parti ailleurs
+      if (i + 1 < DEMO.etapes.length) renderDemo(i + 1, [...lignes, e.ligne], erreurs);
+      else finDemo([...lignes, e.ligne], erreurs);
+    }, 1900);
+  }));
+}
+
+// L'équation est résolue : c'est la fin de l'accueil. Le cadeau, puis la vraie promesse : son exercice à lui.
+function finDemo(lignes, erreurs) {
+  mesurer("demo", { etape: "fin", erreurs });
+  state.bienvenue = true;
+  mesurer("bienvenue", { classe: state.classe || "", pays: state.country || "", version: "C" });
+  if (state.exosFaits === 0 && !state.decouverte) state.decouverte = "en_cours";
+  marquerActif();
+  save();
+  majBarre();
+  afficher(`
+    <div class="premier">
+      <section class="carte victoire apparait">
+        ${sanko("fier", 88, "sanko-saute")}
+        <h2 class="victoire-titre">x = 4, bravo !</h2>
+        <p>Tu viens de résoudre une équation, étape par étape. C'est comme ça que je t'explique tes exercices.</p>
+        <div class="cahier-essai cahier-demo mini-demo">${lignes.map((l) => `<span class="demo-ligne">${esc(l)}</span>`).join("")}</div>
+      </section>
+      ${blocSuiteDemo("Et ton exercice à toi ? Prends-le en photo.")}
+    </div>`, "", true);
+  lierSuiteDemo();
+  setTimeout(() => { son("fin"); confettis(); }, 250);
+  annoncerCadeau();
+}
+
+// Après l'équation : photographier son exercice, ou un autre exemple choisi par classe (la classe se donne ici, d'un tap).
+function blocSuiteDemo(message) {
+  return `
+    ${sankoDit("joie", message, 64)}
+    <button class="viseur-premier" id="premierePhoto">
+      <span class="viseur-coins" aria-hidden="true"></span>
+      ${icone("photo")}
+      <span class="viseur-titre">Photographier mon exercice</span>
+      <span class="petit">Ton cahier, une feuille ou un sujet · offert</span>
+    </button>
+    <div class="sans-exo">
+      <span class="petit">Pas d'exercice sous la main ? Un autre exemple de ta classe :</span>
+      <div class="grille-choix">${CLASSES.map((c) => `<button class="puce" data-classe="${esc(c)}" aria-pressed="${state.classe === c}">${esc(c)}</button>`).join("")}</div>
+    </div>
+    <p class="petit centre"><button class="lien-discret" id="premierEcrire">Écrire l'exercice</button> · <button class="lien-discret" id="plusTard">Découvrir l'appli</button></p>`;
+}
+function lierSuiteDemo() {
+  $("#premierePhoto").addEventListener("click", () => $("#photoInput").click());
+  $("#premierEcrire").addEventListener("click", () => { exo = { photo: null, texte: "" }; renderSaisie(); });
+  $("#plusTard").addEventListener("click", () => { state.decouverte = "faite"; save(); render("home"); });
+  lierPuces("classe", (v) => {
+    state.classe = v;
+    save();
+    son("tap");
+    mesurer("bienvenue", { classe: v, pays: state.country || "", version: "C" });
+    setTimeout(lancerEssai, 180);
+  });
+}
+
+// La promesse de revenir (accueil C), comme le « Je m'engage » de Duolingo : l'élève choisit son moment.
+const MOMENTS = { matin: "le matin", ecole: "après l'école", soir: "le soir" };
+function blocPromesse() {
+  if (state.promesse?.date === today()) return `<p class="promesse-faite">${icone("juste")}Promis : rendez-vous demain ${esc(MOMENTS[state.promesse.moment] || "")} !</p>`;
+  return `
+    <div class="promesse" id="promesse">
+      <span class="titre">Je reviens demain pour garder ma série</span>
+      <div class="puces">${Object.entries(MOMENTS).map(([k, v]) => `<button class="puce" data-moment="${k}">${esc(v[0].toUpperCase() + v.slice(1))}</button>`).join("")}</div>
+    </div>`;
+}
+function lierPromesse() {
+  view.querySelectorAll("[data-moment]").forEach((b) => b.addEventListener("click", () => {
+    state.promesse = { date: today(), moment: b.dataset.moment };
+    save();
+    son("juste");
+    mesurer("promesse", { moment: b.dataset.moment });
+    $("#promesse").outerHTML = blocPromesse();
+    toast("Promis ! Lumi t'attend demain.");
+  }));
 }
 
 // Exercice d'essai (essais.js) adapté à la classe : corrigé d'avance, donc gratuit et instantané.
@@ -585,6 +710,7 @@ function blocVictoire(d) {
       ${sankoDit("content", "Demain, je te ramène cet exercice. Si tu retrouves la méthode tout seul, c'est gagné : tu sais le refaire.", 56)}
       ${calendrierSemaine(true)}
       <span class="petit centre">${state.streak > 1 ? `${state.streak} jours de série` : "Jour 1 de ta série"}</span>
+      ${state.versionAccueil === "C" ? blocPromesse() : ""}
       ${installationPossible() ? `<button class="btn btn-soleil btn-large" id="installer">${icone("etincelle")}Mettre Lumi sur mon écran d'accueil</button>` : ""}
       <div class="actions-ligne">
         <button class="btn" id="defier">${icone("duel")}Défier un ami</button>
@@ -1027,6 +1153,7 @@ function renderCorrection() {
       setTimeout(() => { son("fin"); confettis(); $(".victoire")?.scrollIntoView({ block: "center", behavior: "smooth" }); }, 250);
     }
     $("#installer")?.addEventListener("click", () => { $("#installer").remove(); installerAppli(); });
+    lierPromesse();
     view.querySelectorAll("[data-pays-apres]").forEach((b) => b.addEventListener("click", () => {
       view.querySelectorAll("[data-pays-apres]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
       state.country = b.dataset.paysApres;
@@ -1707,6 +1834,8 @@ function terminerBienvenue() {
 }
 
 function renderBienvenue(etape = 1, choisirPays = false) {
+  // Version C : pas de question d'abord, l'exercice tout de suite.
+  if (state.versionAccueil === "C") { renderDemo(); return; }
   const total = state.versionAccueil === "B" ? 1 : 3;
   const points = total === 1 ? "" : `<div class="points-etapes" aria-label="Étape ${etape} sur 3">${[1, 2, 3].map((k) => `<span class="${k <= etape ? "fait" : ""}"></span>`).join("")}</div>`;
   const entete = etape === 1 ? points : `
@@ -1853,8 +1982,16 @@ function annoncerCadeau() {
 refillDaily();
 majBarre();
 syncCompte();
-// Test A/B de l'accueil : chaque nouvel appareil reçoit au hasard la version A (3 étapes) ou B (classe seule).
-if (!state.versionAccueil && !state.bienvenue) { state.versionAccueil = Math.random() < 0.5 ? "A" : "B"; save(); }
+// Test de l'accueil : chaque nouvel appareil reçoit au hasard la version A (3 étapes), B (classe seule)
+// ou C (une équation en 3 taps dès l'ouverture, aucune question avant).
+if (!state.versionAccueil && !state.bienvenue) { state.versionAccueil = "ABC"[Math.floor(Math.random() * 3)]; save(); }
+// Promesse de la veille (accueil C) tenue : Lumi le fête, et on le mesure.
+if (state.promesse && state.promesse.date === addDays(today(), -1) && !state.promesse.tenue) {
+  state.promesse.tenue = true;
+  save();
+  mesurer("promesse", { moment: state.promesse.moment, tenue: true });
+  setTimeout(() => { son("fin"); toast("Promesse tenue ! Lumi est content de te revoir."); }, 900);
+}
 
 // Visite du jour, avec la source de la pub (utm_source, utm_campaign) lue avant que l'adresse soit nettoyée.
 const parametres = new URLSearchParams(location.search);
