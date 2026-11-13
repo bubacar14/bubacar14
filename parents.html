@@ -16,6 +16,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700..800&display=swap">
+  <script>
+    // Microsoft Clarity (même projet que l'appli) : revoir ce que font les parents sur cette page. Seulement en ligne.
+    if (/(^|\.)revizo\.click$|revizo-three\.vercel\.app$/.test(location.hostname)) {
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "z53aabeetb");
+      clarity("set", "page", "parents");
+      const campagne = new URLSearchParams(location.search).get("utm_campaign");
+      if (campagne) clarity("set", "campagne", campagne.slice(0, 40));
+    }
+  </script>
   <style>
     :root { --papier: #ffffff; --papier-2: #f5f7ff; --encre: #1b1f3b; --encre-2: #4a5175; --bic: #2563eb; --bic-fonce: #1a47b8; --soleil: #ffc21a; --soleil-fonce: #dc9a00; --soleil-doux: #fff6dc; --juste: #12893f; --juste-doux: #e6f6ec; --ligne: #dfe3f3; }
     * { box-sizing: border-box; }
@@ -32,6 +45,7 @@
     .btn { display: flex; align-items: center; justify-content: center; min-height: 54px; padding: 0 20px; border-radius: 16px; border: 0; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
     .btn-principal { background: var(--bic); color: #fff; box-shadow: 0 4px 0 var(--bic-fonce); }
     .btn-soleil { background: var(--soleil); color: var(--encre); box-shadow: 0 4px 0 var(--soleil-fonce); }
+    .btn-discret { background: none; color: var(--bic); min-height: 44px; }
     .btn:active { transform: translateY(4px); box-shadow: none; }
     ul, ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 8px; }
     .carte { display: flex; flex-direction: column; gap: 12px; border: 2px solid var(--ligne); border-radius: 20px; padding: 20px; }
@@ -50,7 +64,8 @@
     <section class="hero">
       <h1>Un prof de poche pour votre enfant</h1>
       <p>Votre enfant bloque sur un exercice ? Il le prend en photo, et Révizo lui explique la méthode, étape par étape. Du primaire au BAC : BFEM, BEPC, DEF.</p>
-      <a class="btn btn-principal" href="/?utm_source=parents&utm_campaign=essai">Essayer gratuitement</a>
+      <a class="btn btn-soleil" data-envoyer data-mesure="envoyer_haut" href="https://wa.me/" target="_blank" rel="noopener">Envoyer à mon enfant (WhatsApp)</a>
+      <a class="btn btn-principal" data-mesure="essayer_haut" href="/?utm_source=parents&utm_campaign=essai">Essayer moi-même</a>
       <p class="petit">3 exercices offerts, sans inscription. Fonctionne sur tout téléphone, sans Play Store.</p>
     </section>
 
@@ -90,11 +105,28 @@
       </ul>
     </section>
 
-    <a class="btn btn-soleil" id="whatsapp" hidden target="_blank" rel="noopener">Une question ? Écrivez-nous sur WhatsApp</a>
-    <a class="btn btn-principal" href="/?utm_source=parents&utm_campaign=essai">Essayer gratuitement</a>
+    <a class="btn btn-soleil" data-envoyer data-mesure="envoyer_bas" href="https://wa.me/" target="_blank" rel="noopener">Envoyer à mon enfant (WhatsApp)</a>
+    <a class="btn btn-principal" data-mesure="essayer_bas" href="/?utm_source=parents&utm_campaign=essai">Essayer moi-même</a>
+    <a class="btn btn-discret" id="whatsapp" data-mesure="question" hidden target="_blank" rel="noopener">Une question ? Écrivez-nous sur WhatsApp</a>
     <p class="petit">Révizo est une aide aux devoirs. Elle peut se tromper : en cas de doute, voyez avec le professeur.</p>
   </main>
   <script>
+    // Le parent envoie le lien à son enfant : l'enfant arrive dans l'appli avec la source « parents » et la campagne « enfant ».
+    const message = "Regarde Révizo : tu prends ton exercice en photo et on t'explique la méthode, étape par étape. 3 exercices offerts : https://revizo.click/?utm_source=parents&utm_campaign=enfant";
+    document.querySelectorAll("[data-envoyer]").forEach((b) => { b.href = "https://wa.me/?text=" + encodeURIComponent(message); });
+    // Chaque bouton touché est noté dans Clarity (événements personnalisés), sans rien enregistrer de personnel.
+    document.querySelectorAll("[data-mesure]").forEach((b) => b.addEventListener("click", () => {
+      if (window.clarity) window.clarity("event", "parents_" + b.dataset.mesure);
+    }));
+    // Jusqu'où le parent a lu : noté une fois au passage de la moitié, puis du bas de la page.
+    const paliers = { moitie: 0.5, fin: 0.95 };
+    addEventListener("scroll", () => {
+      const lu = (scrollY + innerHeight) / document.documentElement.scrollHeight;
+      for (const [nom, seuil] of Object.entries(paliers)) {
+        if (lu >= seuil) { if (window.clarity) window.clarity("event", "parents_lu_" + nom); delete paliers[nom]; }
+      }
+    }, { passive: true });
+
     // Numéro WhatsApp de Révizo (format international, sans +). Vide : le bouton reste caché.
     const WHATSAPP = "";
     if (WHATSAPP) {
