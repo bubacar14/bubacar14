@@ -6,9 +6,9 @@ Les chiffres attendus ci-dessous sont des estimations, pas des promesses.
 ## Réglages dans Meta
 | Réglage | Valeur |
 |---|---|
-| Nom | Révizo parents 5 jours - Sénégal |
+| Nom | Révizo parents 3 jours - Sénégal |
 | Objectif | Trafic, optimisé pour les vues de page de destination. Dès qu'un numéro WhatsApp existe : objectif Messages WhatsApp, en deuxième ensemble |
-| Budget | 5 $ par jour pendant 5 jours, soit 25 $ au plus (environ 15 000 FCFA) |
+| Budget | 5 $ par jour pendant 3 jours, soit 15 $ au plus (environ 9 000 FCFA), choix du fondateur le 13 novembre |
 | Pays | Sénégal seulement (le paiement y marche, et la fiche pays est la plus solide) |
 | Âge | 28 à 55 ans |
 | Ciblage | Parents (enfants de 6 à 18 ans) si Meta le propose ; sinon centres d'intérêt Éducation, Baccalauréat, Soutien scolaire. Langue : français |
@@ -38,10 +38,10 @@ Si Meta refuse la pub (« caractéristiques personnelles », à cause de « Votr
 | Prix vus | Admin, parcours des nouveaux élèves | au moins 5 |
 | Paiements | Admin, Paiements | au moins 1 |
 
-- **Aucun « prix vu » après 15 $ :** on arrête et on change le message (version 2, ou vidéo Léo avec un texte pour les parents).
-- **Au moins 1 paiement :** on continue 5 jours de plus et on ajoute l'ensemble « Messages WhatsApp ».
+- **Aucun « prix vu » à la fin des 3 jours :** on change le message (version 2, ou vidéo Léo avec un texte pour les parents).
+- **Au moins 1 paiement :** on relance 5 jours et on ajoute l'ensemble « Messages WhatsApp ».
 
 ## Ce qui manque pour lancer
-- L'accord du fondateur pour publier et dépenser (25 $ au plus).
+- L'accord du fondateur pour publier et dépenser (15 $ au plus).
 - Le compte Meta connecté dans le navigateur.
 - Facultatif mais utile : un numéro WhatsApp pour répondre aux parents (bouton de la page parents et objectif Messages).
