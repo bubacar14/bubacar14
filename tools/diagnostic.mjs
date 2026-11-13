@@ -30,13 +30,21 @@ try {
   process.exit(2);
 }
 
+// Le fichier peut contenir une ligne d'explication en plus du mot de passe : on essaie chaque ligne,
+// entière puis après un éventuel « libellé : ».
+const lignes = motDePasse.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+const candidats = [...new Set([...lignes, ...lignes.map((l) => l.split(/:\s+/).pop())])].slice(0, 6);
 let jeton;
-try {
-  ({ jeton } = await appel({ action: "connexion", motDePasse }));
-} catch (e) {
-  console.error(e.status === 401
-    ? "MOT_DE_PASSE_REFUSE : le mot de passe de ~/.revizo/admin-motdepasse.txt n'est plus le bon (ADMIN_PASSWORD dans Vercel)."
-    : `ADMIN_INJOIGNABLE : ${e.message}`);
+for (const essai of candidats) {
+  try {
+    ({ jeton } = await appel({ action: "connexion", motDePasse: essai }));
+    break;
+  } catch (e) {
+    if (e.status !== 401) { console.error(`ADMIN_INJOIGNABLE : ${e.message}`); process.exit(2); }
+  }
+}
+if (!jeton) {
+  console.error("MOT_DE_PASSE_REFUSE : le mot de passe de ~/.revizo/admin-motdepasse.txt n'est plus le bon (ADMIN_PASSWORD dans Vercel).");
   process.exit(2);
 }
 
