@@ -6,13 +6,13 @@ Les chiffres attendus ci-dessous sont des estimations, pas des promesses.
 ## Réglages dans Meta
 | Réglage | Valeur |
 |---|---|
-| Nom | Révizo parents 3 jours - Sénégal |
+| Nom | Révizo parents 3 jours - Sénégal (durée réelle : 2 jours) |
 | Objectif | Trafic, optimisé pour les vues de page de destination. Dès qu'un numéro WhatsApp existe : objectif Messages WhatsApp, en deuxième ensemble |
-| Budget | 5 $ par jour pendant 3 jours, soit 15 $ au plus (environ 9 000 FCFA), choix du fondateur le 13 novembre |
+| Budget | 5 $ par jour pendant 2 jours, soit 10 $ au plus (environ 6 000 FCFA), choix du fondateur le 13 novembre |
 | Pays | Sénégal seulement (le paiement y marche, et la fiche pays est la plus solide) |
-| Âge | 28 à 55 ans |
+| Âge | 28 à 55 ans, sans les âges inconnus de WhatsApp (2,1 à 2,4 millions de personnes) |
 | Ciblage | Parents (enfants de 6 à 18 ans) si Meta le propose ; sinon centres d'intérêt Éducation, Baccalauréat, Soutien scolaire. Langue : français |
-| Emplacements | Manuels : fil et stories Facebook, fil, stories et Reels Instagram, Statut WhatsApp. Sans Audience Network, sans Messenger, sans colonne de droite |
+| Emplacements | Automatiques (Advantage+) : en octobre, Audience Network n'a coûté que 0,04 $ |
 | Lien | `https://revizo.click/parents?utm_source=facebook&utm_medium=pub&utm_campaign=parents1` |
 | Bouton | En savoir plus |
 | Image | `marque/pubs/affiche-parents-4x5.png` (copie sur le Bureau : `revizo-pub-parents.png`) |
