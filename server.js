@@ -67,12 +67,14 @@ const MIME = {
   ".svg": "image/svg+xml",
   ".webmanifest": "application/manifest+json",
   ".png": "image/png",
+  ".jpg": "image/jpeg",
 };
 
 
 async function handleStatic(req, res) {
   let name = decodeURIComponent(new URL(req.url, "http://x").pathname).replace(/^\/+/, "") || "index.html";
   if (name === "admin") name = "admin.html";
+  if (name === "parents") name = "parents.html";
   if (!PUBLIC.includes(name)) {
     res.writeHead(404);
     return res.end("Not found");

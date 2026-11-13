@@ -135,9 +135,11 @@ let state = loadState();
 let session = null; // quiz en cours
 let exo = null; // exercice en cours : { photo, texte, lecture, correction, ... }
 
+// L'exercice offert du jour récompense celui qui revient : il est donné si l'élève est aussi venu la veille
+// (même règle sur le serveur, migration 0013). Un jour manqué, et il faut revenir le lendemain pour le retrouver.
 function refillDaily() {
   if (state.lastRefill !== today()) {
-    state.credits = Math.max(state.credits, CREDIT_OFFERT_PAR_JOUR);
+    if (state.lastRefill === addDays(today(), -1)) state.credits = Math.max(state.credits, CREDIT_OFFERT_PAR_JOUR);
     state.lastRefill = today();
     save();
   }
@@ -363,10 +365,11 @@ function renderHome() {
       <h1 class="display-l">Salut${state.pseudo ? ` ${esc(state.pseudo)}` : ""} !</h1>
       <p class="salut-message">${message}</p>
     </div>
+    ${blocVraiNavigateur()}
 
     <section class="hero" aria-labelledby="titreExo">
       <div class="hero-texte">
-        <span class="hero-etiquette">${icone("etincelle")}${premier ? (state.credits > 1 ? `${state.credits} exercices offerts` : "1er exercice offert") : "Toutes les matières"}</span>
+        <span class="hero-etiquette">${icone("etincelle")}${premier && state.credits > 0 ? (state.credits > 1 ? `${state.credits} exercices offerts` : "1er exercice offert") : "Toutes les matières"}</span>
         <h2 class="hero-titre" id="titreExo">Mon <span class="hero-titre-accent">exercice</span></h2>
         <p>Une photo, et Lumi t'explique la méthode pas à pas.</p>
       </div>
@@ -421,6 +424,7 @@ function renderHome() {
 
   $("#prendrePhoto").addEventListener("click", () => $("#photoInput").click());
   $("#ecrire").addEventListener("click", () => { exo = { photo: null, texte: "" }; renderSaisie(); });
+  lierVraiNavigateur();
   $("#carteObjectif").addEventListener("click", () => {
     const o = objectif();
     if (!o.revision) demarrerQuiz(cartesDues().length ? "revoir" : "quiz");
@@ -548,8 +552,10 @@ function finDemo(lignes, erreurs) {
         <div class="cahier-essai cahier-demo mini-demo">${lignes.map((l) => `<span class="demo-ligne">${esc(l)}</span>`).join("")}</div>
       </section>
       ${blocSuiteDemo("Et ton exercice à toi ? Prends-le en photo.")}
+      ${blocVraiNavigateur()}
     </div>`, "", true);
   lierSuiteDemo();
+  lierVraiNavigateur();
   setTimeout(() => { son("fin"); confettis(); }, 250);
   annoncerCadeau();
 }
@@ -686,6 +692,30 @@ async function installerAppli() {
   $("#compris").addEventListener("click", () => feuille.remove());
 }
 
+// Dans le navigateur intégré de Facebook, Instagram ou TikTok, l'appli ne peut pas s'installer et l'élève ne la
+// retrouve pas. On lui propose de l'ouvrir dans son vrai navigateur (Chrome sur Android, Safari sur iPhone).
+const NAVIGATEUR_INTEGRE = /FBAN|FBAV|FB_IAB|FBIOS|Instagram|musical_ly|TikTok|BytedanceWebview/i.test(navigator.userAgent);
+function blocVraiNavigateur() {
+  if (!NAVIGATEUR_INTEGRE || appliInstallee()) return "";
+  return `
+    <section class="carte carte-navigateur">
+      <p><b>Garde Révizo sous la main.</b> Ici, tu es dans ${/Instagram/i.test(navigator.userAgent) ? "Instagram" : /musical_ly|TikTok|Bytedance/i.test(navigator.userAgent) ? "TikTok" : "Facebook"} : ouvre Révizo dans ${surIphone() ? "Safari" : "Chrome"} pour la retrouver demain.</p>
+      <button class="btn btn-soleil btn-large" id="vraiNavigateur">Ouvrir dans ${surIphone() ? "Safari" : "Chrome"}</button>
+    </section>`;
+}
+function lierVraiNavigateur() {
+  $("#vraiNavigateur")?.addEventListener("click", () => {
+    mesurer("partage", { quoi: "navigateur" });
+    const source = encodeURIComponent(state.source || "");
+    if (surIphone()) {
+      navigator.clipboard?.writeText("https://revizo.click").catch(() => {});
+      toast("Touche ⋯ en haut à droite, puis « Ouvrir dans le navigateur ».");
+    } else {
+      location.href = `intent://revizo.click/?source=${source}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent("https://revizo.click/")};end`;
+    }
+  });
+}
+
 function blocVictoire(d) {
   const motDuProf = d.etapes.map((e) => e.marge).find(Boolean);
   return `
@@ -712,6 +742,7 @@ function blocVictoire(d) {
       <span class="petit centre">${state.streak > 1 ? `${state.streak} jours de série` : "Jour 1 de ta série"}</span>
       ${state.versionAccueil === "C" ? blocPromesse() : ""}
       ${installationPossible() ? `<button class="btn btn-soleil btn-large" id="installer">${icone("etincelle")}Mettre Lumi sur mon écran d'accueil</button>` : ""}
+      ${blocVraiNavigateur()}
       <div class="actions-ligne">
         <button class="btn" id="defier">${icone("duel")}Défier un ami</button>
         <button class="btn btn-principal" id="continuer">Continuer</button>
@@ -1154,6 +1185,7 @@ function renderCorrection() {
     }
     $("#installer")?.addEventListener("click", () => { $("#installer").remove(); installerAppli(); });
     lierPromesse();
+    lierVraiNavigateur();
     view.querySelectorAll("[data-pays-apres]").forEach((b) => b.addEventListener("click", () => {
       view.querySelectorAll("[data-pays-apres]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
       state.country = b.dataset.paysApres;
@@ -1455,7 +1487,7 @@ function renderRecharge(contexte) {
   }
   const titre = contexte === "epuise" ? "Tu n'as plus de crédit" : "Recharge tes crédits";
   const sousTitre = contexte === "epuise"
-    ? `Demain, ${pluriel(CREDIT_OFFERT_PAR_JOUR, "crédit")} t'est offert. Tu peux aussi recharger maintenant.`
+    ? `Reviens demain : ${pluriel(CREDIT_OFFERT_PAR_JOUR, "exercice")} offert chaque jour où tu reviens. Ou recharge maintenant.`
     : `Il te reste ${pluriel(state.credits, "crédit")}. 1 crédit = 1 exercice expliqué.`;
 
   const dessiner = () => {
@@ -1481,13 +1513,13 @@ function renderRecharge(contexte) {
       ${c && paiement === "dexpay" ? `
         <div id="zonePaiement">
         ${!moyens ? `<p class="petit">Je charge les moyens de paiement…</p>`
-          : !moyens.length ? `<p class="rassure">${icone("etincelle")}<span>Le paiement mobile money arrive bientôt ${esc(auPays(state.country))}. En attendant, ton exercice offert revient chaque jour.</span></p>`
+          : !moyens.length ? `<p class="rassure">${icone("etincelle")}<span>Le paiement mobile money arrive bientôt ${esc(auPays(state.country))}. En attendant, 1 exercice t'est offert chaque jour où tu reviens.</span></p>`
           : `
           <span class="champ-label">Payer avec</span>
           <div class="operateurs">
             ${moyens.map((m) => `<button class="operateur operateur-logo" data-moyen="${esc(m.code)}" aria-pressed="${m.code === moyen?.code}">${m.logo ? `<img src="${esc(m.logo)}" alt="" width="28" height="28">` : ""}<span>${esc(m.nom)}</span></button>`).join("")}
           </div>
-          <label class="champ-label" for="telPaiement">Ton numéro ${esc(moyen?.nom || "")}</label>
+          <label class="champ-label" for="telPaiement">Numéro ${esc(moyen?.nom || "")} <span class="petit">(le tien ou celui d'un parent)</span></label>
           <div class="champ-tel">
             <span class="indicatif">+${INDICATIFS_TEL[state.country] || ""}</span>
             <input type="tel" id="telPaiement" inputmode="tel" autocomplete="tel-national" placeholder="77 123 45 67" value="${esc(telephone)}">
@@ -1502,7 +1534,7 @@ function renderRecharge(contexte) {
         <span class="champ-label">Ton pays, pour afficher tes moyens de paiement</span>
         ${puces(Object.entries(COUNTRIES).map(([k, v]) => [k, v.nom]), "", "pays")}
       `}
-      <p class="rassure">${icone("juste")}<span>Valables toute l'année. <b>Aucun prélèvement automatique.</b> Quiz, révisions, duels et 1 exercice par jour restent gratuits.</span></p>
+      <p class="rassure">${icone("juste")}<span>Valables toute l'année. <b>Aucun prélèvement automatique.</b> Quiz, révisions et duels restent gratuits, et 1 exercice est offert chaque jour où tu reviens.</span></p>
       <button class="btn btn-discret" id="parent">${icone("whatsapp")}Demander à un parent de payer</button>
       ${paiement === "demo" ? `<p class="demo">Démo : aucun paiement réel. Les crédits sont ajoutés directement.</p>` : ""}
       ${c && (paiement !== "dexpay" || moyen) ? `<div class="cta-fixe"><button class="btn btn-principal btn-large" id="payer">Payer ${prix(o.prix)} avec ${esc(paiement === "dexpay" ? moyen.nom : operateur)}</button></div>` : ""}`, "", true);
@@ -1521,7 +1553,7 @@ function renderRecharge(contexte) {
       payer(o, operateur, moyen, telephone);
     });
     $("#parent").addEventListener("click", () => {
-      const texte = `Bonjour, peux-tu m'acheter ${o.credits} crédits Révizo (${prix(o.prix)}) pour mes révisions ? ${location.origin}${location.pathname}`;
+      const texte = `Bonjour, j'utilise Révizo pour comprendre mes exercices. Peux-tu m'offrir ${o.credits} exercices expliqués (${prix(o.prix)}) ? Tout est expliqué ici : ${location.origin}/parents`;
       window.open(`https://wa.me/?text=${encodeURIComponent(texte)}`, "_blank", "noopener");
     });
   };

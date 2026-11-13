@@ -857,6 +857,10 @@ body.immersif main { min-height: calc(100dvh - 64px); }
 .promesse-faite { display: inline-flex; align-items: center; justify-content: center; gap: var(--espace-1); margin: 0; font-weight: 700; color: var(--juste); }
 .promesse-faite .ico { width: 20px; height: 20px; }
 
+/* Navigateur intégré de Facebook ou d'Instagram : inviter à ouvrir Révizo dans le vrai navigateur. */
+.carte-navigateur { display: flex; flex-direction: column; gap: var(--espace-2); background: var(--soleil-doux); border: 2px solid var(--soleil); }
+.carte-navigateur p { margin: 0; }
+
 /* Fin du premier exercice : la victoire, puis le rendez-vous du lendemain. */
 .victoire { display: flex; flex-direction: column; align-items: center; gap: var(--espace-2); text-align: center; background: var(--soleil-doux); border: 2px solid var(--soleil); }
 .victoire-titre { font-family: var(--font-display); font-size: 30px; line-height: 34px; font-weight: 800; }
